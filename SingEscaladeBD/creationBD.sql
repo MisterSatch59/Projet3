@@ -1,5 +1,12 @@
 --CREATION TABLES
 
+CREATE TABLE public.photo (
+                id INTEGER NOT NULL,
+                nom_fichier VARCHAR(100) NOT NULL,
+                CONSTRAINT photo_pk PRIMARY KEY (id)
+);
+
+
 CREATE SEQUENCE public.zone_texte_id_seq;
 
 CREATE TABLE public.zone_texte (
@@ -37,11 +44,19 @@ CREATE TABLE public.topo (
 );
 
 
+CREATE TABLE public.photo_topo (
+                titre_topo VARCHAR(100) NOT NULL,
+                photo_id INTEGER NOT NULL,
+                CONSTRAINT photo_topo_pk PRIMARY KEY (titre_topo, photo_id)
+);
+
+
 CREATE TABLE public.utilisateur (
                 pseudo VARCHAR(30) NOT NULL,
                 mail VARCHAR(200) NOT NULL,
                 mdp VARCHAR(100) NOT NULL,
                 avatar VARCHAR(100),
+                admin BOOLEAN NOT NULL,
                 CONSTRAINT utilisateur_pk PRIMARY KEY (pseudo)
 );
 
@@ -136,6 +151,13 @@ CREATE TABLE public.spot (
 
 ALTER SEQUENCE public.spot_id_seq OWNED BY public.spot.id;
 
+CREATE TABLE public.photo_spot (
+                spot_id INTEGER NOT NULL,
+                photo_id INTEGER NOT NULL,
+                CONSTRAINT photo_spot_pk PRIMARY KEY (spot_id, photo_id)
+);
+
+
 CREATE TABLE public.spot_profil (
                 spot_id INTEGER NOT NULL,
                 profil VARCHAR(10) NOT NULL,
@@ -180,6 +202,20 @@ CREATE INDEX commentaire_idx
 
 CLUSTER commentaire_idx ON commentaire;
 
+ALTER TABLE public.photo_spot ADD CONSTRAINT photo_photo_spot_fk
+FOREIGN KEY (photo_id)
+REFERENCES public.photo (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.photo_topo ADD CONSTRAINT photo_photo_topo_fk
+FOREIGN KEY (photo_id)
+REFERENCES public.photo (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
 ALTER TABLE public.paragraphe ADD CONSTRAINT zone_texte_paragraphe_fk
 FOREIGN KEY (zone_texte_id)
 REFERENCES public.zone_texte (id)
@@ -223,6 +259,13 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.exemplaire_topo ADD CONSTRAINT topo_exemplaire_topo_fk
+FOREIGN KEY (titre_topo)
+REFERENCES public.topo (titre)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.photo_topo ADD CONSTRAINT topo_photo_topo_fk
 FOREIGN KEY (titre_topo)
 REFERENCES public.topo (titre)
 ON DELETE NO ACTION
@@ -342,6 +385,13 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.spot_profil ADD CONSTRAINT spot_spot_profil_fk
+FOREIGN KEY (spot_id)
+REFERENCES public.spot (id)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.photo_spot ADD CONSTRAINT spot_photo_spot_fk
 FOREIGN KEY (spot_id)
 REFERENCES public.spot (id)
 ON DELETE NO ACTION
@@ -494,7 +544,7 @@ INSERT INTO public.departement (numero,nom) VALUES ('976','Mayotte');
 
 --SPOTS DE DEMONSTRATION
 
-INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar) VALUES ('SingEscalade','admin@singescalade.fr','mdp','singe.png');       --Voir la gestion des mdp ----------------------------------------------
+INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin) VALUES ('SingEscalade','admin@singescalade.fr','mdp','singe.png',true);       --Voir la gestion des mdp ----------------------------------------------
 
 INSERT INTO public.zone_texte (titre) VALUES ('Super Spot proche de Toulon');
 INSERT INTO public.paragraphe (texte,num_ordre,zone_texte_id) VALUES ('Il s''agit d''un spot avec une super vue sur Toulon et sa rade' ,1,1);
@@ -709,6 +759,6 @@ INSERT INTO public.paragraphe (texte,num_ordre,zone_texte_id) VALUES ('Je prête 
 INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_pretid) VALUES ('Grimper autour de Toulon','SingEscalade',4);
 
 --EXEMPLE DE PRET DU TOPO A MAX
-INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar) VALUES ('Max','max@free.fr','mdp',null);
+INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin) VALUES ('Max','max@free.fr','mdp',null,false);
 INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Max',1,{d '2018-04-21'},{d '2018-04-22'});
 

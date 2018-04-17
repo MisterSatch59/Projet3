@@ -88,6 +88,10 @@ public class Spot {
 	 * Liste des commentaires et alertes du spot
 	 */
 	private List<Commentaire> listCommentaires;
+	/**
+	 * liste des noms des photos du spot
+	 */
+	private List<String> listPhotos;
 	
 	/**
 	 * Constructeur avec paramètres
@@ -114,8 +118,7 @@ public class Spot {
 	public Spot(int id, String nom, boolean ouvert, boolean adapteEnfants, String latitude, String longitude,
 			List<String> types, List<String> orientations, List<String> profils, Ville ville, int nbSecteur,
 			int hauteurMax, int hauteurMin, int nbVoie, String difficulteMin, String difficulteMax, Utilisateur auteur,
-			ZoneTexte presentation, List<Commentaire> listCommentaires) {
-		super();
+			ZoneTexte presentation, List<Commentaire> listCommentaires, List<String> listPhotos) {
 		this.id = id;
 		this.nom = nom;
 		this.ouvert = ouvert;
@@ -135,160 +138,133 @@ public class Spot {
 		this.auteur = auteur;
 		this.presentation = presentation;
 		this.listCommentaires = listCommentaires;
+		this.listPhotos=listPhotos;
 	}
 
+	//Getters et Setters
 	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public String getNom() {
 		return nom;
 	}
-
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-
 	public boolean isOuvert() {
 		return ouvert;
 	}
-
 	public void setOuvert(boolean ouvert) {
 		this.ouvert = ouvert;
 	}
-
 	public boolean isAdapteEnfants() {
 		return adapteEnfants;
 	}
-
 	public void setAdapteEnfants(boolean adapteEnfants) {
 		this.adapteEnfants = adapteEnfants;
 	}
-
 	public String getLatitude() {
 		return latitude;
 	}
-
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
-
 	public String getLongitude() {
 		return longitude;
 	}
-
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-
 	public List<String> getTypes() {
 		return types;
 	}
-
 	public void setTypes(List<String> types) {
 		this.types = types;
 	}
-
 	public List<String> getOrientations() {
 		return orientations;
 	}
-
 	public void setOrientations(List<String> orientations) {
 		this.orientations = orientations;
 	}
-
 	public List<String> getProfils() {
 		return profils;
 	}
-
 	public void setProfils(List<String> profils) {
 		this.profils = profils;
 	}
-
 	public Ville getVille() {
 		return ville;
 	}
-
 	public void setVille(Ville ville) {
 		this.ville = ville;
 	}
-
 	public int getNbSecteur() {
 		return nbSecteur;
 	}
-
 	public void setNbSecteur(int nbSecteur) {
 		this.nbSecteur = nbSecteur;
 	}
-
 	public int getHauteurMax() {
 		return hauteurMax;
 	}
-
 	public void setHauteurMax(int hauteurMax) {
 		this.hauteurMax = hauteurMax;
 	}
-
 	public int getHauteurMin() {
 		return hauteurMin;
 	}
-
 	public void setHauteurMin(int hauteurMin) {
 		this.hauteurMin = hauteurMin;
 	}
-
 	public int getNbVoie() {
 		return nbVoie;
 	}
-
 	public void setNbVoie(int nbVoie) {
 		this.nbVoie = nbVoie;
 	}
-
 	public String getDifficulteMin() {
 		return difficulteMin;
 	}
-
 	public void setDifficulteMin(String difficulteMin) {
 		this.difficulteMin = difficulteMin;
 	}
-
 	public String getDifficulteMax() {
 		return difficulteMax;
 	}
-
 	public void setDifficulteMax(String difficulteMax) {
 		this.difficulteMax = difficulteMax;
 	}
-
 	public Utilisateur getAuteur() {
 		return auteur;
 	}
-
 	public void setAuteur(Utilisateur auteur) {
 		this.auteur = auteur;
 	}
-
 	public ZoneTexte getPresentation() {
 		return presentation;
 	}
-
 	public void setPresentation(ZoneTexte presentation) {
 		this.presentation = presentation;
 	}
-
 	public List<Commentaire> getListCommentaires() {
 		return listCommentaires;
 	}
-
 	public void setListCommentaires(List<Commentaire> listCommentaires) {
 		this.listCommentaires = listCommentaires;
 	}
+
+	public List<String> getListPhotos() {
+		return listPhotos;
+	}
+
+	public void setListPhotos(List<String> listPhotos) {
+		this.listPhotos = listPhotos;
+	}
 	
-	//Getters et Setters
+
 	
 };

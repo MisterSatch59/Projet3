@@ -14,11 +14,11 @@ public class Emprunt {
 	/**
 	 * Date de début de l'emprunt
 	 */
-	private Date DateDebut;
+	private Date dateDebut;
 	/**
 	 * Date de fin de l'emprunt
 	 */
-	private Date DateFin;
+	private Date dateFin;
 	/**
 	 * Emprunteur
 	 */
@@ -37,24 +37,24 @@ public class Emprunt {
 	 */
 	public Emprunt(Date dateDebut, Date dateFin, Utilisateur emprunteur, ExemplaireTopo exemplaire) {
 		super();
-		DateDebut = dateDebut;
-		DateFin = dateFin;
+		this.dateDebut = dateDebut;
+		this.dateFin = dateFin;
 		this.emprunteur = emprunteur;
 		this.exemplaire = exemplaire;
 	}
 
 	//Getters et Setters
 	public Date getDateDebut() {
-		return DateDebut;
+		return dateDebut;
 	}
 	public void setDateDebut(Date dateDebut) {
-		DateDebut = dateDebut;
+		this.dateDebut = dateDebut;
 	}
 	public Date getDateFin() {
-		return DateFin;
+		return dateFin;
 	}
 	public void setDateFin(Date dateFin) {
-		DateFin = dateFin;
+		this.dateFin = dateFin;
 	}
 	public Utilisateur getEmprunteur() {
 		return emprunteur;

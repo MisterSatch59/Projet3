@@ -211,6 +211,9 @@
     <ownedAttribute xmi:type="uml:Property" xmi:id="_1uR3YD4hEei8PPatURQIsA" name="Avatar">
       <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
     </ownedAttribute>
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_F9HtgEJUEeiyubGJT09TRg" name="Admin">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+    </ownedAttribute>
   </packagedElement>
   <packagedElement xmi:type="uml:Association" xmi:id="_FFKQ4D4ZEei8PPatURQIsA" name="Propriétaire" memberEnd="_FFK38j4ZEei8PPatURQIsA _FFLfAD4ZEei8PPatURQIsA">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_FFK38D4ZEei8PPatURQIsA" source="org.eclipse.papyrus">
@@ -337,6 +340,31 @@
       <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ef5-QD_MEeiX-9hk_qObyw"/>
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_egWDID_MEeiX-9hk_qObyw" value="*"/>
     </ownedEnd>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_bXD8AEJTEeiyubGJT09TRg" name="Photo">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_dFvEUEJTEeiyubGJT09TRg" name="nomFichier">
+      <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_mZdScEJTEeiyubGJT09TRg" memberEnd="_mZknMEJTEeiyubGJT09TRg _mZl1UEJTEeiyubGJT09TRg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_mZiyAEJTEeiyubGJT09TRg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_mZjZEEJTEeiyubGJT09TRg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_mZknMEJTEeiyubGJT09TRg" name="photo" type="_bXD8AEJTEeiyubGJT09TRg" association="_mZdScEJTEeiyubGJT09TRg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_oHWXoEJTEeiyubGJT09TRg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_oHapEEJTEeiyubGJT09TRg" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_mZl1UEJTEeiyubGJT09TRg" name="spot" type="_0AlIQD2ZEeiZMtYWj_o9tg" association="_mZdScEJTEeiyubGJT09TRg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_yUruUEJTEeiyubGJT09TRg" memberEnd="_yUsVYkJTEeiyubGJT09TRg _yUtjgEJTEeiyubGJT09TRg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_yUsVYEJTEeiyubGJT09TRg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_yUsVYUJTEeiyubGJT09TRg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_yUsVYkJTEeiyubGJT09TRg" name="photo" type="_bXD8AEJTEeiyubGJT09TRg" association="_yUruUEJTEeiyubGJT09TRg">
+      <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7HTagEJTEeiyubGJT09TRg"/>
+      <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7Hzw0EJTEeiyubGJT09TRg" value="*"/>
+    </ownedEnd>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_yUtjgEJTEeiyubGJT09TRg" name="topo" type="_-SUj8D5AEei8PPatURQIsA" association="_yUruUEJTEeiyubGJT09TRg"/>
   </packagedElement>
   <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Vy0TsD2aEeiZMtYWj_o9tg">
     <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_Vy0TsT2aEeiZMtYWj_o9tg" source="http://www.eclipse.org/uml2/2.0.0/UML">

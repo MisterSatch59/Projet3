@@ -30,7 +30,7 @@ public class Ville {
 	 * @param departement
 	 */
 	public Ville(int id, String nom, int cp, Departement departement) {
-		this.setId(id);
+		this.id=id;
 		this.nom = nom;
 		this.cp = cp;
 		this.departement = departement;

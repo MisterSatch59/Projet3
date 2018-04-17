@@ -18,17 +18,23 @@ public class Utilisateur {
 	 * adresse de l'image de l'avatar de l'utilisateur
 	 */
 	private String avatar;
+	/**
+	 * Indique si l'utilisateur est un administrateur
+	 */
+	private boolean admin;
 	
 	/**
 	 * Constructeur avec paramètres
 	 * @param pseudo
 	 * @param adresseMail
 	 * @param avatar
+	 * @param admin
 	 */
-	public Utilisateur(String pseudo, String adresseMail, String avatar) {
+	public Utilisateur(String pseudo, String adresseMail, String avatar, boolean admin) {
 		this.pseudo = pseudo;
 		this.adresseMail = adresseMail;
 		this.avatar = avatar;
+		this.admin=admin;
 	}
 
 	//Getters et Setters
@@ -49,6 +55,12 @@ public class Utilisateur {
 	}
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 	
 };
