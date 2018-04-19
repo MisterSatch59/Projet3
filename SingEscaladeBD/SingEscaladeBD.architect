@@ -16,7 +16,7 @@
     <column id="COL2" populated="true" UUID="bd8fd256-a360-47ef-804c-e583ded71068" autoIncrement="true" autoIncrementSequenceName="spot_id_seq" defaultValue="" name="id" nullable="0" physicalName="id" precision="0" primaryKeySeq="0" referenceCount="5" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
-    <column id="COL3" populated="true" UUID="2cf6608a-7b64-432a-a662-6effb231fdfc" autoIncrement="false" autoIncrementSequenceName="spot_NOm_seq" defaultValue="" name="Nom" nullable="0" physicalName="Nom" precision="40" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
+    <column id="COL3" populated="true" UUID="2cf6608a-7b64-432a-a662-6effb231fdfc" autoIncrement="false" autoIncrementSequenceName="spot_NOm_seq" defaultValue="" name="nom" nullable="0" physicalName="nom" precision="40" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
     <column id="COL4" populated="true" UUID="79b964d3-fc92-4680-b96f-644b1c7aa638" autoIncrement="false" autoIncrementSequenceName="utilisateur_pseudo_seq" defaultValue="" name="pseudo_auteur" nullable="0" physicalName="pseudo_auteur" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
@@ -395,7 +395,7 @@
     <column id="COL108" populated="true" UUID="401fdab4-ebe8-4cfe-b597-675d8516958a" autoIncrement="false" autoIncrementSequenceName="utilisateur_pseudo_seq" defaultValue="" name="pseudo_proprietaire" nullable="0" physicalName="pseudo_proprietaire" precision="30" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="12" userDefinedTypeUUID="831ac2d4-0e65-47ec-a0b7-62b7f6b8760a" >
      <remarks></remarks>
     </column>
-    <column id="COL109" populated="true" UUID="91a0ad4c-6306-4eda-87da-d246000936e3" autoIncrement="false" autoIncrementSequenceName="zone_texte_New Column_seq" defaultValue="" name="condition_pretid" nullable="0" physicalName="condition_pretid" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
+    <column id="COL109" populated="true" UUID="91a0ad4c-6306-4eda-87da-d246000936e3" autoIncrement="false" autoIncrementSequenceName="zone_texte_New Column_seq" defaultValue="" name="condition_id" nullable="0" physicalName="condition_id" precision="0" referenceCount="1" scale="0" sourceDataTypeName="UserDefinedSQLType" type="4" userDefinedTypeUUID="63b011c7-c81f-4c75-8271-632b3c87f727" >
      <remarks></remarks>
     </column>
     </folder>
@@ -603,7 +603,7 @@
  <ddl-generator type="ca.sqlpower.architect.ddl.PostgresDDLGenerator" allow-connection="false" target-schema="public"> </ddl-generator>
  <liquibase-settings useSeparateChangeSets="false" generateId="false" idStart="1"/>
  <create-kettle-job-settings filePath="" jobName="" schemaName="" kettleJoinType="0" savingToFile="true" />
- <play-pen zoom="1.0" viewportX="17" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
+ <play-pen zoom="1.0" viewportX="0" viewportY="0" relationship-style="rectilinear" names-displayLogicalNames="true" showPrimaryTag="true" showForeignTag="true" showAlternateTag="true" columnVisibility="ALL" relationshipLabelVisibility="true">
   <table-pane table-ref="TAB1" x="601" y="251" bgColor="0xf6bcbc" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB19" x="320" y="303" bgColor="0xe8cfdb" fgColor="0x000000" rounded="false" dashed="false"/>
   <table-pane table-ref="TAB26" x="81" y="338" bgColor="0xe8cfdb" fgColor="0x000000" rounded="false" dashed="false"/>

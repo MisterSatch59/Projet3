@@ -13,7 +13,7 @@ public class Utilisateur {
 	/**
 	 * Adresse e-mail de l'utilisateur
 	 */
-	private String adresseMail;
+	private String mail;
 	/**
 	 * adresse de l'image de l'avatar de l'utilisateur
 	 */
@@ -26,13 +26,13 @@ public class Utilisateur {
 	/**
 	 * Constructeur avec paramètres
 	 * @param pseudo
-	 * @param adresseMail
+	 * @param mail
 	 * @param avatar
 	 * @param admin
 	 */
-	public Utilisateur(String pseudo, String adresseMail, String avatar, boolean admin) {
+	public Utilisateur(String pseudo, String mail, String avatar, boolean admin) {
 		this.pseudo = pseudo;
-		this.adresseMail = adresseMail;
+		this.mail = mail;
 		this.avatar = avatar;
 		this.admin=admin;
 	}
@@ -44,11 +44,11 @@ public class Utilisateur {
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
-	public String getAdresseMail() {
-		return adresseMail;
+	public String getMail() {
+		return mail;
 	}
-	public void setAdresseMail(String adresseMail) {
-		this.adresseMail = adresseMail;
+	public void setMail(String mail) {
+		this.mail = mail;
 	}
 	public String getAvatar() {
 		return avatar;

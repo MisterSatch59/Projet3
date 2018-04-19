@@ -39,7 +39,8 @@ public class Commentaire extends ZoneTexte {
 	 */
 	public Commentaire(int id, String titre, List<String> listParagraphes, Date date, Utilisateur auteur,
 			boolean alerte) {
-		super(id, titre, listParagraphes);
+		super(id, titre);
+		this.setListParagraphes(listParagraphes);
 		this.date = date;
 		this.auteur = auteur;
 		this.alerte = alerte;

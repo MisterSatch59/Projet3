@@ -27,7 +27,7 @@ public class Spot {
 	/**
 	 * Indique si le spot est adapté aux enfants
 	 */
-	private boolean adapteEnfants;
+	private Boolean adapteEnfants;
 	/**
 	 * Latitude du spot / peut être null si non connue
 	 */
@@ -43,7 +43,7 @@ public class Spot {
 	/**
 	 * Orientations présentes sur le spot
 	 */
-	private List <String> orientations;
+	private List<String> orientations;
 	/**
 	 * Profils présent sur le spot
 	 */
@@ -67,7 +67,7 @@ public class Spot {
 	/**
 	 * Nombre de voies
 	 */
-	private int nbVoie;
+	private String nbVoie;
 	/**
 	 * Difficulté de la voie la plus simple
 	 */
@@ -115,19 +115,16 @@ public class Spot {
 	 * @param presentation
 	 * @param listCommentaires
 	 */
-	public Spot(int id, String nom, boolean ouvert, boolean adapteEnfants, String latitude, String longitude,
-			List<String> types, List<String> orientations, List<String> profils, Ville ville, int nbSecteur,
-			int hauteurMax, int hauteurMin, int nbVoie, String difficulteMin, String difficulteMax, Utilisateur auteur,
-			ZoneTexte presentation, List<Commentaire> listCommentaires, List<String> listPhotos) {
+	public Spot(int id, String nom, boolean ouvert, Boolean adapteEnfants, String latitude, String longitude,
+			Ville ville, int nbSecteur,
+			int hauteurMax, int hauteurMin, String nbVoie, String difficulteMin, String difficulteMax, Utilisateur auteur,
+			ZoneTexte presentation) {
 		this.id = id;
 		this.nom = nom;
 		this.ouvert = ouvert;
 		this.adapteEnfants = adapteEnfants;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.types = types;
-		this.orientations = orientations;
-		this.profils = profils;
 		this.ville = ville;
 		this.nbSecteur = nbSecteur;
 		this.hauteurMax = hauteurMax;
@@ -137,9 +134,8 @@ public class Spot {
 		this.difficulteMax = difficulteMax;
 		this.auteur = auteur;
 		this.presentation = presentation;
-		this.listCommentaires = listCommentaires;
-		this.listPhotos=listPhotos;
 	}
+	
 
 	//Getters et Setters
 	public int getId() {
@@ -160,10 +156,10 @@ public class Spot {
 	public void setOuvert(boolean ouvert) {
 		this.ouvert = ouvert;
 	}
-	public boolean isAdapteEnfants() {
+	public Boolean isAdapteEnfants() {
 		return adapteEnfants;
 	}
-	public void setAdapteEnfants(boolean adapteEnfants) {
+	public void setAdapteEnfants(Boolean adapteEnfants) {
 		this.adapteEnfants = adapteEnfants;
 	}
 	public String getLatitude() {
@@ -220,10 +216,10 @@ public class Spot {
 	public void setHauteurMin(int hauteurMin) {
 		this.hauteurMin = hauteurMin;
 	}
-	public int getNbVoie() {
+	public String getNbVoie() {
 		return nbVoie;
 	}
-	public void setNbVoie(int nbVoie) {
+	public void setNbVoie(String nbVoie) {
 		this.nbVoie = nbVoie;
 	}
 	public String getDifficulteMin() {

@@ -67,7 +67,7 @@ CREATE TABLE public.exemplaire_topo (
                 id INTEGER NOT NULL DEFAULT nextval('public.exemplaire_topo_id_seq'),
                 titre_topo VARCHAR(100) NOT NULL,
                 pseudo_proprietaire VARCHAR(30) NOT NULL,
-                condition_pretid INTEGER NOT NULL,
+                condition_id INTEGER NOT NULL,
                 CONSTRAINT exemplaire_topo_pk PRIMARY KEY (id)
 );
 
@@ -131,7 +131,7 @@ CREATE SEQUENCE public.spot_id_seq;
 
 CREATE TABLE public.spot (
                 id INTEGER NOT NULL DEFAULT nextval('public.spot_id_seq'),
-                Nom VARCHAR(40) NOT NULL,
+                nom VARCHAR(40) NOT NULL,
                 pseudo_auteur VARCHAR(30) NOT NULL,
                 ouvert BOOLEAN NOT NULL,
                 adapte_enfants BOOLEAN,
@@ -224,7 +224,7 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.exemplaire_topo ADD CONSTRAINT zone_texte_exemplaire_topo_fk
-FOREIGN KEY (condition_pretid)
+FOREIGN KEY (condition_id)
 REFERENCES public.zone_texte (id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
@@ -756,7 +756,7 @@ INSERT INTO public.spot_topo (spot_id,titre) VALUES (17,'Grimper autour de Toulo
 
 INSERT INTO public.zone_texte (titre) VALUES ('Condition de prêt :');
 INSERT INTO public.paragraphe (texte,num_ordre,zone_texte_id) VALUES ('Je prête ce Topo pour une durée d''un week-end maximum, pour plus de détails contactez moi par mail! A bientôt' ,1,4);
-INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_pretid) VALUES ('Grimper autour de Toulon','SingEscalade',4);
+INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_id) VALUES ('Grimper autour de Toulon','SingEscalade',4);
 
 --EXEMPLE DE PRET DU TOPO A MAX
 INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin) VALUES ('Max','max@free.fr','mdp',null,false);

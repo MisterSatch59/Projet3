@@ -17,5 +17,6 @@ DROP TABLE public.spot_type CASCADE;
 DROP TABLE public.utilisateur CASCADE;
 DROP TABLE public.ville CASCADE;
 DROP TABLE public.zone_texte CASCADE;
-
-
+DROP TABLE public.photo CASCADE;
+DROP TABLE public.photo_spot CASCADE;
+DROP TABLE public.photo_topo CASCADE;

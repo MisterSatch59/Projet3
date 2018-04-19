@@ -14,7 +14,7 @@ public class Topo {
 	/**
 	 * titre du topo
 	 */
-	private String Titre;
+	private String titre;
 	/**
 	 * Liste des spot contenus dans le topo
 	 */
@@ -31,23 +31,18 @@ public class Topo {
 	/**
 	 * Constructeur avec paramètres
 	 * @param titre
-	 * @param listSpot
 	 * @param description
-	 * @param photos
 	 */
-	public Topo(String titre, List<Spot> listSpot, ZoneTexte description, List<String> listPhotos) {
-		super();
-		Titre = titre;
-		this.listSpot = listSpot;
+	public Topo(String titre, ZoneTexte description) {
+		this.titre = titre;
 		this.description = description;
-		this.listPhotos=listPhotos;
 	}
 	//Getters et Setters
 	public String getTitre() {
-		return Titre;
+		return titre;
 	}
 	public void setTitre(String titre) {
-		Titre = titre;
+		this.titre = titre;
 	}
 	public List<Spot> getListSpot() {
 		return listSpot;
@@ -63,10 +58,10 @@ public class Topo {
 	public void setDescription(ZoneTexte description) {
 		this.description = description;
 	}
-	public List<String> getPhotos() {
+	public List<String> getListPhotos() {
 		return listPhotos;
 	}
-	public void setPhotos(List<String> photos) {
+	public void setListPhotos(List<String> photos) {
 		this.listPhotos = photos;
 	}
 	

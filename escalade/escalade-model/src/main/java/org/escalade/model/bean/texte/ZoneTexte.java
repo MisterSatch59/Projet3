@@ -26,12 +26,10 @@ public class ZoneTexte {
 	 * Constructeur avec paramètres
 	 * @param id
 	 * @param titre
-	 * @param listParagraphes
 	 */
-	public ZoneTexte(int id, String titre, List<String> listParagraphes) {
+	public ZoneTexte(int id, String titre) {
 		this.id = id;
 		this.titre = titre;
-		this.listParagraphes = listParagraphes;
 	}
 	
 	//Getters et Setters
