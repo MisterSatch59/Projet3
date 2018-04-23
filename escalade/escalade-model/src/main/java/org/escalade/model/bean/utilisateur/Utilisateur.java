@@ -1,5 +1,7 @@
 package org.escalade.model.bean.utilisateur;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Bean utilisateur
  *
@@ -9,13 +11,15 @@ public class Utilisateur {
 	/**
 	 * Pseudo de l'utilisateur
 	 */
+	@NotNull
 	private String pseudo;
 	/**
 	 * Adresse e-mail de l'utilisateur
 	 */
+	@NotNull
 	private String mail;
 	/**
-	 * adresse de l'image de l'avatar de l'utilisateur
+	 * adresse de l'image de l'avatar de l'utilisateur - peut être null
 	 */
 	private String avatar;
 	/**

@@ -12,6 +12,10 @@ import org.escalade.model.bean.utilisateur.Utilisateur;
  */
 public class Emprunt {
 	/**
+	 * Identifiant
+	 */
+	private int id;
+	/**
 	 * Date de début de l'emprunt
 	 */
 	private Date dateDebut;
@@ -35,8 +39,8 @@ public class Emprunt {
 	 * @param enprunteur
 	 * @param exemplaire
 	 */
-	public Emprunt(Date dateDebut, Date dateFin, Utilisateur emprunteur, ExemplaireTopo exemplaire) {
-		super();
+	public Emprunt(int id, Date dateDebut, Date dateFin, Utilisateur emprunteur, ExemplaireTopo exemplaire) {
+		this.setId(id);
 		this.dateDebut = dateDebut;
 		this.dateFin = dateFin;
 		this.emprunteur = emprunteur;
@@ -44,6 +48,12 @@ public class Emprunt {
 	}
 
 	//Getters et Setters
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public Date getDateDebut() {
 		return dateDebut;
 	}
@@ -68,5 +78,4 @@ public class Emprunt {
 	public void setExemplaire(ExemplaireTopo exemplaire) {
 		this.exemplaire = exemplaire;
 	}
-	
 };

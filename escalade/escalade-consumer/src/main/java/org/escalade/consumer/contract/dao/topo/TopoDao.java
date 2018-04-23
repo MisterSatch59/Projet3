@@ -15,5 +15,23 @@ public interface TopoDao {
 	 * @return Topo
 	 */
 	public Topo getTopo(String titre);
+	
+	/**
+	 * Enregistre le topo dans la base de données
+	 * @param topo
+	 */
+	public void createTopo(Topo topo);
+	
+	/**
+	 * Modifie le topo dans la base de données
+	 * @param topo
+	 */
+	public void updateTopo(Topo topo);
+	
+	/**
+	 * Supprime le topo de la base de données
+	 * @param titre
+	 */
+	public void deleteTopo(String titre);
 
 }

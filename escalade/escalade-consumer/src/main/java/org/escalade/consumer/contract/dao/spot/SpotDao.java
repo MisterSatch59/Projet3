@@ -9,10 +9,12 @@ import org.escalade.model.bean.spot.Spot;
  */
 public interface SpotDao {
 	/**
-	 * Créer un spot
+	 * Enregistre le spot dans la base de donnée
+	 * Remarque le spot n'a pas de commentaire à la création
 	 * @param spot
+	 * @return Spot (avec id)
 	 */
-	public void createSpot(Spot spot);
+	public Spot createSpot(Spot spot);
 	/**
 	 * Retourne le Spot correspondant à l'identifiant
 	 * @param id
@@ -20,12 +22,12 @@ public interface SpotDao {
 	 */
 	public Spot getSpot(int id);
 	/**
-	 * Modifie le spot
+	 * Modifie le spot dans la base de donnée
 	 * @param spot
 	 */
 	public void updateSpot(Spot spot);
 	/**
-	 * Supprime le Spot correspondant à l'identifiant
+	 * Supprime de la base de données le Spot correspondant à l'identifiant
 	 * @param id
 	 */
 	public void deleteSpot(int id);
