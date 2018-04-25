@@ -1,5 +1,9 @@
 package org.escalade.model.bean.spot;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Bean Ville
  *
@@ -13,14 +17,20 @@ public class Ville {
 	/**
 	 * Nom de la ville
 	 */
+	@NotNull (message="le nom de la ville doit être renseigné")
+	@Size (min=2, max=100, message="le nom de la ville doit contenir entre 2 et 100 cractères")
 	private String nom;
 	/**
 	 * Code postal de la ville
 	 */
-	private int cp;
+	@NotNull (message="le code postal de la ville doit être renseigné")
+	@Size (min=5, max=5, message="le code postal de la ville doit contenir 5 chiffres")
+	private String cp;
 	/**
 	 * département d'appartenance
 	 */
+	@NotNull (message="le département doit être renseigné")
+	@Valid
 	private Departement departement;
 	
 	/**
@@ -30,7 +40,7 @@ public class Ville {
 	 * @param cp
 	 * @param departement
 	 */
-	public Ville(int id, String nom, int cp, Departement departement) {
+	public Ville(int id, String nom, String cp, Departement departement) {
 		this.id=id;
 		this.nom = nom;
 		this.cp = cp;
@@ -44,10 +54,10 @@ public class Ville {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public int getCP() {
+	public String getCP() {
 		return this.cp;
 	}
-	public void setCP(int cp) {
+	public void setCP(String cp) {
 		this.cp = cp;
 	}
 	public Departement getDepartement() {
@@ -62,4 +72,12 @@ public class Ville {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	@Override
+	public String toString() {
+		return "Ville [id=" + id + ", nom=" + nom + ", cp=" + cp + ", departement=" + departement + "]";
+	}
+
+	
+	
 };

@@ -2,6 +2,10 @@ package org.escalade.model.bean.topo;
 
 import java.util.Date;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+
 import org.escalade.model.bean.utilisateur.Utilisateur;
 
 
@@ -18,18 +22,26 @@ public class Emprunt {
 	/**
 	 * Date de début de l'emprunt
 	 */
+	@NotNull (message="la date de début d'emprunt doit être rensignée")
+	@Future (message="la date de début d'emprunt doit être être une date future")
 	private Date dateDebut;
 	/**
 	 * Date de fin de l'emprunt
 	 */
+	@NotNull (message="la date de fin d'emprunt doit être rensignée")
+	@Future (message="la date de fin d'emprunt doit être être une date future")
 	private Date dateFin;
 	/**
 	 * Emprunteur
 	 */
+	@NotNull  (message="l'emprunteur doit être rensignée")
+	@Valid
 	private Utilisateur emprunteur;
 	/**
 	 * Exemplaire emprunté
 	 */
+	@NotNull  (message="l'exemplaire emprunté doit être rensignée")
+	@Valid
 	private ExemplaireTopo exemplaire;
 	
 	/**
@@ -78,4 +90,11 @@ public class Emprunt {
 	public void setExemplaire(ExemplaireTopo exemplaire) {
 		this.exemplaire = exemplaire;
 	}
+
+	@Override
+	public String toString() {
+		return "Emprunt [id=" + id + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", emprunteur=" + emprunteur + ", exemplaire=" + exemplaire + "]";
+	}
+	
+	
 };

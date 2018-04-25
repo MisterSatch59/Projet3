@@ -3,9 +3,11 @@ package org.escalade.model.bean.texte;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.utilisateur.Utilisateur;
-
 
 /**
  * Bean commentaire d'un spot
@@ -17,10 +19,13 @@ public class Commentaire extends ZoneTexte {
 	/**
 	 * Date et heure d'écriture du commentaire
 	 */
+	@NotNull (message="la date du commentaire doit être renseignée")
 	private Date date;
 	/**
 	 * Auteur du commentaire
 	 */
+	@NotNull (message="l'auteur du commentaire doit être renseignée")
+	@Valid
 	private Utilisateur auteur;
 	/**
 	 * true si il s'agit d'une alerte
@@ -69,5 +74,13 @@ public class Commentaire extends ZoneTexte {
 	public void setAlerte(boolean alerte) {
 		this.alerte = alerte;
 	}
+
+	@Override
+	public String toString() {
+		return "Commentaire [date=" + date + ", auteur=" + auteur + ", alerte=" + alerte + ", getId()=" + getId()
+				+ ", getTitre()=" + getTitre() + ", getListParagraphes()=" + getListParagraphes() + "]";
+	}
+
+	
 	
 };

@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.escalade.consumer.contract.dao.DaoFactory;
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
@@ -20,12 +22,15 @@ import org.springframework.jdbc.core.RowMapper;
  */
 @Named
 public class SpotRM implements RowMapper<Spot>{
+	private static final Logger LOGGER = LogManager.getLogger(SpotRM.class);
 
 	@Inject
 	private DaoFactory daoFactory;
 	
 	@Override
 	public Spot mapRow(ResultSet pRS, int pRowNum) throws SQLException {
+		LOGGER.traceEntry();
+		
 		//Création du Bean département
 		String numero = pRS.getString("numero");
 		String nomDepartement = pRS.getString("nom_departement");
@@ -33,7 +38,7 @@ public class SpotRM implements RowMapper<Spot>{
 		
 		//Création du Bean Ville (utilise le bean département ci dessus)
 		int villeId= pRS.getInt("ville_id");
-		int cp= pRS.getInt("cp");
+		String cp= pRS.getString("cp");
 		String nomVille = pRS.getString("ville_nom");
 		Ville ville = new Ville(villeId,nomVille,cp,departement);
 		
@@ -80,6 +85,8 @@ public class SpotRM implements RowMapper<Spot>{
 				difficulteMax,
 				auteur,
 				presentation);
+		
+		LOGGER.traceExit(spot);
 		return spot;
 	}
 

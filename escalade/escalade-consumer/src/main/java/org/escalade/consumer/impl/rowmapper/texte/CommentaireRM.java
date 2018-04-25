@@ -8,6 +8,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.escalade.consumer.contract.dao.DaoFactory;
 import org.escalade.model.bean.texte.Commentaire;
 import org.escalade.model.bean.texte.ZoneTexte;
@@ -16,12 +18,15 @@ import org.springframework.jdbc.core.RowMapper;
 
 @Named
 public class CommentaireRM implements RowMapper<Commentaire> {
+	private static final Logger LOGGER = LogManager.getLogger(CommentaireRM.class);
 
 	@Inject
 	private DaoFactory daoFactory;
 	
 	@Override
 	public Commentaire mapRow(ResultSet pRS, int pRowNum) throws SQLException {
+		LOGGER.traceEntry();
+		
 		int id = pRS.getInt("id");
 		
 		Date date = pRS.getDate("date");
@@ -33,6 +38,8 @@ public class CommentaireRM implements RowMapper<Commentaire> {
 		List<String> listParagraphes = zoneTexte.getListParagraphes();
 		
 		Commentaire commentaire = new Commentaire(id,titre,listParagraphes,date,auteur,alerte);
+		
+		LOGGER.traceExit(commentaire);
 		return commentaire ;
 	}
 	

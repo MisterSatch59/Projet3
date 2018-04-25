@@ -1,6 +1,7 @@
 package org.escalade.model.bean.spot;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Bean Departement
@@ -12,11 +13,13 @@ public class Departement {
 	 * Numéro de département (2 ou 3 charactères)
 	 */
 	@NotNull (message = "Le numéro du département doit être renseigné")
+	@Size(min=2, max=3, message = "Le numéro de département doit contenir entre 2 et 3 chiffres/caractères")
 	private String numero;
 	/**
 	 * Nom du département
 	 */
-	@NotNull
+	@NotNull (message="le nom du département doit être renseigné")
+	@Size(min=2, max=40, message="le nom du département doit contenir entre 3 et 40 caractères")
 	private String nom;
 
 	/**
@@ -44,12 +47,10 @@ public class Departement {
 		this.nom = nom;
 	}
 
-	/**
-	 * Retourne : numero - nom
-	 */
 	@Override
 	public String toString() {
-		return this.numero + " - " + this.nom;
+		return "Departement [numero=" + numero + ", nom=" + nom + "]";
 	}
 
+	
 };

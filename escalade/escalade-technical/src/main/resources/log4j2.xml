@@ -1,31 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
-    <!-- ===== Appenders ===== -->
-    <Appenders>
-        <!-- == Sortie sur la console == -->
-        <Console name="STDOUT">
-            <PatternLayout pattern="%highlight{%-5level} [%t] %c : %m%n"/>
-        </Console>
-    </Appenders>
+	<!-- ===== Appenders ===== -->
+	<Appenders>
+		<!-- == Sortie sur la console == -->
+		<Console name="STDOUT">
+			<PatternLayout pattern="%d %-5level [%t - %class - %method] : %msg%n%throwable" />
+		</Console>
+	</Appenders>
 
-    <!-- ===== Loggers ===== -->
-    <Loggers>
-        <!-- == Logger pour Struts == -->
-        <Logger name="com.opensymphony.xwork2" level="debug">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-        <Logger name="org.apache.struts2" level="debug">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
+	<!-- ===== Loggers ===== -->
+	<Loggers>
+		<!-- == Logger pour Struts == -->
+		<Logger name="com.opensymphony.xwork2" level="debug" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+		<Logger name="org.apache.struts2" level="debug" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+		
+		<!-- == Logger Spring == -->
+		<Logger name="org.springframework" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+		<Logger name="org.springframework.jdbc" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+		<Logger name="org.springframework.beans" level="info" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+		
+		<!-- == Logger pour l'application == -->
+		<Logger name="org.escalade" level="all" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
 
-        <!-- == Logger pour l'application == -->
-        <Logger name="org.example.demo.ticket" level="debug" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-        </Logger>
-
-        <!-- == Logger de base == -->
-        <Root level="warn">
-            <AppenderRef ref="STDOUT"/>
-        </Root>
-    </Loggers>
+		<!-- == Logger de base == -->
+		<Root level="all">
+			<AppenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
 </Configuration>

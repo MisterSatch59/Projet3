@@ -1,5 +1,8 @@
 package org.escalade.model.bean.topo;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 
@@ -17,14 +20,20 @@ public class ExemplaireTopo {
 	/**
 	 * Topo dont il est un exemplaire
 	 */
+	@NotNull (message="le topo doit être rensigné")
+	@Valid
 	private Topo topo;
 	/**
 	 * propriétaire du topo
 	 */
+	@NotNull (message="le propriétaire doit être rensigné")
+	@Valid
 	private Utilisateur proprietaire;
 	/**
 	 * Condition de prêt du topo
 	 */
+	@NotNull (message="les conditions de prêt doivent être rensignées")
+	@Valid
 	private ZoneTexte condition;
 
 	/**
@@ -68,5 +77,12 @@ public class ExemplaireTopo {
 	public void setCondition(ZoneTexte condition) {
 		this.condition = condition;
 	}
+
+	@Override
+	public String toString() {
+		return "ExemplaireTopo [id=" + id + ", topo=" + topo + ", proprietaire=" + proprietaire + ", condition=" + condition + "]";
+	}
+	
+	
 
 };

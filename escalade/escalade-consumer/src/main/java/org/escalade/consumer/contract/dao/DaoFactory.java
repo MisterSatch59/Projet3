@@ -26,6 +26,7 @@ public interface DaoFactory {
 	 * @return CommentaireDao
 	 */
 	public CommentaireDao getCommentaireDao();
+	
 	/**
 	 * Retourne le ZoneTexteDao
 	 * @return ZoneTexteDao
@@ -43,6 +44,7 @@ public interface DaoFactory {
 	 * @return UtilisateurDao
 	 */
 	public UtilisateurDao getUtilisateurDao();
+	
 	/**
 	 * Retourne le ExemplaireTopoDao
 	 * @return ExemplaireTopoDao
@@ -54,7 +56,5 @@ public interface DaoFactory {
 	 * @return EmpruntDao
 	 */
 	public EmpruntDao getEmpruntDao();
-
-
-
+	
 }

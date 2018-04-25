@@ -19,10 +19,10 @@ public interface CommentaireDao {
 	public List<Commentaire> getListCommentaire(int spotId);
 	
 	/**
-	 * Enregistre le commentaire dans la base de données
+	 * Enregistre le commentaire dans la base de données et retourne le commentaire modifié (avec son identifiant dans la abse de donnée)
 	 * @param spotId
 	 * @param commentaire
-	 * @return Commentaire(avec id)
+	 * @return Commentaire
 	 */
 	public Commentaire createCommentaire(int spotId, Commentaire commentaire);
 	
@@ -33,9 +33,9 @@ public interface CommentaireDao {
 	public void deleteCommentaire(int id);
 	
 	/**
-	 * Modifie le commentaire dans la base de données
-	 * @param id
+	 * Supprime de la base de données les commentaires du spot à partir de son identifiant
+	 * @param spotId
 	 */
-	public void updateCommentaire(Commentaire commentaire);
+	public void deleteAllCommentaires(int spotId);
 
 }

@@ -1,6 +1,7 @@
 package org.escalade.model.bean.utilisateur;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 /**
  * Bean utilisateur
@@ -11,12 +12,13 @@ public class Utilisateur {
 	/**
 	 * Pseudo de l'utilisateur
 	 */
-	@NotNull
+
+	@Size(min = 2, max = 30, message = "Le pseudo doit contenir entre 2 et 30 caractères")
 	private String pseudo;
 	/**
 	 * Adresse e-mail de l'utilisateur
 	 */
-	@NotNull
+	@Email(message = "l'adresse Email n'est pas valide")
 	private String mail;
 	/**
 	 * adresse de l'image de l'avatar de l'utilisateur - peut être null
@@ -66,5 +68,10 @@ public class Utilisateur {
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Utilisateur [pseudo=" + pseudo + ", mail=" + mail + ", avatar=" + avatar + ", admin=" + admin + "]";
+	}
+
 };

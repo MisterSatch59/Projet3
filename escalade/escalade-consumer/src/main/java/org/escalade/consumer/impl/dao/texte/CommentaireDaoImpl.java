@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.escalade.consumer.contract.dao.DaoFactory;
 import org.escalade.consumer.contract.dao.texte.CommentaireDao;
 import org.escalade.consumer.impl.dao.AbstractDaoImpl;
@@ -23,6 +25,7 @@ import org.springframework.jdbc.support.KeyHolder;
  */
 @Named("commentaireDao")
 public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDao {
+	private static final Logger LOGGER = LogManager.getLogger(CommentaireDaoImpl.class);
 
 	@Inject
 	private RowMapper<Commentaire> commentaireRM;
@@ -31,6 +34,8 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 	
 	@Override
 	public List<Commentaire> getListCommentaire(int spotId) {
+		LOGGER.traceEntry("spotId = " + spotId);
+		
 		String vSQL = "SELECT * FROM public.commentaire WHERE spot_id = :spotId ORDER BY date ASC";
 
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -40,11 +45,14 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 
 		List<Commentaire> commentaires = vJdbcTemplate.query(vSQL, vParams, commentaireRM);
 
+		LOGGER.traceExit(commentaires);
 		return commentaires;
 	}
 
 	@Override
 	public Commentaire createCommentaire(int spotId, Commentaire commentaire) {
+		LOGGER.traceEntry("spotId = " + spotId + "commentaire = " + commentaire);
+		
 		if(commentaire!=null) {
 			ZoneTexte zt = daoFactory.getZoneTexteDao().createZoneTexte(commentaire);
 			String vSQL = "INSERT INTO public.commentaire (id,date,pseudo_auteur,alerte,spot_id) VALUES (:id, :date,:pseudoAuteur,:alerte,:spotId)";
@@ -63,18 +71,34 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 			vJdbcTemplate.update(vSQL, vParams, keyHolder);
 			commentaire.setId((int) keyHolder.getKeys().get("id"));
 		}
+		
+		LOGGER.traceExit(commentaire);
 		return commentaire;
 	}
 
 	@Override
 	public void deleteCommentaire(int id) {
+		LOGGER.traceEntry("id = " + id);
+		
 		//Suppression en cascade du commentaire à partir de la zone de texte
 		daoFactory.getZoneTexteDao().deleteZoneTexte(id);
+		
+		LOGGER.traceExit();
 	}
 
 	@Override
-	public void updateCommentaire(Commentaire commentaire) {
-		// TODO
+	public void deleteAllCommentaires(int spotId) {
+		LOGGER.traceEntry("spotId = " + spotId);
+		
+		List<Commentaire> commentaires = this.getListCommentaire(spotId);
+		if(commentaires!=null) {
+			for (Commentaire commentaire : commentaires) {
+				//Suppression en cascade du commentaire à partir de la zone de texte
+				daoFactory.getZoneTexteDao().deleteZoneTexte(commentaire.getId());
+			}
+		}
+		
+		LOGGER.traceExit();
+		
 	}
-
 }

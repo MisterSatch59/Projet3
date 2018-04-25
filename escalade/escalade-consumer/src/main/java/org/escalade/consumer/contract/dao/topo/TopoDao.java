@@ -23,7 +23,8 @@ public interface TopoDao {
 	public void createTopo(Topo topo);
 	
 	/**
-	 * Modifie le topo dans la base de données
+	 * Modifie le topo dans la base de données</br>
+	 * ATTENTION le titre ne peut être modifié (clé dans la base de donnée)
 	 * @param topo
 	 */
 	public void updateTopo(Topo topo);

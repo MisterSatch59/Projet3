@@ -2,6 +2,10 @@ package org.escalade.model.bean.topo;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.texte.ZoneTexte;
 
@@ -14,14 +18,18 @@ public class Topo {
 	/**
 	 * titre du topo
 	 */
+	@NotNull (message="le titre du topo doit être renseigné")
+	@Size (min=2,max=100, message="le titre du topo doit contenir entre 2 et 100 caractères")
 	private String titre;
 	/**
 	 * Liste des spot contenus dans le topo
 	 */
-	private List<Spot> listSpot;
+	private List<@Valid Spot> listSpot;
 	/**
 	 * texte de description du topo
 	 */
+	@NotNull  (message="la description du topo doit être renseigné")
+	@Valid
 	private ZoneTexte description;
 	/**
 	 * liste des noms des photos du topo
@@ -63,6 +71,12 @@ public class Topo {
 	}
 	public void setListPhotos(List<String> photos) {
 		this.listPhotos = photos;
+	}
+	
+	@Override
+	public String toString() {
+		return "Topo [titre=" + titre + ", description=" + description + ",\nlistSpot=" + listSpot + ",\nlistPhotos="
+				+ listPhotos + "]";
 	}
 	
 };

@@ -285,28 +285,28 @@ ALTER TABLE public.spot ADD CONSTRAINT utilisateur_spot_fk
 FOREIGN KEY (pseudo_auteur)
 REFERENCES public.utilisateur (pseudo)
 ON DELETE NO ACTION
-ON UPDATE CASCADE
+ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.commentaire ADD CONSTRAINT utilisateur_commentaire_fk
 FOREIGN KEY (pseudo_auteur)
 REFERENCES public.utilisateur (pseudo)
 ON DELETE NO ACTION
-ON UPDATE CASCADE
+ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.emprunt ADD CONSTRAINT utilisateur_emprunt_fk
 FOREIGN KEY (pseudo_emprunteur)
 REFERENCES public.utilisateur (pseudo)
 ON DELETE NO ACTION
-ON UPDATE CASCADE
+ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.exemplaire_topo ADD CONSTRAINT utilisateur_exemplaire_topo_fk
 FOREIGN KEY (pseudo_proprietaire)
 REFERENCES public.utilisateur (pseudo)
 ON DELETE NO ACTION
-ON UPDATE CASCADE
+ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.emprunt ADD CONSTRAINT exemplaire_topo_emprunt_fk

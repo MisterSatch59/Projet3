@@ -2,6 +2,10 @@ package org.escalade.model.bean.spot;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.escalade.model.bean.texte.Commentaire;
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.utilisateur.Utilisateur;
@@ -19,6 +23,8 @@ public class Spot {
 	/**
 	 * nom du spot
 	 */
+	@NotNull (message="le nom du spot doit être renseigné")
+	@Size(min=1, max=40, message="le nom du spot doit contenir entre 1 et 40 caractères")
 	private String nom;
 	/**
 	 * Indique si le spot est accéssible ou interdit
@@ -29,11 +35,11 @@ public class Spot {
 	 */
 	private Boolean adapteEnfants;
 	/**
-	 * Latitude du spot / peut être null si non connue
+	 * Latitude du spot
 	 */
 	private String latitude;
 	/**
-	 * Longitude du spot / peut être null si non connue
+	 * Longitude du spot
 	 */
 	private String longitude;
 	/**
@@ -51,43 +57,54 @@ public class Spot {
 	/**
 	 * Ville du spot
 	 */
+	@NotNull(message ="la ville doit être renseignée")
+	@Valid
 	private Ville ville;
 	/**
-	 * Nombre de secteur du spot / peut être null si non connue
+	 * Nombre de secteur du spot
 	 */
 	private int nbSecteur;
 	/**
-	 * Hauteur de la plus haute voie / peut être null si non connue
+	 * Hauteur de la plus haute voie
 	 */
 	private int hauteurMax;
 	/**
-	 * Hauteur de la plus petite voie / peut être null si non connue
+	 * Hauteur de la plus petite voie
 	 */
 	private int hauteurMin;
 	/**
 	 * Nombre de voies
 	 */
+	@NotNull(message="le nombre de voie doit être renseigné")
+	@Size(min = 1, max=50, message="le nombre de voie doit contenit entre 1 et 50 caractères")
 	private String nbVoie;
 	/**
 	 * Difficulté de la voie la plus simple
 	 */
+	@NotNull(message="la difficulté minimum doit être renseignée")
+	@Size (min=2, max=2, message="erreur dans le contenu de la difficulé minimum")
 	private String difficulteMin;
 	/**
 	 * Difficulté de la voie la plus difficile
 	 */
+	@NotNull(message="la difficulté maximum doit être renseignée")
+	@Size (min=2, max=2, message="erreur dans le contenu de la difficulé minimum")
 	private String difficulteMax;
 	/**
 	 * Auteur de la fiche du spot
 	 */
+	@NotNull (message="l'auteur doit être renseigné")
+	@Valid
 	private Utilisateur auteur;
 	/**
 	 * Texte de présentation du spot
 	 */
+	@Valid
 	private ZoneTexte presentation;
 	/**
 	 * Liste des commentaires et alertes du spot
 	 */
-	private List<Commentaire> listCommentaires;
+	private List<@Valid Commentaire> listCommentaires;
 	/**
 	 * liste des noms des photos du spot
 	 */
@@ -246,10 +263,11 @@ public class Spot {
 	public void setPresentation(ZoneTexte presentation) {
 		this.presentation = presentation;
 	}
-	public List<Commentaire> getListCommentaires() {
+	
+	public List<@Valid Commentaire> getListCommentaires() {
 		return listCommentaires;
 	}
-	public void setListCommentaires(List<Commentaire> listCommentaires) {
+	public void setListCommentaires(List<@Valid Commentaire> listCommentaires) {
 		this.listCommentaires = listCommentaires;
 	}
 
@@ -260,7 +278,17 @@ public class Spot {
 	public void setListPhotos(List<String> listPhotos) {
 		this.listPhotos = listPhotos;
 	}
-	
 
+
+	@Override
+	public String toString() {
+		return "\nSpot [id=" + id + ", nom=" + nom + ", ouvert=" + ouvert + ", adapteEnfants=" + adapteEnfants
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ",\ntypes=" + types + ",\norientations="
+				+ orientations + ",\nprofils=" + profils + ",\nville=" + ville + ", nbSecteur=" + nbSecteur
+				+ ", hauteurMax=" + hauteurMax + ", hauteurMin=" + hauteurMin + ", nbVoie=" + nbVoie
+				+ ", difficulteMin=" + difficulteMin + ", difficulteMax=" + difficulteMax + ",\nauteur=" + auteur
+				+ ",\npresentation=" + presentation + ",\nlistCommentaires=" + listCommentaires + ",\nlistPhotos="
+				+ listPhotos + "]";
+	}
 	
 };
