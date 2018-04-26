@@ -8,7 +8,7 @@
 	http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Inclusion d'autres fichiers de contexte Spring -->
-	<import	resource="classpath:/org/projet/consumer/consumerContext.xml" />
-	<import	resource="classpath:/org/projet/business/businessContext.xml" />
-	<import resource="classpath:/org/projet/webapp/webappContext.xml" />
+	<import	resource="classpath:/org/escalade/consumer/consumerContext.xml" />
+	<import	resource="classpath:/org/escalade/business/businessContext.xml" />
+	<import resource="classpath:/org/escalade/webapp/webappContext.xml" />
 </beans>

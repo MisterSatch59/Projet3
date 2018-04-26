@@ -14,7 +14,7 @@
 	<context:component-scan base-package="org.escalade"/>
 
 	<!-- Inclusion d'autres fichiers de contexte Spring -->
-	<import	resource="classpath:/org/projet/consumer/consumerContext.xml" />
-	<import	resource="classpath:/org/projet/business/businessContext.xml" />
-	<import resource="classpath:/org/projet/batch/batchContext.xml" />
+	<import	resource="classpath:/org/escalade/consumer/consumerContext.xml" />
+	<import	resource="classpath:/org/escalade/business/businessContext.xml" />
+	<import resource="classpath:/org/escalade/batch/batchContext.xml" />
 </beans>
