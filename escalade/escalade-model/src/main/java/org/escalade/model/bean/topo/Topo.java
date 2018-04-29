@@ -75,8 +75,7 @@ public class Topo {
 	
 	@Override
 	public String toString() {
-		return "Topo [titre=" + titre + ", description=" + description + ",\nlistSpot=" + listSpot + ",\nlistPhotos="
-				+ listPhotos + "]";
+		return "Topo [titre=" + titre + "]";
 	}
 	
 };

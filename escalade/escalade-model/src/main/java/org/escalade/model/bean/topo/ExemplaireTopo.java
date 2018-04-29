@@ -80,7 +80,7 @@ public class ExemplaireTopo {
 
 	@Override
 	public String toString() {
-		return "ExemplaireTopo [id=" + id + ", topo=" + topo + ", proprietaire=" + proprietaire + ", condition=" + condition + "]";
+		return "ExemplaireTopo [id=" + id + ", topo=" + topo + "]";
 	}
 	
 	

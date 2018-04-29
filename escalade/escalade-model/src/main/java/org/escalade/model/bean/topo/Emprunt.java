@@ -93,7 +93,7 @@ public class Emprunt {
 
 	@Override
 	public String toString() {
-		return "Emprunt [id=" + id + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + ", emprunteur=" + emprunteur + ", exemplaire=" + exemplaire + "]";
+		return "Emprunt [id=" + id + ", dateDebut=" + dateDebut + ", dateFin=" + dateFin + "]";
 	}
 	
 	

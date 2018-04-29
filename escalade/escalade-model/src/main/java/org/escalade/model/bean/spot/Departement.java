@@ -13,7 +13,7 @@ public class Departement {
 	 * Numéro de département (2 ou 3 charactères)
 	 */
 	@NotNull (message = "Le numéro du département doit être renseigné")
-	@Size(min=2, max=3, message = "Le numéro de département doit contenir entre 2 et 3 chiffres/caractères")
+	@Size(min=1, max=3, message = "Le numéro de département doit contenir entre 1 et 3 chiffres/caractères")
 	private String numero;
 	/**
 	 * Nom du département
@@ -51,6 +51,8 @@ public class Departement {
 	public String toString() {
 		return "Departement [numero=" + numero + ", nom=" + nom + "]";
 	}
+
+	
 
 	
 };

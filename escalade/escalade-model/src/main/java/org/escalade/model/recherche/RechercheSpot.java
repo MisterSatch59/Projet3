@@ -33,13 +33,13 @@ public class RechercheSpot {
 	/**
 	 * Critére de recherche sur la difficultéMin
 	 */
-	@Size (min=2, max=2, message="erreur dans le contenu de la difficulé minimum")
+	@Size (min=2, max=2, message="erreur dans le contenu de la difficulté minimum")
 	private String difficulteMin;
 	
 	/**
 	 * Critére de recherche sur la difficultéMin
 	 */
-	@Size (min=2, max=2, message="erreur dans le contenu de la difficulé minimum")
+	@Size (min=2, max=2, message="erreur dans le contenu de la difficulté minimum")
 	private String difficulteMax;
 
 	public String getNomVille() {

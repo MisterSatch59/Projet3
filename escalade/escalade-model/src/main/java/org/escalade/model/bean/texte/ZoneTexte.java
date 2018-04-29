@@ -59,7 +59,7 @@ public class ZoneTexte {
 
 	@Override
 	public String toString() {
-		return "ZoneTexte [id=" + id + ", titre=" + titre + ", listParagraphes=" + listParagraphes + "]";
+		return "ZoneTexte [id=" + id + ", titre=" + titre + "]";
 	}
 
 };

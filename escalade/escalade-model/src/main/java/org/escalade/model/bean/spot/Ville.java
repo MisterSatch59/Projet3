@@ -75,7 +75,7 @@ public class Ville {
 
 	@Override
 	public String toString() {
-		return "Ville [id=" + id + ", nom=" + nom + ", cp=" + cp + ", departement=" + departement + "]";
+		return "Ville [id=" + id + ", nom=" + nom + ", cp=" + cp + "]";
 	}
 
 	

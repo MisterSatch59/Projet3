@@ -77,8 +77,7 @@ public class Commentaire extends ZoneTexte {
 
 	@Override
 	public String toString() {
-		return "Commentaire [date=" + date + ", auteur=" + auteur + ", alerte=" + alerte + ", getId()=" + getId()
-				+ ", getTitre()=" + getTitre() + ", getListParagraphes()=" + getListParagraphes() + "]";
+		return "Commentaire [date=" + date + ", getId()=" + getId() + ", getTitre()=" + getTitre() + "]";
 	}
 
 	

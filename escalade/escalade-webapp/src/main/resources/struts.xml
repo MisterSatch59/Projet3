@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE struts PUBLIC
-	"-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
-	"http://struts.apache.org/dtds/struts-2.5.dtd">
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
 	<package name="default" extends="struts-default">
+
 		<!-- Action par défaut -->
 		<default-action-ref name="index" />
+		
+		<!-- Results globaux -->
+        <global-results>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </global-results>
 
 		<!-- Action "index" -->
 		<action name="index">
-			<result>/jsp/index.jsp</result>
+			<result>/WEB-INF/jsp/index.jsp</result>
 		</action>
+		
+		<!-- Action affichant la page d'info (pas de traitement) -->
+		<action name="infos">
+			<result>/WEB-INF/jsp/infos.jsp</result>
+		</action>
+
+		<!-- Action affichant la page de recherche de spot : chargement de la liste des département et des difficulté pour les listes déroulantes -->
+		<action name="spots"
+			class="org.escalade.webapp.action.SpotAction" method="versRecherche">
+			<result name="success">/WEB-INF/jsp/spots.jsp</result>
+		</action>
+		
+		<!-- Action affichant le résultat de la recherhce de spot - A TRANSFORMER EN UNE ACTION AJAX -->
+		<action name="rechercheSpot"
+			class="org.escalade.webapp.action.SpotAction" method="recherche">
+			<result name="success">/WEB-INF/jsp/spots.jsp</result>
+			<result name="input">/WEB-INF/jsp/spots.jsp</result>
+		</action>
+		
 	</package>
 </struts>

@@ -282,13 +282,7 @@ public class Spot {
 
 	@Override
 	public String toString() {
-		return "\nSpot [id=" + id + ", nom=" + nom + ", ouvert=" + ouvert + ", adapteEnfants=" + adapteEnfants
-				+ ", latitude=" + latitude + ", longitude=" + longitude + ",\ntypes=" + types + ",\norientations="
-				+ orientations + ",\nprofils=" + profils + ",\nville=" + ville + ", nbSecteur=" + nbSecteur
-				+ ", hauteurMax=" + hauteurMax + ", hauteurMin=" + hauteurMin + ", nbVoie=" + nbVoie
-				+ ", difficulteMin=" + difficulteMin + ", difficulteMax=" + difficulteMax + ",\nauteur=" + auteur
-				+ ",\npresentation=" + presentation + ",\nlistCommentaires=" + listCommentaires + ",\nlistPhotos="
-				+ listPhotos + "]";
+		return "Spot [id=" + id + ", nom=" + nom + "]";
 	}
 	
 };

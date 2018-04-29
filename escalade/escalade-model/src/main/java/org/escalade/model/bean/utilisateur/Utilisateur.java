@@ -71,7 +71,7 @@ public class Utilisateur {
 
 	@Override
 	public String toString() {
-		return "Utilisateur [pseudo=" + pseudo + ", mail=" + mail + ", avatar=" + avatar + ", admin=" + admin + "]";
+		return "Utilisateur [pseudo=" + pseudo + "]";
 	}
 
 };
