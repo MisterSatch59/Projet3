@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
+import org.escalade.model.bean.spot.Ville;
 import org.escalade.model.bean.texte.Commentaire;
 import org.escalade.model.exception.FunctionalException;
 import org.escalade.model.recherche.RechercheSpot;
@@ -97,5 +98,19 @@ public interface SpotManager {
 	 * @return List<String>
 	 */
 	public List<String> getDifficultes();
+	
+	/**
+	 * Retourne la liste des titres des topo auquels le spot appartient
+	 * @param spotId
+	 * @return List<String>
+	 */
+	List<String> getListTopo(int spotId);
+
+	/**
+	 * Retourne la liste des villes d'un département contenu dans la base de donné, retourne la liste de toute le villes si NumeroDepartement est vide ou null
+	 * @param NumeroDepartement
+	 * @return List<Ville>
+	 */
+	public List<Ville> getVilles(String NumeroDepartement);
 	
 }

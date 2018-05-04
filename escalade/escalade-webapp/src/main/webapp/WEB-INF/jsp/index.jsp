@@ -10,8 +10,11 @@
 	<body class="corps container">
 		<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 		
+		<h2><s:property value="message" /></h2>
+		
 		<img src="img/logoBleu.png" alt= "test" />
 		<img src="img/PhotoAccueil.jpg" alt= "Accueil" />
+		
 		
 		<h2><s:text name="index.welcome" /></h2>
 		

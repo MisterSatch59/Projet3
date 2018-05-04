@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
+import org.escalade.model.bean.spot.Ville;
 import org.escalade.model.recherche.RechercheSpot;
 
 /**
@@ -50,10 +51,24 @@ public interface SpotDao {
 	public List<Spot> rechercheSpot(RechercheSpot criteres);
 	
 	/**
+	 * Retourne le département correspondant au numero
+	 * @param numero
+	 * @return Departement
+	 */
+	public Departement getDepartement(String numero);
+	
+	/**
 	 * Retourne la liste des départements
 	 * @return List<Departement>
 	 */
 	public List<Departement> getDepartements();
+	
+	/**
+	 * Retourne la liste des villes d'un département contenu dans la base de donné, retourne la liste de toute le villes si NumeroDepartement est vide ou null
+	 * @param numeroDepartement
+	 * @return List<Ville>
+	 */
+	public List<Ville> getVilles(String numeroDepartement);
 	
 	/**
 	 * Retourne la liste des types
@@ -78,5 +93,13 @@ public interface SpotDao {
 	 * @return List<String>
 	 */
 	public List<String> getDifficultes();
-	
+
+	/**
+	 * Retourne la liste des titres des topo auquels le spot appartient
+	 * @param spotId
+	 * @return List<String>
+	 */
+	List<String> getListTopo(int spotId);
+
+
 }

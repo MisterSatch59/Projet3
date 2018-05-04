@@ -167,13 +167,13 @@ public class Spot {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public boolean isOuvert() {
+	public boolean getOuvert() {
 		return ouvert;
 	}
 	public void setOuvert(boolean ouvert) {
 		this.ouvert = ouvert;
 	}
-	public Boolean isAdapteEnfants() {
+	public Boolean getAdapteEnfants() {
 		return adapteEnfants;
 	}
 	public void setAdapteEnfants(Boolean adapteEnfants) {

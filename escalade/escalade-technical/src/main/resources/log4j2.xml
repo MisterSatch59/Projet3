@@ -36,12 +36,12 @@
 		org.hibernate.validator
 		
 		<!-- == Logger pour l'application == -->
-		<Logger name="org.escalade.webapp" level="all" additivity="false">
+		<Logger name="org.escalade.webapp" level="debug" additivity="false">
 			<AppenderRef ref="STDOUT" />
 		</Logger>
 
 		<!-- == Logger de base == -->
-		<Root level="debug">
+		<Root level="off">
 			<AppenderRef ref="STDOUT" />
 		</Root>
 	</Loggers>

@@ -96,4 +96,35 @@
 	<build>
 		<finalName>projet-webapp</finalName>
 	</build>
+	<!-- ======================== -->
+	<!-- PROFILES -->
+	<!-- ======================== -->
+	<profiles>
+		<profile>
+			<id>tomcat-deploy</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>tomcat-deploy-copy</id>
+								<phase>install</phase>
+								<configuration>
+									<target>
+										<copy file="${basedir}\target\projet-webapp.war"
+											todir="${CATALINA_HOME}\webapps\" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

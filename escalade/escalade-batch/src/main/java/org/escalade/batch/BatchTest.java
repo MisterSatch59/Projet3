@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.spot.Departement;
+import org.escalade.model.bean.spot.Ville;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -18,10 +19,10 @@ public class BatchTest {
 		
 		ManagerFactory managerFactory = (ManagerFactory) vApplicationContext.getBean("managerFactory");
 		
-		List<Departement> result = managerFactory.getSpotManager().getDepartements();
+		List<Ville> result = managerFactory.getSpotManager().getVilles("83");
 		
-		for (Departement departement : result) {
-			System.out.println(departement);
+		for (Ville ville : result) {
+			System.out.println(ville);
 		}
 		
 		LOGGER.traceExit();

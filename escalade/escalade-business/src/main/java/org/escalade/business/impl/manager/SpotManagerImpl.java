@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.escalade.business.contract.manager.SpotManager;
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
+import org.escalade.model.bean.spot.Ville;
 import org.escalade.model.bean.texte.Commentaire;
 import org.escalade.model.exception.FunctionalException;
 import org.escalade.model.recherche.RechercheSpot;
@@ -241,6 +242,16 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	}
 
 	@Override
+	public List<Ville> getVilles(String NumeroDepartement) {
+		LOGGER.traceEntry("NumeroDepartement = " + NumeroDepartement);
+		
+		List<Ville> result = this.getDaoFactory().getSpotDao().getVilles(NumeroDepartement);
+		
+		LOGGER.traceExit(result);
+		return result;
+	}
+	
+	@Override
 	public List<String> getTypes() {
 		LOGGER.traceEntry();
 		
@@ -279,5 +290,17 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		LOGGER.traceExit(result);
 		return result;
 	}
+
+	@Override
+	public List<String> getListTopo(int spotId) {
+		LOGGER.traceEntry("spotId = " + spotId);
+		
+		List<String> result = this.getDaoFactory().getSpotDao().getListTopo(spotId);
+		
+		LOGGER.traceExit(result);
+		return result;
+	}
+
+
 	
 }

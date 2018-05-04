@@ -37,6 +37,8 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	@Inject
 	RowMapper<Departement> departementRM;
 	@Inject
+	RowMapper<Ville> villeRM;
+	@Inject
 	DaoFactory daoFactory;
 
 	@Override
@@ -158,6 +160,24 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	}
 
 	@Override
+	public List<String> getListTopo(int spotId){
+		LOGGER.traceEntry("spotId = " + spotId);
+		
+		String vSQL = "SELECT titre FROM public.spot_topo WHERE spot_id = :spotId";
+
+		MapSqlParameterSource vParams = new MapSqlParameterSource();
+		vParams.addValue("spotId", spotId);
+
+		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
+
+		List<String> listSpots = vJdbcTemplate.queryForList(vSQL, vParams, String.class);
+
+		
+		LOGGER.traceExit(listSpots);
+		return listSpots;
+	}
+	
+	@Override
 	public Spot createSpot(Spot spot) {
 		LOGGER.traceEntry("spot = " + spot);
 		
@@ -179,8 +199,8 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("nom", spot.getNom());
 			vParams.addValue("pseudoAuteur", spot.getAuteur().getPseudo());
-			vParams.addValue("ouvert", spot.isOuvert());
-			vParams.addValue("adapteEnfants", spot.isAdapteEnfants());
+			vParams.addValue("ouvert", spot.getOuvert());
+			vParams.addValue("adapteEnfants", spot.getAdapteEnfants());
 			vParams.addValue("latitude", spot.getLatitude());
 			vParams.addValue("longitude", spot.getLongitude());
 
@@ -412,8 +432,8 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("nom", spot.getNom());
-			vParams.addValue("ouvert", spot.isOuvert());
-			vParams.addValue("adapteEnfants", spot.isAdapteEnfants());
+			vParams.addValue("ouvert", spot.getOuvert());
+			vParams.addValue("adapteEnfants", spot.getAdapteEnfants());
 			vParams.addValue("latitude", spot.getLatitude());
 			vParams.addValue("longitude", spot.getLongitude());
 			vParams.addValue("villeId", villeId);
@@ -604,6 +624,28 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	}
 
 	@Override
+	public Departement getDepartement(String numero) {
+		LOGGER.traceEntry("numero = " + numero);
+		
+		String vSQL = "SELECT * FROM public.departement WHERE numero = :numeroDep";
+		
+		MapSqlParameterSource vParams = new MapSqlParameterSource();
+		vParams.addValue("numeroDep", numero);
+
+		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
+
+		List<Departement> listDepartement = vJdbcTemplate.query(vSQL, vParams, departementRM);
+		
+		if (listDepartement.isEmpty()) {
+			LOGGER.traceExit(null);
+			return null;
+		} else {
+			LOGGER.traceExit(listDepartement.get(0));
+			return listDepartement.get(0);
+		}
+	}
+	
+	@Override
 	public List<Departement> getDepartements() {
 		LOGGER.traceEntry();
 		
@@ -617,6 +659,32 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 		return listDepartement;
 	}
 
+	@Override
+	public List<Ville> getVilles(String numeroDepartement) {
+		LOGGER.traceEntry("numeroDepartement = " + numeroDepartement);
+		
+		List<Ville> listVille;
+		if(numeroDepartement==null || numeroDepartement.isEmpty()) {
+			String vSQL = "SELECT * FROM public.ville ORDER BY nom";
+			
+			JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
+
+			listVille = vJdbcTemplate.query(vSQL, villeRM);
+		}else {
+			String vSQL = "SELECT * FROM public.ville WHERE departement = :numeroDepartement ORDER BY nom" ;
+			
+			MapSqlParameterSource vParams = new MapSqlParameterSource();
+			vParams.addValue("numeroDepartement", numeroDepartement);
+
+			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
+			
+			listVille = vJdbcTemplate.query(vSQL, vParams, villeRM);
+		}
+		
+		LOGGER.traceExit(listVille);
+		return listVille;
+	}
+	
 	@Override
 	public List<String> getTypes() {
 		LOGGER.traceEntry();
@@ -672,4 +740,5 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 		LOGGER.traceExit(listDifficultes);
 		return listDifficultes;
 	}
+
 }

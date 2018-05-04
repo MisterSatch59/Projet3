@@ -413,12 +413,12 @@ INSERT INTO public.type (nom) VALUES ('Bloc');
 
 INSERT INTO public.orientation (nom) VALUES ('N');
 INSERT INTO public.orientation (nom) VALUES ('NE');
-INSERT INTO public.orientation (nom) VALUES ('NW');
-INSERT INTO public.orientation (nom) VALUES ('S');
-INSERT INTO public.orientation (nom) VALUES ('SE');
-INSERT INTO public.orientation (nom) VALUES ('SW');
 INSERT INTO public.orientation (nom) VALUES ('E');
+INSERT INTO public.orientation (nom) VALUES ('SE');
+INSERT INTO public.orientation (nom) VALUES ('S');
+INSERT INTO public.orientation (nom) VALUES ('SW');
 INSERT INTO public.orientation (nom) VALUES ('W');
+INSERT INTO public.orientation (nom) VALUES ('NW');
 
 INSERT INTO public.profil (nom) VALUES ('Dévers');
 INSERT INTO public.profil (nom) VALUES ('Vertical');
