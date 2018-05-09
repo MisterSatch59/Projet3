@@ -14,17 +14,17 @@ import org.escalade.model.bean.utilisateur.Utilisateur;
  *
  * @author Oltenos
  */
-public class Commentaire extends ZoneTexte {
+public class Commentaire extends @Valid ZoneTexte {
 	
 	/**
 	 * Date et heure d'écriture du commentaire
 	 */
-	@NotNull (message="la date du commentaire doit être renseignée")
+	@NotNull
 	private Date date;
 	/**
 	 * Auteur du commentaire
 	 */
-	@NotNull (message="l'auteur du commentaire doit être renseignée")
+	@NotNull
 	@Valid
 	private Utilisateur auteur;
 	/**

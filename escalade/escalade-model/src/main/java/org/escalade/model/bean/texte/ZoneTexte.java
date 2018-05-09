@@ -2,6 +2,7 @@ package org.escalade.model.bean.texte;
 
 import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -19,13 +20,14 @@ public class ZoneTexte {
 	/**
 	 * titre de la zone de texte
 	 */
-	@NotNull (message="le titre de la zone de texte doit être rensigné")
-	@Size (max=100, message="le titre de la zone de texte ne doit pas dépasser 100 caractères")
+	@NotNull
+	@Size (min=1, max=100)
 	private String titre;
 	/**
 	 * liste des paragraphe ordonnées de la zone de texte
 	 */
-	private List<String> listParagraphes;
+	@NotNull
+	private List<@NotNull @NotEmpty String> listParagraphes;
 	
 	/**
 	 * Constructeur avec paramètres

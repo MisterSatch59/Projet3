@@ -11,6 +11,7 @@
 	max-height : 30px;
 }
 </style>
+
 </head>
 
 <body class="corps container">
@@ -26,6 +27,9 @@
 	</p>
 	
 	<ul>
+		<li>
+			<s:text name="ouvert" /> ? : <s:property value="spot.ouvert" />
+		</li>
 		<li>
 			<img class="avatar" src="img/<s:property value="spot.auteur.avatar" />" alt= "avatar" /> -  <s:property value="spot.auteur.pseudo" />
 		</li>
@@ -46,33 +50,35 @@
 			</s:iterator>
 		</li>
 		<li>
-			<s:text name="spots.resultat.diff" /><s:property value="spot.difficulteMin" /> <s:text name="spots.resultat.a" /> <s:property value="spot.difficulteMax" />
+			<s:text name="spots.resultat.difficulte.de" /><s:property value="spot.difficulteMin" /> <s:text name="spots.resultat.a" /> <s:property value="spot.difficulteMax" />
 		</li>
 		<li>
-			<s:text name="spots.resultat.hauteur.min" /> : 
+			<s:text name="hauteurMin" /> : 
 			<s:if test="spot.hauteurMin==0">?</s:if>
 			<s:else><s:property value="spot.hauteurMin" /></s:else> - 
-			<s:text name="spots.resultat.hauteur.max" /> : <s:property value="spot.hauteurMax" />
+			<s:text name="hauteurMax" /> : <s:property value="spot.hauteurMax" />
 		</li>
 		<li>
-			<s:text name="spots.resultat.enfants" />
+			<s:text name="accesEnfants" /> : 
 			<s:if test="spot.adapteEnfants"><s:text name="oui" /></s:if>
 			<s:elseif test="spot.adapteEnfants==false"><s:text name="non" /></s:elseif>
 			<s:else>?</s:else>
 		</li>
 		<li>
-			<s:if test="spot.nbSecteur!=0"><s:text name="spots.resultat.secteurs" /> : <s:property value="spot.nbSecteur" /> - </s:if>
-			<s:text name="spots.resultat.voies" /> : <s:property value="spot.nbVoie" />
+			<s:if test="spot.nbSecteur!=0"><s:text name="nbSecteurs" /> : <s:property value="spot.nbSecteur" /> - </s:if>
+			<s:text name="nbVoies" /> : <s:property value="spot.nbVoie" />
 		</li>
 		
-		<li>
-			<s:property value="%{spot.presentation.titre}" />
-			<ul>
-				<s:iterator value="%{spot.presentation.listParagraphes}" var="parag">
-					<li><s:property value="%{parag}" /></li>
-				</s:iterator>
-			</ul>
-		</li>
+		<s:if test="spot.presentation.titre!=''">
+			<li>
+				<s:property value="spot.presentation.titre" />
+				<ul>
+					<s:iterator value="spot.presentation.listParagraphes" var="parag">
+						<li><s:property value="parag" /></li>
+					</s:iterator>
+				</ul>
+			</li>
+		</s:if>
 		
 	</ul>
 	<h3>Topos contenants ce spot: </h3>
@@ -94,7 +100,9 @@
 					<s:iterator value="listParagraphes" var="paragraphe">
 						<s:property value="paragraphe" /><br/>
 					</s:iterator>
-					<s:a action="supprimerCommentaire"><s:param name="commentaireId" value="id" /><s:text name="spotInfo.supprAlerte" /></s:a>
+					<button onclick="supprimerCommentaire(this)" id="${id}">
+							<s:text name="spotInfo.supprCommentaire" />
+					</button>
 				</li>
 			</s:if>
 		</s:iterator>
@@ -111,14 +119,16 @@
 					<s:iterator value="listParagraphes" var="paragraphe">
 						<s:property value="paragraphe" /><br/>
 					</s:iterator>
-					<s:a action="supprimerCommentaire"><s:param name="commentaireId" value="id" /><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.supprCommentaire" /></s:a>
+					<button onclick="supprimerCommentaire(this)" id="${id}">
+							<s:text name="spotInfo.supprCommentaire" />
+					</button>
 				</li>
 			</s:if>
 		</s:iterator>
 	</ul>
 	
-	<s:form action="nouveauCommentaire" id="formulaire">
-		<legend>
+	<s:form>
+		<legend >
 			<s:text name="spotInfo.titreNouveauCommentaire" />
 		</legend>
 		<s:textfield id = "titre" name="titre" key="spotInfo.message.commentaire" requiredLabel="true" />		
@@ -137,15 +147,42 @@
 			var titre = $("#titre").val()
 			var texteCommentaire = $("#texte").val()
 			var alerte =  $('#alerte').is(':checked')
+			
 
+			if(titre != "" && texteCommentaire != ""){
+				// URL de l'action AJAX
+				var url = "<s:url action="ajax_nouveauCommentaire"/>";
+	
+				// Paramètres de la requête AJAX
+				var params = {
+					titre : titre,
+					texteCommentaire : texteCommentaire,
+					alerte : alerte,
+					spotId : "${spot.id}"
+				};
+	
+				// Action AJAX en POST
+				jQuery.post(
+					url,
+					params,
+					function (data) {
+						AfficherComm(data);
+					})
+				.fail(function (data) {
+					alert("Une erreur s'est produite.");
+				});
+			}
+		}
+		
+		function supprimerCommentaire(that) {
 			// URL de l'action AJAX
-			var url = "<s:url action="ajax_nouveauCommentaire"/>";
-
+			var url = "<s:url action="ajax_supprimerCommentaire"/>";
+			
+			var id = that.id;
+			
 			// Paramètres de la requête AJAX
 			var params = {
-				titre : titre,
-				texteCommentaire : texteCommentaire,
-				alerte : alerte,
+				commentaireId : id,
 				spotId : "${spot.id}"
 			};
 
@@ -154,23 +191,36 @@
 		        url,
 		        params,
 		        function (data) {
-		            var $affCommentaires = $("#affCommentaires");
-		            $affCommentaires.empty();
-		            var $affAlertes = $("#affAlertes");
-		            $affAlertes.empty();
-		            $("#titre").val('');
-		            $("#texte").val('');
-		            $("#alerte").prop("checked", false);
-		            
-		            //A FAIRE : peupler les listes commentaires et alertes
-		           
-		            
+		        	AfficherComm(data);
 		        })
 		        .fail(function (data) {
 		            alert("Une erreur s'est produite.");
 		        });
 			
 		}
+		
+		function AfficherComm(data) {
+			 var $affCommentaires = $("#affCommentaires");
+	            $affCommentaires.empty();
+	            var $affAlertes = $("#affAlertes");
+	            $affAlertes.empty();
+	            $("#titre").val('');
+	            $("#texte").val('');
+	            $("#alerte").prop("checked", false);
+	            jQuery.each(data, function (key, val) {
+	            	var infoComm = val.auteur.pseudo + "<br/>" + val.date + "<br/>" + val.titre + "<br/>";
+	            	$.each(val.listParagraphes, function( index, value ) {
+	            		  infoComm+=value + "<br/>";
+	            	});
+	            	infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'">' + '<s:text name="spotInfo.supprCommentaire" />';
+	            	
+	            	if (val.alerte == true) {
+	            		$affAlertes.append($('<li>').append(infoComm));
+	            	} else { 
+	            		$affCommentaires.append($('<li>').append(infoComm));
+	            	}
+	            });
+		 }
 		
 	</script>
 

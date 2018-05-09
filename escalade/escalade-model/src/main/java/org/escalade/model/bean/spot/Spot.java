@@ -3,6 +3,7 @@ package org.escalade.model.bean.spot;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -23,11 +24,11 @@ public class Spot {
 	/**
 	 * nom du spot
 	 */
-	@NotNull (message="le nom du spot doit être renseigné")
-	@Size(min=1, max=40, message="le nom du spot doit contenir entre 1 et 40 caractères")
+	@NotNull
+	@Size(min=1, max=40)
 	private String nom;
 	/**
-	 * Indique si le spot est accéssible ou interdit
+	 * Indique si le spot est accessible ou interdit
 	 */
 	private boolean ouvert;
 	/**
@@ -37,10 +38,12 @@ public class Spot {
 	/**
 	 * Latitude du spot
 	 */
+	@Size(max=15)
 	private String latitude;
 	/**
 	 * Longitude du spot
 	 */
+	@Size(max=15)
 	private String longitude;
 	/**
 	 * Types présent sur le spot
@@ -57,43 +60,46 @@ public class Spot {
 	/**
 	 * Ville du spot
 	 */
-	@NotNull(message ="la ville doit être renseignée")
+	@NotNull
 	@Valid
 	private Ville ville;
 	/**
 	 * Nombre de secteur du spot
 	 */
+	@Min(0)
 	private int nbSecteur;
 	/**
 	 * Hauteur de la plus haute voie
 	 */
+	@Min(0)
 	private int hauteurMax;
 	/**
 	 * Hauteur de la plus petite voie
 	 */
+	@Min(0)
 	private int hauteurMin;
 	/**
 	 * Nombre de voies
 	 */
-	@NotNull(message="le nombre de voie doit être renseigné")
-	@Size(min = 1, max=50, message="le nombre de voie doit contenit entre 1 et 50 caractères")
+	@NotNull
+	@Size(min = 1, max=50)
 	private String nbVoie;
 	/**
 	 * Difficulté de la voie la plus simple
 	 */
-	@NotNull(message="la difficulté minimum doit être renseignée")
-	@Size (min=2, max=2, message="erreur dans le contenu de la difficulé minimum")
+	@NotNull
+	@Size (min=2, max=2)
 	private String difficulteMin;
 	/**
 	 * Difficulté de la voie la plus difficile
 	 */
-	@NotNull(message="la difficulté maximum doit être renseignée")
-	@Size (min=2, max=2, message="erreur dans le contenu de la difficulé minimum")
+	@NotNull
+	@Size (min=2, max=2)
 	private String difficulteMax;
 	/**
 	 * Auteur de la fiche du spot
 	 */
-	@NotNull (message="l'auteur doit être renseigné")
+	@NotNull
 	@Valid
 	private Utilisateur auteur;
 	/**
@@ -153,6 +159,13 @@ public class Spot {
 		this.presentation = presentation;
 	}
 	
+	/**
+	 * Constructeur par défaut
+	 */
+	public Spot() {
+		
+	}
+
 
 	//Getters et Setters
 	public int getId() {

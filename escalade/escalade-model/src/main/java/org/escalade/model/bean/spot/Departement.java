@@ -12,14 +12,14 @@ public class Departement {
 	/**
 	 * Numéro de département (2 ou 3 charactères)
 	 */
-	@NotNull (message = "Le numéro du département doit être renseigné")
-	@Size(min=1, max=3, message = "Le numéro de département doit contenir entre 1 et 3 chiffres/caractères")
+	@NotNull
+	@Size(min=1, max=3)
 	private String numero;
 	/**
 	 * Nom du département
 	 */
-	@NotNull (message="le nom du département doit être renseigné")
-	@Size(min=2, max=40, message="le nom du département doit contenir entre 3 et 40 caractères")
+	@NotNull
+	@Size(min=2, max=40)
 	private String nom;
 
 	/**
@@ -52,7 +52,29 @@ public class Departement {
 		return "Departement [numero=" + numero + ", nom=" + nom + "]";
 	}
 
-	
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Departement other = (Departement) obj;
+		if (nom == null) {
+			if (other.nom != null)
+				return false;
+		} else if (!nom.equals(other.nom))
+			return false;
+		if (numero == null) {
+			if (other.numero != null)
+				return false;
+		} else if (!numero.equals(other.numero))
+			return false;
+		return true;
+	}
 
 	
 };

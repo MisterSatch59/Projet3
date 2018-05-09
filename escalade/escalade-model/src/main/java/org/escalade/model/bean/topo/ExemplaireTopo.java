@@ -20,19 +20,19 @@ public class ExemplaireTopo {
 	/**
 	 * Topo dont il est un exemplaire
 	 */
-	@NotNull (message="le topo doit être rensigné")
+	@NotNull
 	@Valid
 	private Topo topo;
 	/**
 	 * propriétaire du topo
 	 */
-	@NotNull (message="le propriétaire doit être rensigné")
+	@NotNull
 	@Valid
 	private Utilisateur proprietaire;
 	/**
 	 * Condition de prêt du topo
 	 */
-	@NotNull (message="les conditions de prêt doivent être rensignées")
+	@NotNull
 	@Valid
 	private ZoneTexte condition;
 

@@ -205,7 +205,12 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			vParams.addValue("longitude", spot.getLongitude());
 
 			vParams.addValue("villeId", villeId);
-			vParams.addValue("presentationId", presentation.getId());
+			if(presentation!=null) {
+				vParams.addValue("presentationId", presentation.getId());
+			}
+			else {
+				vParams.addValue("presentationId", null);
+			}
 
 			vParams.addValue("nbSecteur", spot.getNbSecteur());
 			vParams.addValue("nbVoie", spot.getNbVoie());
@@ -412,22 +417,28 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			} else {
 				spot.getVille().setId(villeId);
 			}
-			
-			daoFactory.getZoneTexteDao().updateZoneTexte(spot.getPresentation());
+			if(spot.getPresentation()!=null) {
+				if(spot.getPresentation().getId()>0) {
+					daoFactory.getZoneTexteDao().updateZoneTexte(spot.getPresentation());
+				}else {
+					spot.setPresentation(daoFactory.getZoneTexteDao().createZoneTexte(spot.getPresentation()));
+				}
+			}
 
-			String vSQL = "UPDATE public.spot SET"
+			String vSQL = "UPDATE public.spot SET "
 					+ "nom = :nom, "
-					+ "ouvert = :ouvert,"
-					+ "adapte_enfants = :adapteEnfants,"
-					+ "latitude = :latitude,"
-					+ "longitude = :longitude,"
-					+ "ville_id = :villeId,"
-					+ "nb_secteur = :nbSecteur,"
-					+ "nb_voie = :nbVoie,"
-					+ "hauteur_min = :hauteurMin,"
-					+ "hauteur_max = :hauteurMax,"
-					+ "difficulte_min = :diffuculteMin,"
-					+ "difficulte_max = :diffuculteMax"
+					+ "ouvert = :ouvert, "
+					+ "adapte_enfants = :adapteEnfants, "
+					+ "latitude = :latitude, "
+					+ "longitude = :longitude, "
+					+ "ville_id = :villeId, "
+					+ "nb_secteur = :nbSecteur, "
+					+ "nb_voie = :nbVoie, "
+					+ "hauteur_min = :hauteurMin, "
+					+ "hauteur_max = :hauteurMax, "
+					+ "difficulte_min = :difficulteMin, "
+					+ "difficulte_max = :difficulteMax, "
+					+ "presentation_id = :presentationId "
 					+ "WHERE id = :id";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -443,6 +454,11 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			vParams.addValue("hauteurMax", spot.getHauteurMax());
 			vParams.addValue("difficulteMin", spot.getDifficulteMin());
 			vParams.addValue("difficulteMax", spot.getDifficulteMax());
+			if(spot.getPresentation()!=null) {
+				vParams.addValue("presentationId", spot.getPresentation().getId());
+			}else {
+				vParams.addValue("presentationId", null);
+			}
 
 			vParams.addValue("id", spot.getId());
 

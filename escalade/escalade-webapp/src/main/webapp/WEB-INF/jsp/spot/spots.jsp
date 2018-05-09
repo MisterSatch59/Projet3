@@ -11,23 +11,23 @@
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 
 	<h1>
-		<s:text name="spots.titre" />
+		<s:text name="spots" />
 	</h1>
 	
 	<p>
-		<s:a action="creerSpot">
+		<s:a action="versCreerSpot">
 			<s:text name="spots.creer" />
 		</s:a>
 	</p>
 
-	<s:form action="rechercheSpot">
+	<s:form>
 		<legend>
-			<s:text name="spots.recherche.title" />
+			<s:text name="recherche" />
 		</legend>
-		<s:select id = "departement" name="departement" key="spots.recherche.departement" list="listDepartements" emptyOption="true" requiredLabel="false" onchange="onSelectDepartementChange()" />
-		<s:select id = "ville" name="ville" key="spots.recherche.ville" list="listVille" emptyOption="true" requiredLabel="false" />
-		<s:select id = "difficulteMin" name="difficulteMin" key="spots.recherche.diffMin" list="listDifficultes" emptyOption="true" requiredLabel="false" />
-		<s:select id = "difficulteMax" name="difficulteMax" key="spots.recherche.diffMax" list="listDifficultes" emptyOption="true" requiredLabel="false" />
+		<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="false" onchange="onSelectDepartementChange()" />
+		<s:select id = "ville" name="ville" key="ville" list="listVille" emptyOption="true" requiredLabel="false" />
+		<s:select id = "difficulteMin" name="difficulteMin" key="diffMin" list="listDifficultes" emptyOption="true" requiredLabel="false" />
+		<s:select id = "difficulteMax" name="difficulteMax" key="diffMax" list="listDifficultes" emptyOption="true" requiredLabel="false" />
 
 	</s:form>
 		<button onclick="rechercheSpots()">
@@ -61,16 +61,16 @@
 						var detail = '<ul><li>' + val.types;
 						detail += '<li>' + val.profils;
 						detail += '<li>' + val.orientations;
-						detail += '<li>' + '<s:text name="spots.resultat.diff" /> ' + val.difficulteMin + ' <s:text name="spots.resultat.a" /> ' + val.difficulteMax;
+						detail += '<li>' + '<s:text name="spots.resultat.difficulte.de" /> ' + val.difficulteMin + ' <s:text name="spots.resultat.a" /> ' + val.difficulteMax;
 						//Hauteurs Min et Max
 						detail += '<li>' ;
 						if (val.hauteurMin!=0){
-							detail += '<s:text name="spots.resultat.hauteur.min" /> : ' + val.hauteurMin +" - ";
+							detail += '<s:text name="hauteurMin" /> : ' + val.hauteurMin +" - ";
 						}
-						detail+='<s:text name="spots.resultat.hauteur.max" /> : ';
+						detail+='<s:text name="hauteurMax" /> : ';
 						detail+= val.hauteurMax;
 						//Adapte aux enfants
-						detail+='<li><s:text name="spots.resultat.enfants" /> : '
+						detail+='<li><s:text name="accesEnfants" /> : '
 						if (val.adapteEnfants==true){
 							detail += '<s:text name="oui" /> ';
 						}else{
@@ -83,13 +83,13 @@
 						//Nb secteurs et voies
 						detail+='<li>';
 						if(val.nbSecteur>0){
-							detail+= '<s:text name="spots.resultat.secteurs" /> : ' + val.nbSecteur +" - ";
+							detail+= '<s:text name="nbSecteurs" /> : ' + val.nbSecteur +" - ";
 						}
-						detail+= '<s:text name="spots.resultat.voies" /> : ' + val.nbVoie;
+						detail+= '<s:text name="nbVoies" /> : ' + val.nbVoie;
 						
 						//lien vers fiche
 						var url2 = "spotInfo.action?spotId="+ val.id ; 
-						detail+= '<li>' + '<a href = "' + url2 + '">' + '<s:text name="spots.resultat.description" />';
+						detail+= '<li>' + '<a href = "' + url2 + '">' + '<s:text name="accesDescriptionSpot" />';
 						
 						
 						$listSpots.append($('<li>').append(val.nom + " - " + val.ville.departement.nom + " - " + val.ville.nom).append(detail));

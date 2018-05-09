@@ -24,40 +24,48 @@
 		</action>
 
 		<!-- Action affichant la page de recherche de spot : chargement de la liste des département et des difficulté pour les listes déroulantes -->
-		<action name="spots" class="org.escalade.webapp.action.SpotAction" method="versRecherche">
+		<action name="spots" class="org.escalade.webapp.action.spot.RechercheSpotAction" method="versRecherche">
 			<result name="success">/WEB-INF/jsp/spot/spots.jsp</result>
 		</action>
 		
 		<!-- Action affichant la fiche d'un spot -->
-		<action name="spotInfo"
-			class="org.escalade.webapp.action.SpotAction" method="spotInfo">
+		<action name="spotInfo" class="org.escalade.webapp.action.spot.SpotInfoAction" method="getInfo">
 			<result name="success">/WEB-INF/jsp/spot/spotInfo.jsp</result>
 		</action>
 		
 		<!-- Action de suppression d'un spot -->
-		<action name="supprimerSpot"
-			class="org.escalade.webapp.action.SpotAction" method="supprimerSpot">
+		<action name="supprimerSpot" class="org.escalade.webapp.action.spot.SupprimerSpotAction" method="supprimerSpot">
 			<result name="success" type="redirectAction">
-				<param name="actionName">supprimer</param>
-				<param name="message">${message}</param>
+				<param name="actionName">index</param>
 			</result>
 		</action>
 		
-		<action name="supprimer" class="org.escalade.webapp.action.SpotAction" method="message">
-			<result>/WEB-INF/jsp/index.jsp</result>
+		<!-- Action de chargement de la page de modification d'un spot -->
+		<action name="versModifierSpot" class="org.escalade.webapp.action.spot.ModifierSpotAction" method="versModifier">
+			<result name="success">/WEB-INF/jsp/spot/modifierSpot.jsp</result>
 		</action>
 		
-		<!-- Action de suppression d'un commentaire -->
-		<action name="supprimerCommentaire"	class="org.escalade.webapp.action.SpotAction" method="supprimerCommentaire">
+		<!-- Action de modification d'un spot -->
+		<action name="modifierSpot" class="org.escalade.webapp.action.spot.ModifierSpotAction" method="modifier">
+			<result name="input">/WEB-INF/jsp/spot/modifierSpot.jsp</result><!-- En cas d'informations invalides dns le formulaire -->
 			<result name="success" type="redirectAction">
 				<param name="actionName">spotInfo</param>
 				<param name="spotId">${spotId}</param>
 			</result>
 		</action>
 		
-		<!-- Action de chargement de la page de modification d'un spot -->
-		<action name="versModifierSpot" class="org.escalade.webapp.action.SpotAction" method="versModifier">
-			<result name="success">/WEB-INF/jsp/spot/modifierSpot.jsp</result>
+		<!-- Action de chargement de la page de création d'un spot -->
+		<action name="versCreerSpot" class="org.escalade.webapp.action.spot.CreerSpotAction" method="versCreer">
+			<result name="success">/WEB-INF/jsp/spot/creerSpot.jsp</result>
+		</action>
+		
+		<!-- Action de création d'un spot -->
+		<action name="creerSpot" class="org.escalade.webapp.action.spot.CreerSpotAction" method="creer">
+			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas d'informations invalides dans le formulaire -->
+			    <result name="success" type="redirectAction">
+					<param name="actionName">spotInfo</param>
+					<param name="spotId">${spotId}</param>
+			    </result>
 		</action>
 		
 	</package>
@@ -67,25 +75,35 @@
     <package name="ajax" extends="base, json-default">
     
 		<!-- Action affichant le résultat de la recherche de spot -->
-        <action name="ajax_rechercheSpot" class="org.escalade.webapp.action.SpotAction" method="doAJAXrecherche">
+        <action name="ajax_rechercheSpot" class="org.escalade.webapp.action.spot.RechercheSpotAction" method="doAJAXrecherche">
             <result name="success" type="json">
                 <param name="root">resultatRecherche</param>
             </result>
         </action>
         
 		<!-- Action affichant mettant à jour la liste des villes en fonction du déprtement sélectionné -->
-        <action name="ajax_getVilles" class="org.escalade.webapp.action.SpotAction" method="doAJAXgetVilles">
+        <action name="ajax_getVilles" class="org.escalade.webapp.action.spot.RechercheSpotAction" method="doAJAXgetVilles">
             <result name="success" type="json">
-                <param name="root">listVilles</param>
+                <param name="root">listVille</param>
             </result>
         </action>
         
-		<!-- Action ajoutant un commantaire et retournant le spot modifié -->
-        <action name="ajax_nouveauCommentaire" class="org.escalade.webapp.action.SpotAction" method="doAJAXnouveauCommentaire">
+		<!-- Action ajoutant un commentaire et retournant le spot modifié -->
+        <action name="ajax_nouveauCommentaire" class="org.escalade.webapp.action.spot.SpotInfoAction" method="doAJAXnouveauCommentaire">
+        	<result name="input" type="json">
+                <param name="root">listCommentaires</param>
+            </result>
             <result name="success" type="json">
-                <param name="root">spot</param>
+                <param name="root">listCommentaires</param>
             </result>
         </action>
+        
+		<!-- Action de suppression d'un commentaire -->
+		<action name="ajax_supprimerCommentaire" class="org.escalade.webapp.action.spot.SpotInfoAction" method="doAJAXsupprimerCommentaire">
+			<result name="success" type="json">
+                <param name="root">listCommentaires</param>
+			</result>
+		</action>
     </package>
 
 </struts>

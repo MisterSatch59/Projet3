@@ -13,12 +13,12 @@ public class Utilisateur {
 	 * Pseudo de l'utilisateur
 	 */
 
-	@Size(min = 2, max = 30, message = "Le pseudo doit contenir entre 2 et 30 caractères")
+	@Size(min = 2, max = 30)
 	private String pseudo;
 	/**
 	 * Adresse e-mail de l'utilisateur
 	 */
-	@Email(message = "l'adresse Email n'est pas valide")
+	@Email
 	private String mail;
 	/**
 	 * adresse de l'image de l'avatar de l'utilisateur - peut être null

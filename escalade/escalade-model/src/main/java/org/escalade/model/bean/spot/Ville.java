@@ -17,19 +17,19 @@ public class Ville {
 	/**
 	 * Nom de la ville
 	 */
-	@NotNull (message="le nom de la ville doit être renseigné")
-	@Size (min=2, max=100, message="le nom de la ville doit contenir entre 2 et 100 cractères")
+	@NotNull
+	@Size (min=2, max=100)
 	private String nom;
 	/**
 	 * Code postal de la ville
 	 */
-	@NotNull (message="le code postal de la ville doit être renseigné")
-	@Size (min=5, max=5, message="le code postal de la ville doit contenir 5 chiffres")
+	@NotNull
+	@Size (min=5, max=5)
 	private String cp;
 	/**
 	 * département d'appartenance
 	 */
-	@NotNull (message="le département doit être renseigné")
+	@NotNull
 	@Valid
 	private Departement departement;
 	

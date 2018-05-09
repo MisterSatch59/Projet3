@@ -10,61 +10,54 @@
 <body class="corps container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
+	<s:actionerror/>
+	
 	<s:form action="modifierSpot">
 		<legend>
 			<s:text name="modifierSpot.title" />
 		</legend>
-		<s:textfield id = "nom" name="nom" key="modifierSpot.nom" requiredLabel="true" value="%{spot.nom}" />
-		<s:select id = "departement" name="departement" key="modifierSpot.departement" list="listDepartements" emptyOption="true" requiredLabel="true" value="%{spot.ville.departement}" />
+		<s:textfield id = "nom" name="nom" key="nom" requiredLabel="true" maxlength="40" value="%{spot.nom}" />
+		<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="true" value="%{spot.ville.departement}" />
 		
-		<s:textfield id = "villeNom" name="villeNom" key="modifierSpot.ville.nom" requiredLabel="true" value="%{spot.ville.nom}" />
-		<s:textfield id = "villeCP" name="villeCP" key="modifierSpot.ville.cp" requiredLabel="true" value="%{spot.ville.cp}" />
+		<s:textfield id = "villeNom" name="villeNom" key="modifierSpot.ville.nom" requiredLabel="true" maxlength="100" value="%{spot.ville.nom}" />
+		<s:textfield id = "villeCP" name="villeCP" key="cp" requiredLabel="true" maxlength="5" value="%{spot.ville.cp}" />
 		
-		<s:iterator value="%{listTypes}" var="type">
-			<s:set var="isInSpot" value="%{false}"/>
-			<s:iterator value="%{spot.types}" var="spotType">
-				<s:if test="%{#spotType==#type}">
-					<s:set var="isInSpot" value="%{true}"/>
-				</s:if>
-			</s:iterator>
-			<s:checkbox label="%{type}" name="%{type}" value="%{isInSpot}"/>
-		</s:iterator>
+		<s:checkbox key="ouvert" name="ouvert" value="spot.ouvert"/>
 		
-		<s:iterator value="%{listProfils}" var="profil">
-			<s:set var="isInSpot" value="%{false}"/>
-			<s:iterator value="%{spot.profils}" var="spotProfil">
-				<s:if test="%{#spotProfil==#profil}">
-					<s:set var="isInSpot" value="%{true}"/>
-				</s:if>
-			</s:iterator>
-			<s:checkbox label="%{profil}" name="%{profil}" value="%{isInSpot}"/>
-		</s:iterator>
+		<s:checkboxlist key="types" list="listTypes" name="types" value="spot.types" />
 		
-		<s:select id = "difficulteMin" name="difficulteMin" key="modifierSpot.diffMin" list="listDifficultes" emptyOption="true" requiredLabel="true" value="%{spot.difficulteMin}" />
-		<s:select id = "difficulteMax" name="difficulteMax" key="modifierSpot.diffMax" list="listDifficultes" emptyOption="true" requiredLabel="true" value="%{spot.difficulteMax}" />
+		<s:checkboxlist key="profils" list="listProfils" name="profils" value="spot.profils" />
 		
-		<s:select id = "accessibleEnfants" name="accessibleEnfants" key="modifierSpot.accessibleEnfants" list="#{'true':'oui', 'false':'non'}" emptyOption="true" requiredLabel="false" value="%{spot.adapteEnfants}" />
+		<s:select id = "difficulteMin" name="difficulteMin" key="diffMin" list="listDifficultes" emptyOption="true" requiredLabel="true" value="%{spot.difficulteMin}" />
+		<s:select id = "difficulteMax" name="difficulteMax" key="diffMax" list="listDifficultes" emptyOption="true" requiredLabel="true" value="%{spot.difficulteMax}" />
 		
-		<s:textfield id = "hauteurMin" name="hauteurMin" key="modifierSpot.hauteurMin" requiredLabel="false" value="%{spot.hauteurMin}" />
-		<s:textfield id = "hauteurMax" name="hauteurMax" key="modifierSpot.hauteurMax" requiredLabel="false" value="%{spot.hauteurMax}" />
+		<s:select id = "accessibleEnfants" name="accessibleEnfants" key="accesEnfants" list="#{'true':'oui', 'false':'non'}" emptyOption="true" requiredLabel="false" value="%{spot.adapteEnfants}" />
 		
-		<s:iterator value="%{listOrientations}" var="orientation">
-			<s:set var="isInSpot" value="%{false}"/>
-			<s:iterator value="%{spot.orientations}" var="spotOrientation">
-				<s:if test="%{#spotOrientation==#orientation}">
-					<s:set var="isInSpot" value="%{true}"/>
-				</s:if>
-			</s:iterator>
-			<s:checkbox label="%{orientation}" name="%{orientation}" value="%{isInSpot}"/>
-		</s:iterator>
+		<s:if test="%{spot.hauteurMin==0}">
+			<s:textfield id = "hauteurMin" name="hauteurMin" key="hauteurMin" requiredLabel="false" type="number" />
+		</s:if>
+		<s:else>
+			<s:textfield id = "hauteurMin" name="hauteurMin" key="hauteurMin" requiredLabel="false" type="number" value="%{spot.hauteurMin}" />
+		</s:else>
 		
-		<s:textfield id = "nbSecteur" name="nbSecteur" key="modifierSpot.nbSecteur" requiredLabel="false" value="%{spot.nbSecteur}" />
-		<s:textfield id = "nbVoie" name="nbVoie" key="modifierSpot.nbVoie" requiredLabel="true" value="%{spot.nbVoie}" />
+		<s:textfield id = "hauteurMax" name="hauteurMax" key="hauteurMax" requiredLabel="false" type="number" value="%{spot.hauteurMax}" />
 		
-		<s:textfield id = "latitude" name="latitude" key="modifierSpot.position" requiredLabel="false" value="%{spot.latitude}" />
-		<s:textfield id = "longitude" name="longitude" requiredLabel="false" value="%{spot.longitude}" />
+		<s:checkboxlist key="orientations" list="listOrientations" name="orientations" value="spot.orientations" />
 		
-		<s:textfield id = "decriptionTitre" name="decriptionTitre" key="modifierSpot.presentation" requiredLabel="false" value="%{spot.presentation.titre}" />
+		
+		<s:if test="%{spot.nbSecteur==0}">
+			<s:textfield id = "nbSecteur" name="nbSecteur" key="nbSecteur" requiredLabel="false" type="number" />
+		</s:if>
+		<s:else>
+			<s:textfield id = "nbSecteur" name="nbSecteur" key="nbSecteur" requiredLabel="false" type="number" value="%{spot.nbSecteur}" />
+		</s:else>
+		
+		<s:textfield id = "nbVoie" name="nbVoie" key="nbVoie" requiredLabel="true" maxlength="50" value="%{spot.nbVoie}" />
+		
+		<s:textfield id = "latitude" name="latitude" key="latitude" requiredLabel="false" maxlength="15" value="%{spot.latitude}" />
+		<s:textfield id = "longitude" name="longitude" key="longitude" requiredLabel="false" maxlength="15" value="%{spot.longitude}" />
+		
+		<s:textfield id = "descriptionTitre" name="descriptionTitre" key="modifierSpot.presentation" requiredLabel="false" maxlength="100" value="%{spot.presentation.titre}" />
 		
 		<s:set var="texte" value=""/>
 		<s:iterator value="%{spot.presentation.listParagraphes}" var="parag">
@@ -74,14 +67,13 @@
 			<s:else>
 				<s:set var="texte" value="%{#texte + #parag}"/>
 			</s:else>
-			<s:set var="texte" value="%{#texte + '\r\n'}"/>
+			<s:set var="texte" value="%{#texte + '\n'}"/>
 		</s:iterator>
-		<s:textarea id = "decriptionTexte" name="decriptionTexte" requiredLabel="false" value="%{texte}" />
-		
-		<s:submit key="valider" name="" />
-	</s:form>
+		<s:textarea id = "descriptionTexte" name="descriptionTexte" requiredLabel="false" value="%{texte}" />
 	
-
+		<s:hidden name="spotId" value="%{spot.id}" />
+		<s:submit key="valider" name=""/>
+	</s:form>
 	
 </body>
 </html>

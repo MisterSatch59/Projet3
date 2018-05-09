@@ -10,13 +10,13 @@
 	<body class="corps container">
 		<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 		
-		<h2><s:property value="message" /></h2>
+		<s:actionmessage/>
 		
 		<img src="img/logoBleu.png" alt= "test" />
 		<img src="img/PhotoAccueil.jpg" alt= "Accueil" />
 		
 		
-		<h2><s:text name="index.welcome" /></h2>
+		<h2><s:text name="index.titre" /></h2>
 		
 		<p>
 			<s:text name="index.para.l1" /><br/>

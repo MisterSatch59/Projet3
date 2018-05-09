@@ -18,8 +18,8 @@ public class Topo {
 	/**
 	 * titre du topo
 	 */
-	@NotNull (message="le titre du topo doit être renseigné")
-	@Size (min=2,max=100, message="le titre du topo doit contenir entre 2 et 100 caractères")
+	@NotNull
+	@Size (min=2,max=100)
 	private String titre;
 	/**
 	 * Liste des spot contenus dans le topo
@@ -28,7 +28,7 @@ public class Topo {
 	/**
 	 * texte de description du topo
 	 */
-	@NotNull  (message="la description du topo doit être renseigné")
+	@NotNull
 	@Valid
 	private ZoneTexte description;
 	/**
