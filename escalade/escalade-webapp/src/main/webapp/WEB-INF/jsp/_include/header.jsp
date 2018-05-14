@@ -11,17 +11,19 @@
 			</div>
 			<div>
 				<ul class="nav navbar-nav">
-					<li><s:a action="index">Accueil</s:a></li>
+					<li><s:a action="index"><s:text name="accueil" /></s:a></li>
 					<li><s:a action="infos"><s:text name="infos" /></s:a></li>
 					<li><s:a action="spots"><s:text name="spots" /></s:a></li>
 					<li><s:a action="topos"><s:text name="topos" /></s:a></li>
 					
-					<s:if test="#session.user">
-						<li><s:a action="logout"><s:text name="deconnection" /></s:a></li>
+					<s:if test="#session.utilisateur">
+						<li><a class="inactive"><s:text name="utilisateurConnecte" /> : <s:property value="#session.utilisateur.pseudo" /></a></li>
+						<li><s:a action="infoUtilisateur"><s:text name="infoUtilisateur" /></s:a></li>
+						<li><s:a action="logout"><s:text name="deconnexion" /></s:a></li>
 					</s:if>
 					<s:else>
-						<li><s:a action="login"><s:text name="connection" /></s:a></li>
-						<li><s:a action="creerCompte"><s:text name="creer.compte" /></s:a></li>
+						<li><s:a action="login"><s:text name="connexion" /></s:a></li>
+						<li><s:a action="creerUtilisateur"><s:text name="creer.compte" /></s:a></li>
 					</s:else>
 					
 					<li>

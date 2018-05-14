@@ -10,8 +10,6 @@
 	<body class="corps container">
 		<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 		
-		<s:actionmessage/>
-		
 		<img src="img/logoBleu.png" alt= "test" />
 		<img src="img/PhotoAccueil.jpg" alt= "Accueil" />
 		

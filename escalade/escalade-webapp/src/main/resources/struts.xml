@@ -3,107 +3,227 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 <struts>
-	<package name="base" extends="struts-default">
+	<!-- ===== Package de configuration de base ===== -->
+	<package name="base" abstract="true" extends="struts-default">
+		<interceptors>
+			<interceptor name="auth"
+				class="org.escalade.webapp.interceptor.AuthInterceptor" />
+
+			<interceptor-stack name="applicationDefaultStack">
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
+				<interceptor-ref name="defaultStack">
+					<param name="exception.logEnabled">true</param>
+					<param name="exception.logLevel">ERROR</param>
+					<param name="exception.logCategory">org.escalade.webapp</param>
+				</interceptor-ref>
+			</interceptor-stack>
+
+			<interceptor-stack name="authenticatedStack">
+				<interceptor-ref name="auth" />
+				<interceptor-ref name="applicationDefaultStack" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref
+			name="applicationDefaultStack" />
+
+		<!-- Results globaux -->
+		<global-results>
+			<result name="error">/WEB-INF/jsp/error.jsp</result>
+			<result name="error-forbidden" type="httpheader">
+				<param name="error">403</param>
+			</result>
+			<result name="Exception" type="httpheader">
+				<param name="error">500</param>
+				<param name="parse">true</param>
+				<param name="errorMessage">%{exception}</param>
+			</result>
+			<result name="TechnicalException" type="httpheader">
+				<param name="error">500</param>
+				<param name="parse">true</param>
+				<param name="errorMessage">Erreur technique - %{exception.message}</param>
+			</result>
+			<result name="NotFoundException" type="httpheader">
+				<param name="error">404</param>
+				<param name="parse">true</param>
+				<param name="errorMessage">Objet introuvable - %{exception.message}</param>
+			</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping exception="java.lang.Exception"
+				result="Exception" />
+			<exception-mapping
+				exception="org.escalade.model.exception.TechnicalException"
+				result="TechnicalException" />
+			<exception-mapping
+				exception="org.escalade.model.exception.NotFoundException"
+				result="NotFoundException" />
+		</global-exception-mappings>
+	</package>
+
+	<package name="public" extends="base">
 
 		<!-- Action par défaut -->
 		<default-action-ref name="index" />
-		
-		<!-- Results globaux -->
-        <global-results>
-            <result name="error">/WEB-INF/jsp/error.jsp</result>
-        </global-results>
 
 		<!-- Action "index" -->
 		<action name="index">
 			<result>/WEB-INF/jsp/index.jsp</result>
 		</action>
-		
+
 		<!-- Action affichant la page d'info (pas de traitement) -->
 		<action name="infos">
 			<result>/WEB-INF/jsp/infos.jsp</result>
 		</action>
 
-		<!-- Action affichant la page de recherche de spot : chargement de la liste des département et des difficulté pour les listes déroulantes -->
-		<action name="spots" class="org.escalade.webapp.action.spot.RechercheSpotAction" method="versRecherche">
+		<!-- Action affichant la page de recherche de spot : chargement de la liste 
+			des département et des difficulté pour les listes déroulantes -->
+		<action name="spots"
+			class="org.escalade.webapp.action.spot.RechercheSpotAction"
+			method="versRecherche">
 			<result name="success">/WEB-INF/jsp/spot/spots.jsp</result>
 		</action>
-		
+
 		<!-- Action affichant la fiche d'un spot -->
-		<action name="spotInfo" class="org.escalade.webapp.action.spot.SpotInfoAction" method="getInfo">
+		<action name="spotInfo"
+			class="org.escalade.webapp.action.spot.SpotInfoAction"
+			method="getInfo">
 			<result name="success">/WEB-INF/jsp/spot/spotInfo.jsp</result>
 		</action>
-		
-		<!-- Action de suppression d'un spot -->
-		<action name="supprimerSpot" class="org.escalade.webapp.action.spot.SupprimerSpotAction" method="supprimerSpot">
+
+		<!-- Action d'accés au formulaire et de création d'un utilisateur -->
+		<action name="creerUtilisateur"
+			class="org.escalade.webapp.action.utilisateur.CreerUtilisateurAction"
+			method="creer">
+			<result name="input">/WEB-INF/jsp/utilisateur/creerUtilisateur.jsp
+			</result><!-- En arrivant sur le formulaire + en cas d'informations invalides 
+				dans le formulaire -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">login</param>
+			</result>
+		</action>
+
+		<!-- Action de connection à un compte utilisateur -->
+		<action name="login"
+			class="org.escalade.webapp.action.utilisateur.LoginAction"
+			method="login">
+			<result name="input">/WEB-INF/jsp/utilisateur/login.jsp</result><!-- En 
+				arrivant sur le formulaire + en cas d'informations invalides dans le formulaire -->
 			<result name="success" type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
 		</action>
-		
+
+	</package>
+
+	<package name="prive" extends="base">
+		<default-interceptor-ref
+			name="authenticatedStack" />
+
+		<!-- Action de suppression d'un spot -->
+		<action name="supprimerSpot"
+			class="org.escalade.webapp.action.spot.SupprimerSpotAction"
+			method="supprimerSpot">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+		</action>
+
 		<!-- Action de chargement de la page de modification d'un spot -->
-		<action name="versModifierSpot" class="org.escalade.webapp.action.spot.ModifierSpotAction" method="versModifier">
+		<action name="versModifierSpot"
+			class="org.escalade.webapp.action.spot.ModifierSpotAction"
+			method="versModifier">
 			<result name="success">/WEB-INF/jsp/spot/modifierSpot.jsp</result>
 		</action>
-		
+
 		<!-- Action de modification d'un spot -->
-		<action name="modifierSpot" class="org.escalade.webapp.action.spot.ModifierSpotAction" method="modifier">
-			<result name="input">/WEB-INF/jsp/spot/modifierSpot.jsp</result><!-- En cas d'informations invalides dns le formulaire -->
+		<action name="modifierSpot"
+			class="org.escalade.webapp.action.spot.ModifierSpotAction"
+			method="modifier">
+			<result name="input">/WEB-INF/jsp/spot/modifierSpot.jsp</result><!-- En 
+				cas d'informations invalides dns le formulaire -->
 			<result name="success" type="redirectAction">
 				<param name="actionName">spotInfo</param>
 				<param name="spotId">${spotId}</param>
 			</result>
 		</action>
-		
+
 		<!-- Action de chargement de la page de création d'un spot -->
-		<action name="versCreerSpot" class="org.escalade.webapp.action.spot.CreerSpotAction" method="versCreer">
+		<action name="versCreerSpot"
+			class="org.escalade.webapp.action.spot.CreerSpotAction"
+			method="versCreer">
 			<result name="success">/WEB-INF/jsp/spot/creerSpot.jsp</result>
 		</action>
-		
-		<!-- Action de création d'un spot -->
-		<action name="creerSpot" class="org.escalade.webapp.action.spot.CreerSpotAction" method="creer">
-			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas d'informations invalides dans le formulaire -->
-			    <result name="success" type="redirectAction">
-					<param name="actionName">spotInfo</param>
-					<param name="spotId">${spotId}</param>
-			    </result>
-		</action>
-		
-	</package>
-	
-    <!-- ===== Package pour les actions AJAX ===== -->
 
-    <package name="ajax" extends="base, json-default">
-    
-		<!-- Action affichant le résultat de la recherche de spot -->
-        <action name="ajax_rechercheSpot" class="org.escalade.webapp.action.spot.RechercheSpotAction" method="doAJAXrecherche">
-            <result name="success" type="json">
-                <param name="root">resultatRecherche</param>
-            </result>
-        </action>
-        
-		<!-- Action affichant mettant à jour la liste des villes en fonction du déprtement sélectionné -->
-        <action name="ajax_getVilles" class="org.escalade.webapp.action.spot.RechercheSpotAction" method="doAJAXgetVilles">
-            <result name="success" type="json">
-                <param name="root">listVille</param>
-            </result>
-        </action>
-        
-		<!-- Action ajoutant un commentaire et retournant le spot modifié -->
-        <action name="ajax_nouveauCommentaire" class="org.escalade.webapp.action.spot.SpotInfoAction" method="doAJAXnouveauCommentaire">
-        	<result name="input" type="json">
-                <param name="root">listCommentaires</param>
-            </result>
-            <result name="success" type="json">
-                <param name="root">listCommentaires</param>
-            </result>
-        </action>
-        
-		<!-- Action de suppression d'un commentaire -->
-		<action name="ajax_supprimerCommentaire" class="org.escalade.webapp.action.spot.SpotInfoAction" method="doAJAXsupprimerCommentaire">
-			<result name="success" type="json">
-                <param name="root">listCommentaires</param>
+		<!-- Action de création d'un spot -->
+		<action name="creerSpot"
+			class="org.escalade.webapp.action.spot.CreerSpotAction"
+			method="creer">
+			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas 
+				d'informations invalides dans le formulaire -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">spotInfo</param>
+				<param name="spotId">${spotId}</param>
 			</result>
 		</action>
-    </package>
+
+		<!-- Action de déconnection d'un compte utilisateur -->
+		<action name="logout"
+			class="org.escalade.webapp.action.utilisateur.LoginAction"
+			method="logout">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+		</action>
+
+	</package>
+
+	<!-- ===== Package pour les actions AJAX ===== -->
+
+	<package name="ajax" extends="base, json-default">
+
+		<!-- Action affichant le résultat de la recherche de spot -->
+		<action name="ajax_rechercheSpot"
+			class="org.escalade.webapp.action.spot.RechercheSpotAction"
+			method="doAJAXrecherche">
+			<result name="success" type="json">
+				<param name="root">resultatRecherche</param>
+			</result>
+		</action>
+
+		<!-- Action affichant mettant à jour la liste des villes en fonction du 
+			déprtement sélectionné -->
+		<action name="ajax_getVilles"
+			class="org.escalade.webapp.action.spot.RechercheSpotAction"
+			method="doAJAXgetVilles">
+			<result name="success" type="json">
+				<param name="root">listVille</param>
+			</result>
+		</action>
+
+		<!-- Action ajoutant un commentaire et retournant le spot modifié -->
+		<action name="ajax_nouveauCommentaire"
+			class="org.escalade.webapp.action.spot.SpotInfoAction"
+			method="doAJAXnouveauCommentaire">
+			<result name="input" type="json">
+				<param name="root">listCommentaires</param>
+			</result>
+			<result name="success" type="json">
+				<param name="root">listCommentaires</param>
+			</result>
+		</action>
+
+		<!-- Action de suppression d'un commentaire -->
+		<action name="ajax_supprimerCommentaire"
+			class="org.escalade.webapp.action.spot.SpotInfoAction"
+			method="doAJAXsupprimerCommentaire">
+			<result name="success" type="json">
+				<param name="root">listCommentaires</param>
+			</result>
+		</action>
+	</package>
 
 </struts>

@@ -10,8 +10,6 @@
 <body class="corps container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
-	<s:actionerror/>
-	
 	<s:form action="creerSpot">
 		<legend>
 			<s:text name="modifierSpot.title" />
@@ -35,7 +33,7 @@
 		
 		<s:textfield id = "hauteurMin" name="hauteurMin" key="hauteurMin" requiredLabel="false" type="number" value="%{hauteurMin}" />
 		
-		<s:textfield id = "hauteurMax" name="hauteurMax" key="hauteurMax" requiredLabel="false" type="number" value="%{hauteurMax}" />
+		<s:textfield id = "hauteurMax" name="hauteurMax" key="hauteurMax" requiredLabel="true" type="number" value="%{hauteurMax}" />
 		
 		<s:checkboxlist key="orientations" list="listOrientations" name="orientations" value="orientations" />
 		

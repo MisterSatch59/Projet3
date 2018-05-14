@@ -374,17 +374,21 @@
         <element xmi:type="uml:Property" href="SingEscaladeBD.uml#_7VYRgD4bEei8PPatURQIsA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_7VbU0T4bEei8PPatURQIsA"/>
       </children>
+      <children xmi:type="notation:Shape" xmi:id="_DJvxMFdAEeiQ1rQkvv_f7Q" type="Property_ClassAttributeLabel">
+        <element xmi:type="uml:Property" href="SingEscaladeBD.uml#_DErrAFdAEeiQ1rQkvv_f7Q"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_DJvxMVdAEeiQ1rQkvv_f7Q"/>
+      </children>
       <children xmi:type="notation:Shape" xmi:id="_16vmED4hEei8PPatURQIsA" type="Property_ClassAttributeLabel">
         <element xmi:type="uml:Property" href="SingEscaladeBD.uml#_1uR3YD4hEei8PPatURQIsA"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_16vmET4hEei8PPatURQIsA"/>
       </children>
-      <children xmi:type="notation:Shape" xmi:id="__KC18D4bEei8PPatURQIsA" type="Property_ClassAttributeLabel">
-        <element xmi:type="uml:Property" href="SingEscaladeBD.uml#__J_yoD4bEei8PPatURQIsA"/>
-        <layoutConstraint xmi:type="notation:Location" xmi:id="__KC18T4bEei8PPatURQIsA"/>
-      </children>
       <children xmi:type="notation:Shape" xmi:id="_GGg6EEJUEeiyubGJT09TRg" type="Property_ClassAttributeLabel">
         <element xmi:type="uml:Property" href="SingEscaladeBD.uml#_F9HtgEJUEeiyubGJT09TRg"/>
         <layoutConstraint xmi:type="notation:Location" xmi:id="_GGg6EUJUEeiyubGJT09TRg"/>
+      </children>
+      <children xmi:type="notation:Shape" xmi:id="__KC18D4bEei8PPatURQIsA" type="Property_ClassAttributeLabel">
+        <element xmi:type="uml:Property" href="SingEscaladeBD.uml#__J_yoD4bEei8PPatURQIsA"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="__KC18T4bEei8PPatURQIsA"/>
       </children>
       <styles xmi:type="notation:TitleStyle" xmi:id="_BwNuVj4ZEei8PPatURQIsA"/>
       <styles xmi:type="notation:SortingStyle" xmi:id="_BwNuVz4ZEei8PPatURQIsA"/>

@@ -3,11 +3,13 @@ package org.escalade.webapp.action.spot;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.struts2.interceptor.SessionAware;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.texte.Commentaire;
@@ -21,7 +23,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author Oltenos
  *
  */
-public class SpotInfoAction extends ActionSupport {
+public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(SpotInfoAction.class);
 
@@ -86,6 +88,14 @@ public class SpotInfoAction extends ActionSupport {
 		return listCommentaires;
 	}
 
+	// ================= Eléments Struts =======================
+	private Map<String, Object> session;
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+
 	// ================= Méthodes d'action ====================
 
 	/**
@@ -120,7 +130,7 @@ public class SpotInfoAction extends ActionSupport {
 		LOGGER.debug("texteCommentaire = " + texteCommentaire);
 		LOGGER.debug("alerte = " + alerte);
 
-		Utilisateur auteur = managerFactory.getUtilisateurManager().getUtilisateur("Max");// TODO gestion de l'auteur à faire (ici en dur...)
+		Utilisateur auteur = (Utilisateur) session.get("utilisateur");
 		Date date = new java.util.Date();
 		
 		List<String> listParagraphes = new ArrayList<String>();

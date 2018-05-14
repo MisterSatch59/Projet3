@@ -3,6 +3,7 @@ package org.escalade.webapp.action.spot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -12,6 +13,7 @@ import javax.validation.Validator;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.struts2.interceptor.SessionAware;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
@@ -24,10 +26,10 @@ import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * Classe action de modification et de création d'un spot
- * @author Hanna
+ * @author Oltenos
  *
  */
-public class CreerSpotAction extends ActionSupport {
+public class CreerSpotAction extends ActionSupport implements SessionAware {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(CreerSpotAction.class);
 
@@ -39,8 +41,8 @@ public class CreerSpotAction extends ActionSupport {
 	
 	// ----- Eléments en entrée et sortie
 	
-	//Rq les donnés de formulaire sont également en sortie afin de conserver les valeur déja remplis
-	//en cas d'erreur dans les donnés (retour vers la page avec validate()
+	//Rq les données de formulaire sont également en sortie afin de conserver les valeur déja remplis
+	//en cas d'erreur dans les donnés (retour vers la page avec validate())
 	private String nom;
 	private Departement departement;
 	private String villeNom;
@@ -255,6 +257,14 @@ public class CreerSpotAction extends ActionSupport {
 		return spotId;
 	}
 	
+	// ================= Eléments Struts =======================
+	private Map<String, Object> session;
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
+	}
+	
 	// ================= Méthodes d'action ====================
 
 	/**
@@ -355,7 +365,7 @@ public class CreerSpotAction extends ActionSupport {
 		spot.setProfils(listProfilsSpot);
 		spot.setOrientations(listOrientationsSpot);
 		
-		Utilisateur auteur = managerFactory.getUtilisateurManager().getUtilisateur("Max");//TODO gestion de l'utilisateur ici en dur
+		Utilisateur auteur = (Utilisateur) session.get("utilisateur");
 		spot.setAuteur(auteur);
 		
 		//Création dans la base de donnés

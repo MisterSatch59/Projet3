@@ -1,6 +1,7 @@
 package org.escalade.model.bean.utilisateur;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -9,10 +10,10 @@ import javax.validation.constraints.Size;
  * @author Oltenos
  */
 public class Utilisateur {
+	
 	/**
 	 * Pseudo de l'utilisateur
 	 */
-
 	@Size(min = 2, max = 30)
 	private String pseudo;
 	/**
@@ -28,6 +29,19 @@ public class Utilisateur {
 	 * Indique si l'utilisateur est un administrateur
 	 */
 	private boolean admin;
+	/**
+	 * Mot de passe
+	 */
+	@NotNull
+	@Size(max = 100)
+	private String mdp;
+	/**
+	 * sel utilisé avant hachage du mdp
+	 */
+	@NotNull
+	@Size(min = 20, max = 20)
+	private String sel;
+	
 	
 	/**
 	 * Constructeur avec paramètres
@@ -67,6 +81,22 @@ public class Utilisateur {
 	}
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+	
+	public String getMdp() {
+		return mdp;
+	}
+
+	public void setMdp(String mdp) {
+		this.mdp = mdp;
+	}
+
+	public String getSel() {
+		return sel;
+	}
+
+	public void setSel(String sel) {
+		this.sel = sel;
 	}
 
 	@Override

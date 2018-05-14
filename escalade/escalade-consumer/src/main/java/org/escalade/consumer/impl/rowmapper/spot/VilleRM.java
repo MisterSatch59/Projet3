@@ -9,10 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.escalade.consumer.contract.dao.DaoFactory;
 import org.escalade.model.bean.spot.Departement;
-import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.spot.Ville;
-import org.escalade.model.bean.texte.ZoneTexte;
-import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
 /**

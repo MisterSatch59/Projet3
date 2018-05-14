@@ -22,7 +22,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 /**
  * Classe action de modification et de création d'un spot
- * @author Hanna
+ * @author Oltenos
  *
  */
 public class ModifierSpotAction extends ActionSupport {

@@ -32,7 +32,7 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 		
 		if (pseudo!=null && !pseudo.isEmpty())
 		{
-			String vSQL = "SELECT pseudo,mail,avatar,admin FROM public.utilisateur WHERE pseudo = :pseudo";
+			String vSQL = "SELECT pseudo,mail,mdp,sel,avatar,admin FROM public.utilisateur WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("pseudo", pseudo);
@@ -59,12 +59,13 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 		
 		if(utilisateur!=null && utilisateur.getPseudo()!=null && !utilisateur.getPseudo().isEmpty())
 		{
-			String vSQL = "INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin) VALUES (:pseudo,:mail,:mdp,:avatar,:admin)";
+			String vSQL = "INSERT INTO public.utilisateur (pseudo,mail,mdp,sel,avatar,admin) VALUES (:pseudo,:mail,:mdp,:sel,:avatar,:admin)";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("pseudo", utilisateur.getPseudo());
 			vParams.addValue("mail", utilisateur.getMail());
-			vParams.addValue("mdp", "testSansMDP");						//TODO A MODIFIER POUR LA GESTION DES MOTS DE PASSE
+			vParams.addValue("mdp", utilisateur.getMdp());
+			vParams.addValue("sel", utilisateur.getSel());
 			vParams.addValue("avatar", utilisateur.getAvatar());
 			vParams.addValue("admin", utilisateur.isAdmin());
 
@@ -100,12 +101,13 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 		
 		if(utilisateur!=null && utilisateur.getPseudo()!=null && !utilisateur.getPseudo().isEmpty())
 		{
-			String vSQL = "UPDATE public.utilisateur SET mail = :mail, mdp = :mdp, avatar = :avatar, admin = :admin WHERE pseudo = :pseudo";
+			String vSQL = "UPDATE public.utilisateur SET mail = :mail, mdp = :mdp, sel = :sel, avatar = :avatar, admin = :admin WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("pseudo", utilisateur.getPseudo());
 			vParams.addValue("mail", utilisateur.getMail());
-			vParams.addValue("mdp", "testSansMDP");						//TODO A MODIFIER POUR LA GESTION DES MOTS DE PASSE
+			vParams.addValue("mdp", utilisateur.getMdp());
+			vParams.addValue("sel", utilisateur.getSel());
 			vParams.addValue("avatar", utilisateur.getAvatar());
 			vParams.addValue("admin", utilisateur.isAdmin());
 

@@ -19,12 +19,16 @@
 	
 	<h1><s:property value="spot.nom" /> - <s:property value="spot.ville.departement.nom" /> - <s:property value="spot.ville.nom" /></h1>
 
-	<p>
-		<s:a action="versModifierSpot"><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.modifier" /></s:a>
-		 - 
-		<s:a action="supprimerSpot"><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.supprimer" /></s:a>
-		<br/><br/>
-	</p>
+	<s:if test="#session.utilisateur">
+		<p>
+			<s:a action="versModifierSpot"><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.modifier" /></s:a>
+			<s:if test="#session.utilisateur.pseudo==spot.auteur.pseudo||#session.utilisateur.admin==true">
+					 - 
+					<s:a action="supprimerSpot"><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.supprimer" /></s:a>
+					<br/><br/>
+			</s:if>
+		</p>
+	</s:if>
 	
 	<ul>
 		<li>
@@ -100,9 +104,11 @@
 					<s:iterator value="listParagraphes" var="paragraphe">
 						<s:property value="paragraphe" /><br/>
 					</s:iterator>
-					<button onclick="supprimerCommentaire(this)" id="${id}">
-							<s:text name="spotInfo.supprCommentaire" />
-					</button>
+					<s:if test="#session.utilisateur.pseudo==auteur.pseudo||#session.utilisateur.admin==true">
+						<button onclick="supprimerCommentaire(this)" id="${id}">
+								<s:text name="spotInfo.supprCommentaire" />
+						</button>
+					</s:if>
 				</li>
 			</s:if>
 		</s:iterator>
@@ -119,27 +125,30 @@
 					<s:iterator value="listParagraphes" var="paragraphe">
 						<s:property value="paragraphe" /><br/>
 					</s:iterator>
-					<button onclick="supprimerCommentaire(this)" id="${id}">
-							<s:text name="spotInfo.supprCommentaire" />
-					</button>
+					<s:if test="#session.utilisateur.pseudo==auteur.pseudo||#session.utilisateur.admin==true">
+						<button onclick="supprimerCommentaire(this)" id="${id}">
+								<s:text name="spotInfo.supprCommentaire" />
+						</button>
+					</s:if>
 				</li>
 			</s:if>
 		</s:iterator>
 	</ul>
-	
-	<s:form>
-		<legend >
-			<s:text name="spotInfo.titreNouveauCommentaire" />
-		</legend>
-		<s:textfield id = "titre" name="titre" key="spotInfo.message.commentaire" requiredLabel="true" />		
-		<s:textarea id = "texte" name="texte" requiredLabel="true" />
-		
-		<s:checkbox id = "alerte" key="spotInfo.message.alerte" name="alerte" />
-		
-	</s:form>
-	<button onclick="envoyerCommentaire()">
-			<s:text name="valider" />
-	</button>
+	<s:if test="#session.utilisateur">
+		<s:form>
+			<legend >
+				<s:text name="spotInfo.titreNouveauCommentaire" />
+			</legend>
+			<s:textfield id = "titre" name="titre" key="spotInfo.message.commentaire" requiredLabel="true" />		
+			<s:textarea id = "texte" name="texte" requiredLabel="true" />
+			
+			<s:checkbox id = "alerte" key="spotInfo.message.alerte" name="alerte" />
+			
+		</s:form>
+		<button onclick="envoyerCommentaire()">
+				<s:text name="valider" />
+		</button>
+	</s:if>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
@@ -212,7 +221,7 @@
 	            	$.each(val.listParagraphes, function( index, value ) {
 	            		  infoComm+=value + "<br/>";
 	            	});
-	            	infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'">' + '<s:text name="spotInfo.supprCommentaire" />';
+            		infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'">' + '<s:text name="spotInfo.supprCommentaire" />';
 	            	
 	            	if (val.alerte == true) {
 	            		$affAlertes.append($('<li>').append(infoComm));

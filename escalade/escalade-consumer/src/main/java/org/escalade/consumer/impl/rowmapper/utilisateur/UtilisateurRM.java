@@ -22,8 +22,12 @@ public class UtilisateurRM implements RowMapper<Utilisateur> {
 		String mail = pRS.getString("mail");
 		String avatar = pRS.getString("avatar");
 		boolean admin = pRS.getBoolean("admin");
+		String mdp = pRS.getString("mdp");
+		String sel = pRS.getString("sel");
 
 		Utilisateur utilisateur = new Utilisateur(pseudo, mail, avatar, admin);
+		utilisateur.setMdp(mdp);
+		utilisateur.setSel(sel);
 		
 		LOGGER.traceExit(utilisateur);
 		return utilisateur;

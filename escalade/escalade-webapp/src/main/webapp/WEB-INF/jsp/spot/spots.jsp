@@ -14,11 +14,13 @@
 		<s:text name="spots" />
 	</h1>
 	
-	<p>
-		<s:a action="versCreerSpot">
-			<s:text name="spots.creer" />
-		</s:a>
-	</p>
+	<s:if test="#session.utilisateur">
+		<p>
+			<s:a action="versCreerSpot">
+				<s:text name="spots.creer" />
+			</s:a>
+		</p>
+	</s:if>
 
 	<s:form>
 		<legend>

@@ -19,6 +19,7 @@ public interface UtilisateurManager {
 
 	/**
 	 * Enregistre l'utilisateur dans la base de données
+	 * Rq : un sel sera généré et le mot de passe sécurisé
 	 * @param utilisateur
 	 * @throws FunctionalException levée en cas de non validation du bean
 	 */
@@ -26,11 +27,12 @@ public interface UtilisateurManager {
 	
 	/**
 	 * Modifie l'utilisateur dans la base de données
+	 * Modifie le mot de passe si nouveauMdp n'est pas null
 	 * ATTENTION le pseudo ne peut pas être modifié (clé dans la base de données)
 	 * @param utilisateur
 	 * @throws FunctionalException levée en cas de non validation du bean
 	 */
-	public void updateUtilisateur(Utilisateur utilisateur) throws FunctionalException;
+	public void updateUtilisateur(Utilisateur utilisateur , String nouveauMdp) throws FunctionalException;
 	
 	/**
 	 * Supprime de la base de données l'utilisateur correspondant au pseudo
@@ -38,4 +40,12 @@ public interface UtilisateurManager {
 	 */
 	public void deleteUtilisateur(String pseudo);
 
+	/**
+	 * Vérifie la concordance du couple pseudo-mot de passe dans la base de donnée et 
+	 * retourne l'utilisateur si le mdp correpond au pseudo et null sinon
+	 * @param pseudo
+	 * @param mdp
+	 * @return Utilisateur
+	 */
+	public Utilisateur authentification(String pseudo, String mdp);
 }

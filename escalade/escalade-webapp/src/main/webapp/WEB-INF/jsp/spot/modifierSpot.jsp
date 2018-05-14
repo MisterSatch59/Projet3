@@ -10,8 +10,6 @@
 <body class="corps container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
-	<s:actionerror/>
-	
 	<s:form action="modifierSpot">
 		<legend>
 			<s:text name="modifierSpot.title" />

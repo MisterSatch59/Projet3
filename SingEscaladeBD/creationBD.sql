@@ -1,5 +1,6 @@
 --CREATION TABLES
 
+
 CREATE SEQUENCE public.photo_id_seq;
 
 CREATE TABLE public.photo (
@@ -61,6 +62,7 @@ CREATE TABLE public.utilisateur (
                 mdp VARCHAR(100) NOT NULL,
                 avatar VARCHAR(100),
                 admin BOOLEAN NOT NULL,
+                sel VARCHAR(20) NOT NULL,
                 CONSTRAINT utilisateur_pk PRIMARY KEY (pseudo)
 );
 
@@ -553,7 +555,8 @@ INSERT INTO public.departement (numero,nom) VALUES ('976','Mayotte');
 
 --SPOTS DE DEMONSTRATION
 
-INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin) VALUES ('SingEscalade','admin@singescalade.fr','mdp','singe.png',true);       --Voir la gestion des mdp ----------------------------------------------
+INSERT INTO public.utilisateur (pseudo,mail,mdp,sel,avatar,admin) VALUES ('SingEscalade','admin@singescalade.fr','A7ng2e5LtPi3rDlkkV2YI/0QUiiLKUMoLGy9hhmR2aE=','kkp2PoZwmDDrCRH2zHtt','singe.png',true);
+INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin,sel) VALUES ('Oltenos','test@test.com','CCE01JjIVzCQhVB0ROF2yTI0SqaseuF5dtIQvJSfHzU=',null,false,'0NVyaDTwyXZ6yHRMDbGY');
 
 INSERT INTO public.zone_texte (titre) VALUES ('Super Spot proche de Toulon');
 INSERT INTO public.paragraphe (texte,num_ordre,zone_texte_id) VALUES ('Il s''agit d''un spot avec une super vue sur Toulon et sa rade' ,0,1);
@@ -730,7 +733,7 @@ INSERT INTO public.spot_profil (spot_id,profil) VALUES (16,'Dalle');
 INSERT INTO public.spot_type (spot_id,type) VALUES (16,'Falaise');
 
 INSERT INTO public.spot (nom,pseudo_auteur,ouvert,adapte_enfants,latitude,longitude,ville_id,presentation_id,nb_secteur,nb_voie,hauteur_min,hauteur_max,difficulte_min,difficulte_max)
-VALUES ('Tourris','SingEscalade',true,true,'43° 10'' 2'''' N' ,'5° 57'' 56'''' E',1,null,null,'Entre 50 et 100 voies',null,'30','4b','8b');
+VALUES ('Tourris','Oltenos',true,true,'43° 10'' 2'''' N' ,'5° 57'' 56'''' E',1,null,null,'Entre 50 et 100 voies',null,'30','4b','8b');
 INSERT INTO public.spot_orientation (spot_id,orientation) VALUES (17,'S');
 INSERT INTO public.spot_orientation (spot_id,orientation) VALUES (17,'SE');
 INSERT INTO public.spot_orientation (spot_id,orientation) VALUES (17,'E');
@@ -767,7 +770,12 @@ INSERT INTO public.zone_texte (titre) VALUES ('Condition de prêt :');
 INSERT INTO public.paragraphe (texte,num_ordre,zone_texte_id) VALUES ('Je prête ce Topo pour une durée d''un week-end maximum, pour plus de détails contactez moi par mail! A bientôt' ,0,4);
 INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_id) VALUES ('Grimper autour de Toulon','SingEscalade',4);
 
---EXEMPLE DE PRET DU TOPO A MAX
-INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin) VALUES ('Max','max@free.fr','mdp',null,false);
-INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Max',1,{d '2018-04-21'},{d '2018-04-22'});
+--EXEMPLE DE PRET DU TOPO A OLTENOS
+
+INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Oltenos',1,{d '2018-05-21'},{d '2018-05-22'});
+
+
+
+
+
 
