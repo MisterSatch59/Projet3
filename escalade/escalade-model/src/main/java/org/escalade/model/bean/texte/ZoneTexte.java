@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  * @author Oltenos
  */
 public class ZoneTexte {
-	
+
 	/**
 	 * Identifiant
 	 */
@@ -21,16 +21,17 @@ public class ZoneTexte {
 	 * titre de la zone de texte
 	 */
 	@NotNull
-	@Size (min=1, max=100)
+	@Size(min = 1, max = 100)
 	private String titre;
 	/**
 	 * liste des paragraphe ordonnées de la zone de texte
 	 */
 	@NotNull
 	private List<@NotNull @NotEmpty String> listParagraphes;
-	
+
 	/**
 	 * Constructeur avec paramètres
+	 * 
 	 * @param id
 	 * @param titre
 	 */
@@ -38,23 +39,28 @@ public class ZoneTexte {
 		this.id = id;
 		this.titre = titre;
 	}
-	
-	//Getters et Setters
+
+	// Getters et Setters
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getTitre() {
 		return titre;
 	}
+
 	public void setTitre(String titre) {
 		this.titre = titre;
 	}
+
 	public List<String> getListParagraphes() {
 		return listParagraphes;
 	}
+
 	public void setListParagraphes(List<String> listParagraphes) {
 		this.listParagraphes = listParagraphes;
 	}

@@ -56,24 +56,31 @@ public class ExemplaireTopo {
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public Topo getTopo() {
 		return topo;
 	}
+
 	public void setTopo(Topo topo) {
 		this.topo = topo;
 	}
+
 	public Utilisateur getProprietaire() {
 		return proprietaire;
 	}
+
 	public void setProprietaire(Utilisateur proprietaire) {
 		this.proprietaire = proprietaire;
 	}
+
 	public ZoneTexte getCondition() {
 		return condition;
 	}
+
 	public void setCondition(ZoneTexte condition) {
 		this.condition = condition;
 	}
@@ -82,7 +89,5 @@ public class ExemplaireTopo {
 	public String toString() {
 		return "ExemplaireTopo [id=" + id + ", topo=" + topo + "]";
 	}
-	
-	
 
 };

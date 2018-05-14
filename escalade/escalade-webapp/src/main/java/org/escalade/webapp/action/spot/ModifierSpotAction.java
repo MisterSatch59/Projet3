@@ -17,6 +17,8 @@ import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.spot.Ville;
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.exception.FunctionalException;
+import org.escalade.model.exception.NotFoundException;
+import org.escalade.model.exception.TechnicalException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -184,8 +186,9 @@ public class ModifierSpotAction extends ActionSupport {
 	 * Action de chargement de la page de modification d'un spot
 	 * 
 	 * @return SUCCESS
+	 * @throws NotFoundException 
 	 */
-	public String versModifier() {
+	public String versModifier() throws NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
@@ -208,8 +211,11 @@ public class ModifierSpotAction extends ActionSupport {
 	 * Action de modification d'un spot
 	 * 
 	 * @return SUCCESS ou INPUT en cas d'informations invalides dans le formulaire
+	 * @throws NotFoundException 
+	 * @throws FunctionalException 
+	 * @throws TechnicalException 
 	 */
-	public String modifier() {
+	public String modifier() throws NotFoundException, FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 		
@@ -288,12 +294,8 @@ public class ModifierSpotAction extends ActionSupport {
 		spot.setOrientations(listOrientationsSpot);
 		
 		//Mise à jour dans la base de donnés
-		try {
-			managerFactory.getSpotManager().updateSpot(spot);
-		} catch (FunctionalException e) {
-			result = ActionSupport.ERROR;
-			this.addActionError(e.getMessage());
-		}
+		managerFactory.getSpotManager().updateSpot(spot);
+
 
 		LOGGER.debug("spot = " + spot);
 
@@ -399,7 +401,12 @@ public class ModifierSpotAction extends ActionSupport {
 		}
 		
 		if(this.hasFieldErrors()) {
-			spot = managerFactory.getSpotManager().getSpot(spotId);
+			try {
+				spot = managerFactory.getSpotManager().getSpot(spotId);
+			} catch (NotFoundException e) {
+				LOGGER.error(e);
+				this.addActionError(getText(e.getMessage()));
+			}
 			listDepartements = managerFactory.getSpotManager().getDepartements();
 			listTypes = managerFactory.getSpotManager().getTypes();
 			listProfils = managerFactory.getSpotManager().getProfils();

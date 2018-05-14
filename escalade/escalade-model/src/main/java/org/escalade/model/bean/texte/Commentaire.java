@@ -15,7 +15,7 @@ import org.escalade.model.bean.utilisateur.Utilisateur;
  * @author Oltenos
  */
 public class Commentaire extends @Valid ZoneTexte {
-	
+
 	/**
 	 * Date et heure d'écriture du commentaire
 	 */
@@ -32,9 +32,9 @@ public class Commentaire extends @Valid ZoneTexte {
 	 */
 	private boolean alerte;
 
-
 	/**
 	 * Constructeur avec paramètres
+	 * 
 	 * @param id
 	 * @param titre
 	 * @param listParagraphes
@@ -42,7 +42,8 @@ public class Commentaire extends @Valid ZoneTexte {
 	 * @param auteur
 	 * @param alerte
 	 */
-	public Commentaire(int id, String titre, List<String> listParagraphes, Date date, Utilisateur auteur, boolean alerte) {
+	public Commentaire(int id, String titre, List<String> listParagraphes, Date date, Utilisateur auteur,
+			boolean alerte) {
 		super(id, titre);
 		this.setListParagraphes(listParagraphes);
 		this.date = date;
@@ -50,7 +51,7 @@ public class Commentaire extends @Valid ZoneTexte {
 		this.alerte = alerte;
 	}
 
-	//Getters et Setters
+	// Getters et Setters
 	public Date getDate() {
 		return date;
 	}
@@ -80,6 +81,4 @@ public class Commentaire extends @Valid ZoneTexte {
 		return "Commentaire [date=" + date + ", getId()=" + getId() + ", getTitre()=" + getTitre() + "]";
 	}
 
-	
-	
 };

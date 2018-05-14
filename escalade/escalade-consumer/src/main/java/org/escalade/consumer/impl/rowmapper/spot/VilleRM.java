@@ -14,32 +14,31 @@ import org.springframework.jdbc.core.RowMapper;
 
 /**
  * RowMapper pour le bean Ville
+ * 
  * @author Oltenos
  *
  */
 @Named
-public class VilleRM implements RowMapper<Ville>{
+public class VilleRM implements RowMapper<Ville> {
 	private static final Logger LOGGER = LogManager.getLogger(VilleRM.class);
 
 	@Inject
 	private DaoFactory daoFactory;
-	
+
 	@Override
 	public Ville mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
-		
-		//Création du Bean département
+
+		// Création du Bean département
 		String numeroDepartement = pRS.getString("departement");
 		Departement departement = daoFactory.getSpotDao().getDepartement(numeroDepartement);
-		
-		//Création du Bean Ville (utilise le bean département ci dessus)
-		int villeId= pRS.getInt("id");
-		String cp= pRS.getString("cp");
+
+		// Création du Bean Ville (utilise le bean département ci dessus)
+		int villeId = pRS.getInt("id");
+		String cp = pRS.getString("cp");
 		String nomVille = pRS.getString("nom");
-		Ville ville = new Ville(villeId,nomVille,cp,departement);
-		
-		
-		
+		Ville ville = new Ville(villeId, nomVille, cp, departement);
+
 		LOGGER.traceExit(ville);
 		return ville;
 	}

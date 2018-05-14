@@ -13,12 +13,13 @@ import org.escalade.business.contract.manager.UtilisateurManager;
 
 /**
  * Implémentation de ManagerFactory
+ * 
  * @author Oltenos
  *
  */
 @Named("managerFactory")
 public class ManagerFactoryImpl implements ManagerFactory {
-	
+
 	@Inject
 	private UtilisateurManager utilisateurManager;
 	@Inject

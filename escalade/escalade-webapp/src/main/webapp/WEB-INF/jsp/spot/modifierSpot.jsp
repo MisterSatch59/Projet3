@@ -70,7 +70,7 @@
 		<s:textarea id = "descriptionTexte" name="descriptionTexte" requiredLabel="false" value="%{texte}" />
 	
 		<s:hidden name="spotId" value="%{spot.id}" />
-		<s:submit key="valider" name=""/>
+		<s:submit class="btn btn-primary" key="valider" name=""/>
 	</s:form>
 	
 </body>

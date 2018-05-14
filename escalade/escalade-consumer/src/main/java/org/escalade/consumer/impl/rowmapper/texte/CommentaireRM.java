@@ -22,25 +22,25 @@ public class CommentaireRM implements RowMapper<Commentaire> {
 
 	@Inject
 	private DaoFactory daoFactory;
-	
+
 	@Override
 	public Commentaire mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
-		
+
 		int id = pRS.getInt("id");
-		
+
 		Date date = pRS.getDate("date");
 		Utilisateur auteur = daoFactory.getUtilisateurDao().getUtilisateur(pRS.getString("pseudo_auteur"));
-		boolean alerte =pRS.getBoolean("alerte");
-		
+		boolean alerte = pRS.getBoolean("alerte");
+
 		ZoneTexte zoneTexte = daoFactory.getZoneTexteDao().getZoneTexte(id);
-		String titre =zoneTexte.getTitre();
+		String titre = zoneTexte.getTitre();
 		List<String> listParagraphes = zoneTexte.getListParagraphes();
-		
-		Commentaire commentaire = new Commentaire(id,titre,listParagraphes,date,auteur,alerte);
-		
+
+		Commentaire commentaire = new Commentaire(id, titre, listParagraphes, date, auteur, alerte);
+
 		LOGGER.traceExit(commentaire);
-		return commentaire ;
+		return commentaire;
 	}
-	
+
 }

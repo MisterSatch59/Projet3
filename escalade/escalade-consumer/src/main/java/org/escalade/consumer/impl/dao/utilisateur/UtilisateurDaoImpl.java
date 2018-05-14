@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 /**
  * Implementation de UtilisateurDao
+ * 
  * @author Oltenos
  *
  */
@@ -29,14 +30,13 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 	@Override
 	public Utilisateur getUtilisateur(String pseudo) {
 		LOGGER.traceEntry("pseudo = " + pseudo);
-		
-		if (pseudo!=null && !pseudo.isEmpty())
-		{
+
+		if (pseudo != null && !pseudo.isEmpty()) {
 			String vSQL = "SELECT pseudo,mail,mdp,sel,avatar,admin FROM public.utilisateur WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("pseudo", pseudo);
-			
+
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 			List<Utilisateur> utilisateur = vJdbcTemplate.query(vSQL, vParams, utilisateurRM);
@@ -47,7 +47,7 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 				LOGGER.traceExit(utilisateur.get(0));
 				return utilisateur.get(0);
 			}
-		}else {
+		} else {
 			LOGGER.traceExit("null");
 			return null;
 		}
@@ -56,9 +56,8 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 	@Override
 	public void createUtilisateur(Utilisateur utilisateur) {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
-		
-		if(utilisateur!=null && utilisateur.getPseudo()!=null && !utilisateur.getPseudo().isEmpty())
-		{
+
+		if (utilisateur != null && utilisateur.getPseudo() != null && !utilisateur.getPseudo().isEmpty()) {
 			String vSQL = "INSERT INTO public.utilisateur (pseudo,mail,mdp,sel,avatar,admin) VALUES (:pseudo,:mail,:mdp,:sel,:avatar,:admin)";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -73,34 +72,33 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 
 			vJdbcTemplate.update(vSQL, vParams);
 		}
-		
+
 		LOGGER.traceExit();
 	}
 
 	@Override
 	public void deleteUtilisateur(String pseudo) {
 		LOGGER.traceEntry("pseudo = " + pseudo);
-		
-		if(pseudo!=null && !pseudo.isEmpty()) {
+
+		if (pseudo != null && !pseudo.isEmpty()) {
 			String vSQL = "DELETE FROM public.utilisateur WHERE pseudo = :pseudo";
-			
+
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("pseudo", pseudo);
-			
+
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 			vJdbcTemplate.update(vSQL, vParams);
 		}
-		
+
 		LOGGER.traceExit();
 	}
 
 	@Override
 	public void updateUtilisateur(Utilisateur utilisateur) {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
-		
-		if(utilisateur!=null && utilisateur.getPseudo()!=null && !utilisateur.getPseudo().isEmpty())
-		{
+
+		if (utilisateur != null && utilisateur.getPseudo() != null && !utilisateur.getPseudo().isEmpty()) {
 			String vSQL = "UPDATE public.utilisateur SET mail = :mail, mdp = :mdp, sel = :sel, avatar = :avatar, admin = :admin WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -115,7 +113,7 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 
 			vJdbcTemplate.update(vSQL, vParams);
 		}
-		
+
 		LOGGER.traceExit();
 	}
 }

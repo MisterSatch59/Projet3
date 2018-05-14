@@ -10,6 +10,7 @@ import org.escalade.business.contract.manager.UtilisateurManager;
 import org.escalade.business.impl.PasswordUtils;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.escalade.model.exception.FunctionalException;
+import org.escalade.model.exception.TechnicalException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -24,23 +25,26 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 	private static final Logger LOGGER = LogManager.getLogger(UtilisateurManagerImpl.class);
 
 	@Override
-	public Utilisateur getUtilisateur(String pseudo) {
+	public Utilisateur getUtilisateur(String pseudo) throws FunctionalException {
 		LOGGER.traceEntry("pseudo = " + pseudo);
 
-		if (pseudo != null) {
-			Utilisateur result = this.getDaoFactory().getUtilisateurDao().getUtilisateur(pseudo);
-
-			LOGGER.traceExit(result);
-			return result;
+		if (pseudo == null) {
+			throw new FunctionalException("Invalid informations sent to database");
 		}
 
-		LOGGER.traceExit(null);
-		return null;
+		Utilisateur result = this.getDaoFactory().getUtilisateurDao().getUtilisateur(pseudo);
+
+		LOGGER.traceExit(result);
+		return result;
 	}
 
 	@Override
-	public void createUtilisateur(Utilisateur utilisateur) throws FunctionalException {
+	public void createUtilisateur(Utilisateur utilisateur) throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
+
+		if (utilisateur == null) {
+			throw new FunctionalException("Invalid informations sent to database");
+		}
 
 		// Génération du sel
 		utilisateur.setSel(PasswordUtils.getSalt(20));
@@ -64,44 +68,37 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 			} finally {
 				if (vTransactionStatus != null) {
 					this.getPlatformTransactionManager().rollback(vTransactionStatus);
+					throw new TechnicalException("Technical error with the database");
 				}
 			}
 		} else {
-			String message = "";
-			int i = 0;
-			for (ConstraintViolation<Utilisateur> constraintViolation : violations) {
-				if (i == 0) {
-					message += constraintViolation.getMessage();
-					i++;
-				} else {
-					message += ", " + constraintViolation.getMessage();
-				}
-			}
-			throw new FunctionalException(message);
+			throw new FunctionalException("Invalid informations sent to database");
 		}
 
 		LOGGER.traceExit();
 	}
 
 	@Override
-	public void updateUtilisateur(Utilisateur utilisateur, String nouveauMdp) throws FunctionalException {
+	public void updateUtilisateur(Utilisateur utilisateur, String nouveauMdp)
+			throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
 
-		if (nouveauMdp != null) {
-			// Génération d'un nouveau sel
-			utilisateur.setSel(PasswordUtils.getSalt(20));
-
-			// Génération du nouveau mot de passe sécurisé
-			String mdpSecurise = PasswordUtils.generateSecurePassword(nouveauMdp, utilisateur.getSel());
-			utilisateur.setMdp(mdpSecurise);
+		if (utilisateur == null || nouveauMdp == null) {
+			throw new FunctionalException("Invalid informations");
 		}
+
+		// Génération d'un nouveau sel
+		utilisateur.setSel(PasswordUtils.getSalt(20));
+
+		// Génération du nouveau mot de passe sécurisé
+		String mdpSecurise = PasswordUtils.generateSecurePassword(nouveauMdp, utilisateur.getSel());
+		utilisateur.setMdp(mdpSecurise);
 
 		Set<ConstraintViolation<Utilisateur>> violations = this.getValidator().validate(utilisateur);
 		LOGGER.debug("resultat validation utilisateur = " + violations);
 
 		if (violations.isEmpty()) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-					.getTransaction(new DefaultTransactionDefinition());
+			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 			try {
 				this.getDaoFactory().getUtilisateurDao().updateUtilisateur(utilisateur);
 
@@ -111,41 +108,34 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 			} finally {
 				if (vTransactionStatus != null) {
 					this.getPlatformTransactionManager().rollback(vTransactionStatus);
+					throw new TechnicalException("Technical error with the database");
 				}
 			}
 		} else {
-			String message = "";
-			int i = 0;
-			for (ConstraintViolation<Utilisateur> constraintViolation : violations) {
-				if (i == 0) {
-					message += constraintViolation.getMessage();
-					i++;
-				} else {
-					message += ", " + constraintViolation.getMessage();
-				}
-			}
-			throw new FunctionalException(message);
+			throw new FunctionalException("Invalid informations sent to database");
 		}
 
 		LOGGER.traceExit();
 	}
 
 	@Override
-	public void deleteUtilisateur(String pseudo) {
+	public void deleteUtilisateur(String pseudo) throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("pseudo = " + pseudo);
 
-		if (pseudo != null) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-					.getTransaction(new DefaultTransactionDefinition());
-			try {
-				this.getDaoFactory().getUtilisateurDao().deleteUtilisateur(pseudo);
-				TransactionStatus vTScommit = vTransactionStatus;
-				vTransactionStatus = null;
-				this.getPlatformTransactionManager().commit(vTScommit);
-			} finally {
-				if (vTransactionStatus != null) {
-					this.getPlatformTransactionManager().rollback(vTransactionStatus);
-				}
+		if (pseudo == null) {
+			throw new FunctionalException("Invalid informations");
+		}
+
+		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
+		try {
+			this.getDaoFactory().getUtilisateurDao().deleteUtilisateur(pseudo);
+			TransactionStatus vTScommit = vTransactionStatus;
+			vTransactionStatus = null;
+			this.getPlatformTransactionManager().commit(vTScommit);
+		} finally {
+			if (vTransactionStatus != null) {
+				this.getPlatformTransactionManager().rollback(vTransactionStatus);
+				throw new TechnicalException("Technical error with the database");
 			}
 		}
 
@@ -153,8 +143,12 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 	}
 
 	@Override
-	public Utilisateur authentification(String pseudo, String mdp) {
+	public Utilisateur authentification(String pseudo, String mdp) throws FunctionalException {
 		LOGGER.traceEntry("pseudo = " + pseudo);
+		
+		if (pseudo == null || mdp == null) {
+			throw new FunctionalException("Invalid informations sent to database");
+		}
 
 		Utilisateur utilisateurBD = getUtilisateur(pseudo);
 

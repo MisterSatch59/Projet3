@@ -13,13 +13,13 @@ public class Departement {
 	 * Numéro de département (2 ou 3 charactères)
 	 */
 	@NotNull
-	@Size(min=1, max=3)
+	@Size(min = 1, max = 3)
 	private String numero;
 	/**
 	 * Nom du département
 	 */
 	@NotNull
-	@Size(min=2, max=40)
+	@Size(min = 2, max = 40)
 	private String nom;
 
 	/**
@@ -37,12 +37,15 @@ public class Departement {
 	public String getNumero() {
 		return this.numero;
 	}
+
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
+
 	public String getNom() {
 		return this.nom;
 	}
+
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
@@ -51,8 +54,6 @@ public class Departement {
 	public String toString() {
 		return "Departement [numero=" + numero + ", nom=" + nom + "]";
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -76,5 +77,4 @@ public class Departement {
 		return true;
 	}
 
-	
 };

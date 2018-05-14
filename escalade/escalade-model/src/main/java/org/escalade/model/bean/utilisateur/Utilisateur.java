@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  * @author Oltenos
  */
 public class Utilisateur {
-	
+
 	/**
 	 * Pseudo de l'utilisateur
 	 */
@@ -24,6 +24,7 @@ public class Utilisateur {
 	/**
 	 * adresse de l'image de l'avatar de l'utilisateur - peut être null
 	 */
+	@Size(max = 100)
 	private String avatar;
 	/**
 	 * Indique si l'utilisateur est un administrateur
@@ -41,10 +42,10 @@ public class Utilisateur {
 	@NotNull
 	@Size(min = 20, max = 20)
 	private String sel;
-	
-	
+
 	/**
 	 * Constructeur avec paramètres
+	 * 
 	 * @param pseudo
 	 * @param mail
 	 * @param avatar
@@ -54,35 +55,42 @@ public class Utilisateur {
 		this.pseudo = pseudo;
 		this.mail = mail;
 		this.avatar = avatar;
-		this.admin=admin;
+		this.admin = admin;
 	}
 
-	//Getters et Setters
+	// Getters et Setters
 	public String getPseudo() {
 		return pseudo;
 	}
+
 	public void setPseudo(String pseudo) {
 		this.pseudo = pseudo;
 	}
+
 	public String getMail() {
 		return mail;
 	}
+
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+
 	public String getAvatar() {
 		return avatar;
 	}
+
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
 	public boolean isAdmin() {
 		return admin;
 	}
+
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
-	
+
 	public String getMdp() {
 		return mdp;
 	}

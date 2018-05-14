@@ -7,21 +7,22 @@ import org.escalade.model.bean.spot.Departement;
 
 /**
  * Classe de critère de recherche de Spot
+ * 
  * @author Oltenos
  *
  */
 public class RechercheSpot {
-	
+
 	/**
 	 * Critère de recherche sur le nom de la ville
 	 */
-	@Size (min=2, max=100, message="le nom de la ville doit contenir entre 2 et 100 cractères")
+	@Size(min = 2, max = 100)
 	private String nomVille;
-	
+
 	/**
 	 * Critère de recherche sur le code postal
 	 */
-	@Size (min=5, max=5, message="le code postal de la ville doit contenir 5 chiffres")
+	@Size(min = 5, max = 5)
 	private String cpVille;
 
 	/**
@@ -29,17 +30,17 @@ public class RechercheSpot {
 	 */
 	@Valid
 	private Departement departement;
-	
+
 	/**
 	 * Critére de recherche sur la difficultéMin
 	 */
-	@Size (min=2, max=2, message="erreur dans le contenu de la difficulté minimum")
+	@Size(min = 2, max = 2)
 	private String difficulteMin;
-	
+
 	/**
 	 * Critére de recherche sur la difficultéMin
 	 */
-	@Size (min=2, max=2, message="erreur dans le contenu de la difficulté minimum")
+	@Size(min = 2, max = 2)
 	private String difficulteMax;
 
 	public String getNomVille() {
@@ -87,7 +88,5 @@ public class RechercheSpot {
 		return "RechercheSpot [nomVille=" + nomVille + ", cpVille=" + cpVille + ", departement=" + departement
 				+ ", difficulteMin=" + difficulteMin + ", difficulteMax=" + difficulteMax + "]";
 	}
-	
-	
-	
+
 }

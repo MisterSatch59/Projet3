@@ -17,7 +17,7 @@ public class UtilisateurRM implements RowMapper<Utilisateur> {
 	@Override
 	public Utilisateur mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
-		
+
 		String pseudo = pRS.getString("pseudo");
 		String mail = pRS.getString("mail");
 		String avatar = pRS.getString("avatar");
@@ -28,7 +28,7 @@ public class UtilisateurRM implements RowMapper<Utilisateur> {
 		Utilisateur utilisateur = new Utilisateur(pseudo, mail, avatar, admin);
 		utilisateur.setMdp(mdp);
 		utilisateur.setSel(sel);
-		
+
 		LOGGER.traceExit(utilisateur);
 		return utilisateur;
 	}

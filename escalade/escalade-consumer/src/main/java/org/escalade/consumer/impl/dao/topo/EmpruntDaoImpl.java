@@ -16,7 +16,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @Named("empruntDao")
-public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao{
+public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao {
 	private static final Logger LOGGER = LogManager.getLogger(EmpruntDaoImpl.class);
 
 	@Inject
@@ -25,14 +25,14 @@ public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao{
 	@Override
 	public List<Emprunt> getListEmprunt(String pseudoEmprunteur) {
 		LOGGER.traceEntry("pseudoEmprunteur = " + pseudoEmprunteur);
-		
-		if(pseudoEmprunteur!=null) {
+
+		if (pseudoEmprunteur != null) {
 			String vSQL = "SELECT * FROM public.emprunt WHERE pseudo_emprunteur = ?";
-			
+
 			JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
-	
+
 			List<Emprunt> listEmprunt = vJdbcTemplate.query(vSQL, empruntRM, pseudoEmprunteur);
-			
+
 			LOGGER.traceExit(listEmprunt);
 			return listEmprunt;
 		}
@@ -44,7 +44,7 @@ public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao{
 	@Override
 	public List<Emprunt> getListEmprunt(int exemplaireTopoId) {
 		LOGGER.traceEntry("exemplaireTopoId = " + exemplaireTopoId);
-		
+
 		String vSQL = "SELECT * FROM public.emprunt WHERE exemplaire_topo_id = ?";
 
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
@@ -58,8 +58,8 @@ public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao{
 	@Override
 	public Emprunt createEmprunt(Emprunt emprunt) {
 		LOGGER.traceEntry("emprunt = " + emprunt);
-		
-		if(emprunt!=null) {
+
+		if (emprunt != null) {
 			String vSQL = "INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES (:pseudoEmprunteur, :exemplaireTopoId, :debut, :fin)";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -67,12 +67,12 @@ public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao{
 			vParams.addValue("exemplaireTopoId", emprunt.getExemplaire().getId());
 			vParams.addValue("debut", emprunt.getDateDebut());
 			vParams.addValue("fin", emprunt.getDateFin());
-			
+
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 			vJdbcTemplate.update(vSQL, vParams);
 		}
-		
+
 		LOGGER.traceExit(emprunt);
 		return emprunt;
 	}
@@ -80,16 +80,16 @@ public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao{
 	@Override
 	public void deleteEmprunt(int id) {
 		LOGGER.traceEntry("id = " + id);
-		
+
 		String vSQL = "DELETE FROM public.emprunt WHERE id = :id";
-		
+
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
 		vParams.addValue("id", id);
-		
+
 		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
-		
+
 		vJdbcTemplate.update(vSQL, vParams);
-		
+
 		LOGGER.traceExit();
 	}
 

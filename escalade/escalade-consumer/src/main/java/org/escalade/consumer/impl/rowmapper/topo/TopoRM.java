@@ -18,21 +18,21 @@ public class TopoRM implements RowMapper<Topo> {
 
 	@Inject
 	private DaoFactory daoFactory;
-	
+
 	@Override
 	public Topo mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
-		
+
 		String titre = pRS.getString("titre");
-		
+
 		int descriptionId = pRS.getInt("description_id");
 		ZoneTexte description = null;
-		if(!pRS.wasNull()) {
+		if (!pRS.wasNull()) {
 			description = daoFactory.getZoneTexteDao().getZoneTexte(descriptionId);
 		}
-		
-		Topo topo = new Topo(titre,description);
-		
+
+		Topo topo = new Topo(titre, description);
+
 		LOGGER.traceExit(topo);
 		return topo;
 	}

@@ -25,12 +25,12 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 	private RowMapper<ExemplaireTopo> exemplaireTopoRM;
 	@Inject
 	private DaoFactory daoFactory;
-	
+
 	@Override
 	public List<ExemplaireTopo> getListExemplaireTopo(String pseudoProprietaire) {
 		LOGGER.traceEntry("pseudoProprietaire = " + pseudoProprietaire);
-		
-		if(pseudoProprietaire!=null) {
+
+		if (pseudoProprietaire != null) {
 			String vSQL = "SELECT * FROM public.exemplaire_topo WHERE pseudo_proprietaire = ?";
 
 			JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
@@ -40,7 +40,7 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 			LOGGER.traceExit(listExemplaireTopo);
 			return listExemplaireTopo;
 		}
-		
+
 		LOGGER.traceExit(null);
 		return null;
 
@@ -49,17 +49,17 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 	@Override
 	public ExemplaireTopo getExemplaireTopo(int id) {
 		LOGGER.traceEntry("id = " + id);
-		
+
 		String vSQL = "SELECT * FROM public.exemplaire_topo WHERE id = ?";
 
 		JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
 
 		List<ExemplaireTopo> exemplaireTopo = vJdbcTemplate.query(vSQL, exemplaireTopoRM, id);
-		
-		if(exemplaireTopo.isEmpty()) {
+
+		if (exemplaireTopo.isEmpty()) {
 			LOGGER.traceExit("null");
 			return null;
-		}else {
+		} else {
 			LOGGER.traceExit(exemplaireTopo.get(0));
 			return exemplaireTopo.get(0);
 		}
@@ -68,22 +68,22 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 	@Override
 	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo) {
 		LOGGER.traceEntry("exTopo = " + exemplaireTopo);
-		
-		if(exemplaireTopo!=null) {
+
+		if (exemplaireTopo != null) {
 			ZoneTexte condition = daoFactory.getZoneTexteDao().createZoneTexte(exemplaireTopo.getCondition());
-			
+
 			String vSQL = "INSERT INTO public.exemplaire_topo (titre_topo, pseudo_proprietaire, condition_id) VALUES (:titreTopo, :pseudoProprietaire, :conditionId)";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("titreTopo", exemplaireTopo.getTopo().getTitre());
 			vParams.addValue("pseudoProprietaire", exemplaireTopo.getProprietaire().getPseudo());
 			vParams.addValue("conditionId", condition.getId());
-			
+
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 			vJdbcTemplate.update(vSQL, vParams);
 		}
-		
+
 		LOGGER.traceExit(exemplaireTopo);
 		return exemplaireTopo;
 	}
@@ -91,24 +91,23 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 	@Override
 	public void deleteExemplaireTopo(int id) {
 		LOGGER.traceEntry("id = " + id);
-		
+
 		ZoneTexte condition = this.getExemplaireTopo(id).getCondition();
-		
+
 		String vSQL = "DELETE FROM public.exemplaire_topo WHERE id = :id";
-		
+
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
 		vParams.addValue("id", id);
-		
+
 		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
-		
+
 		vJdbcTemplate.update(vSQL, vParams);
-		
-		if(condition != null) {
+
+		if (condition != null) {
 			daoFactory.getZoneTexteDao().deleteZoneTexte(condition.getId());
 		}
-		
+
 		LOGGER.traceExit();
 	}
-
 
 }

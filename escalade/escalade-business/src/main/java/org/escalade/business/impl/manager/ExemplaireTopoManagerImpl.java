@@ -1,5 +1,6 @@
 package org.escalade.business.impl.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.escalade.business.contract.manager.ExemplaireTopoManager;
 import org.escalade.model.bean.topo.ExemplaireTopo;
 import org.escalade.model.exception.FunctionalException;
+import org.escalade.model.exception.NotFoundException;
+import org.escalade.model.exception.TechnicalException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -19,73 +22,78 @@ public class ExemplaireTopoManagerImpl extends AbstractManagerImpl implements Ex
 	private static final Logger LOGGER = LogManager.getLogger(ExemplaireTopoManagerImpl.class);
 
 	@Override
-	public List<ExemplaireTopo> getListExemplaireTopo(String pseudoProprietaire) {
+	public List<ExemplaireTopo> getListExemplaireTopo(String pseudoProprietaire) throws FunctionalException {
 		LOGGER.traceEntry("pseudoProprietaire = " + pseudoProprietaire);
-		
-		if(pseudoProprietaire!=null) {
-			List<ExemplaireTopo> result = this.getDaoFactory().getExemplaireTopoDao().getListExemplaireTopo(pseudoProprietaire);
-			
-			LOGGER.traceExit(result);
-			return result;
+
+		if (pseudoProprietaire == null) {
+			throw new FunctionalException("Invalid informations sent to database");
 		}
-		
-		LOGGER.traceExit(null);
-		return null;
+
+		List<ExemplaireTopo> result = this.getDaoFactory().getExemplaireTopoDao().getListExemplaireTopo(pseudoProprietaire);
+
+		if (result == null) {
+			result = new ArrayList<ExemplaireTopo>();
+		}
+
+		LOGGER.traceExit(result);
+		return result;
+
 	}
-	
+
 	@Override
-	public ExemplaireTopo getExemplaireTopo(int id) {
+	public ExemplaireTopo getExemplaireTopo(int id) throws NotFoundException {
 		LOGGER.traceEntry("id = " + id);
-		
+
 		ExemplaireTopo result = this.getDaoFactory().getExemplaireTopoDao().getExemplaireTopo(id);
 		
+		if(result==null) {
+			throw new NotFoundException("The copy of book copy was not found with id = " + id);
+		}
+
 		LOGGER.traceExit(result);
 		return result;
 	}
 
 	@Override
-	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo) throws FunctionalException {
+	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo) throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("spot = " + exemplaireTopo);
 		
+		if (exemplaireTopo == null) {
+			throw new FunctionalException("Invalid informations sent to database");
+		}
+
 		Set<ConstraintViolation<ExemplaireTopo>> violations = this.getValidator().validate(exemplaireTopo);
 		LOGGER.debug("resultat validation spot = " + violations);
-		
-		if(violations.isEmpty()) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
+
+		if (violations.isEmpty()) {
+			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
+					.getTransaction(new DefaultTransactionDefinition());
 			try {
 				exemplaireTopo = this.getDaoFactory().getExemplaireTopoDao().createExemplaireTopo(exemplaireTopo);
-	
+
 				TransactionStatus vTScommit = vTransactionStatus;
 				vTransactionStatus = null;
 				this.getPlatformTransactionManager().commit(vTScommit);
 			} finally {
 				if (vTransactionStatus != null) {
 					this.getPlatformTransactionManager().rollback(vTransactionStatus);
+					throw new TechnicalException("Technical error with the database");
 				}
 			}
-		}else {
-			String message = "";
-			int i=0;
-			for (ConstraintViolation<ExemplaireTopo> constraintViolation : violations) {
-				if(i==0) {
-					message += constraintViolation.getMessage();
-					i++;
-				}else{
-					message += ", " + constraintViolation.getMessage();
-				}
-			}
-			throw new FunctionalException(message);
+		} else {
+			throw new FunctionalException("Invalid informations sent to database");
 		}
-			
+
 		LOGGER.traceExit(exemplaireTopo);
 		return exemplaireTopo;
 	}
 
 	@Override
-	public void deleteExemplaireTopo(int id) {
+	public void deleteExemplaireTopo(int id) throws TechnicalException {
 		LOGGER.traceEntry("id = " + id);
-		
-		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
+
+		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
+				.getTransaction(new DefaultTransactionDefinition());
 		try {
 			this.getDaoFactory().getExemplaireTopoDao().deleteExemplaireTopo(id);
 
@@ -95,14 +103,11 @@ public class ExemplaireTopoManagerImpl extends AbstractManagerImpl implements Ex
 		} finally {
 			if (vTransactionStatus != null) {
 				this.getPlatformTransactionManager().rollback(vTransactionStatus);
+				throw new TechnicalException("Technical error with the database");
 			}
 		}
-		
+
 		LOGGER.traceExit();
 	}
-
-
-	
-	
 
 }

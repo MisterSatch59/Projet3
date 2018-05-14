@@ -85,14 +85,14 @@
 		</s:if>
 		
 	</ul>
-	<h3>Topos contenants ce spot: </h3>
+	<h3><s:text name="spotsInfo.listTopos" /> : </h3>
 	<ul>
 		<s:iterator value="listTopo" var="nom">
 			<s:property value="nom" /> - <s:a action="topoInfo"><s:param name="nomTopo" value="nom" /><s:text name="spotInfo.voirTopo" /></s:a><br/>
 		</s:iterator>
 	</ul>
 	
-	<h3>Alertes : </h3>
+	<h3><s:text name="alertes" /> : </h3>
 	<ul id="affAlertes">
 		<s:iterator value="spot.listCommentaires">
 
@@ -114,7 +114,7 @@
 		</s:iterator>
 	</ul>
 	
-	<h3>Commentaires : </h3>
+	<h3><s:text name="commentaires" /> : </h3>
 	<ul id="affCommentaires">
 		<s:iterator value="spot.listCommentaires">
 			<s:if test="alerte==false">

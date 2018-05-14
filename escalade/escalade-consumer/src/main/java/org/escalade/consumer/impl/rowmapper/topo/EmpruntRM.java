@@ -21,18 +21,18 @@ public class EmpruntRM implements RowMapper<Emprunt> {
 
 	@Inject
 	private DaoFactory daoFactory;
-	
+
 	@Override
 	public Emprunt mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
-		
+
 		int id = pRS.getInt("id");
 		Date dateDebut = pRS.getDate("debut");
 		Date DateFin = pRS.getDate("fin");
 		Utilisateur emprunteur = daoFactory.getUtilisateurDao().getUtilisateur(pRS.getString("pseudo_emprunteur"));
 		ExemplaireTopo exemplaire = daoFactory.getExemplaireTopoDao().getExemplaireTopo(pRS.getInt("exemplaire_topo_id"));
-		Emprunt emprunt = new Emprunt(id,dateDebut,DateFin,emprunteur,exemplaire);
-		
+		Emprunt emprunt = new Emprunt(id, dateDebut, DateFin, emprunteur, exemplaire);
+
 		LOGGER.traceExit(emprunt);
 		return emprunt;
 	}

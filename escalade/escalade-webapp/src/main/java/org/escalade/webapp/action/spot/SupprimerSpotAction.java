@@ -5,6 +5,8 @@ import javax.inject.Inject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.escalade.business.contract.ManagerFactory;
+import org.escalade.model.exception.TechnicalException;
+
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -44,8 +46,9 @@ public class SupprimerSpotAction extends ActionSupport {
 	 * Action de suppression d'un spot
 	 * 
 	 * @return SUCCESS
+	 * @throws TechnicalException 
 	 */
-	public String supprimerSpot() {
+	public String supprimerSpot() throws TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 

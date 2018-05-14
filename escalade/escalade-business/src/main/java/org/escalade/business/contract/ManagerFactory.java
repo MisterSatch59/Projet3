@@ -13,35 +13,40 @@ import org.escalade.business.contract.manager.UtilisateurManager;
  *
  */
 public interface ManagerFactory {
-	
+
 	/**
 	 * Retourne l'UtilisateurManager
+	 * 
 	 * @return UtilisateurManager
 	 */
 	public UtilisateurManager getUtilisateurManager();
-	
+
 	/**
 	 * Retourne le SpotManager
+	 * 
 	 * @return SpotManager
 	 */
 	public SpotManager getSpotManager();
-	
+
 	/**
-	 * Retourne le SpotManager
+	 * Retourne le TopoManager
+	 * 
 	 * @return TopoManager
 	 */
 	public TopoManager getTopoManager();
-	
+
 	/**
 	 * Retourne l'ExemplaireManager
+	 * 
 	 * @return ExemplaireTopoManager
 	 */
 	public ExemplaireTopoManager getExemplaireTopoManager();
-	
+
 	/**
 	 * Retourne l'EmpruntManager
+	 * 
 	 * @return EmpruntManager
 	 */
 	public EmpruntManager getEmpruntManager();
-	
+
 }

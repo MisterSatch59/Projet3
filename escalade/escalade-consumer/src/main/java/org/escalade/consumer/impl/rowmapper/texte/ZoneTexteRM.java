@@ -10,17 +10,17 @@ import org.escalade.model.bean.texte.ZoneTexte;
 import org.springframework.jdbc.core.RowMapper;
 
 @Named
-public class ZoneTexteRM  implements RowMapper<ZoneTexte> {
+public class ZoneTexteRM implements RowMapper<ZoneTexte> {
 	private static final Logger LOGGER = LogManager.getLogger(ZoneTexteRM.class);
 
 	@Override
 	public ZoneTexte mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
-		
+
 		int id = pRS.getInt("id");
-		String titre  = pRS.getString("titre");
-		ZoneTexte zoneTexte = new ZoneTexte(id,titre);
-		
+		String titre = pRS.getString("titre");
+		ZoneTexte zoneTexte = new ZoneTexte(id, titre);
+
 		LOGGER.traceExit(zoneTexte);
 		return zoneTexte;
 	}

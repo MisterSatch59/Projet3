@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.escalade.model.exception.FunctionalException;
+import org.escalade.model.exception.TechnicalException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -85,8 +86,10 @@ public class CreerUtilisateurAction extends ActionSupport {
 	 * 
 	 * @return INPUT pour accéder au formulaire ou SUCCES aprés validation du
 	 *         formulaire
+	 * @throws TechnicalException 
+	 * @throws FunctionalException 
 	 */
-	public String creer() {
+	public String creer() throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
@@ -96,13 +99,9 @@ public class CreerUtilisateurAction extends ActionSupport {
 			Utilisateur utilisateur = new Utilisateur(pseudo, email, null, false);
 			utilisateur.setMdp(mdp);
 
-			try {
-				managerFactory.getUtilisateurManager().createUtilisateur(utilisateur);
-				this.addActionMessage(getText("creerUtilisateur.utilisateurCreer"));
-			} catch (FunctionalException e) {
-				result = ActionSupport.INPUT;
-				this.addActionError(e.getMessage());
-			}
+			managerFactory.getUtilisateurManager().createUtilisateur(utilisateur);
+			this.addActionMessage(getText("creerUtilisateur.utilisateurCreer"));
+
 		}
 
 		LOGGER.traceExit(result);
@@ -119,8 +118,14 @@ public class CreerUtilisateurAction extends ActionSupport {
 		if (pseudo != null) {// Pas de validation à réaliser en arrivant sur le formulaire
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
 			
-			
-			if(managerFactory.getUtilisateurManager().getUtilisateur(pseudo)!=null) {
+			Utilisateur utilisateur = null;
+			try {
+				utilisateur = managerFactory.getUtilisateurManager().getUtilisateur(pseudo);
+			} catch (FunctionalException e) {
+				LOGGER.error(e);
+				this.addActionError(getText(e.getMessage()));
+			}
+			if(utilisateur!=null) {
 				addFieldError("pseudo", getText("error.pseudoExiste"));
 			}
 

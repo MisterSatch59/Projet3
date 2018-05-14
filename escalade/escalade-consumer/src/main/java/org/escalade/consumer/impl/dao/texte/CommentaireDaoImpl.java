@@ -20,6 +20,7 @@ import org.springframework.jdbc.support.KeyHolder;
 
 /**
  * Implementation de CommentaireDao
+ * 
  * @author Oltenos
  *
  */
@@ -31,16 +32,16 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 	private RowMapper<Commentaire> commentaireRM;
 	@Inject
 	private DaoFactory daoFactory;
-	
+
 	@Override
 	public List<Commentaire> getListCommentaire(int spotId) {
 		LOGGER.traceEntry("spotId = " + spotId);
-		
+
 		String vSQL = "SELECT * FROM public.commentaire WHERE spot_id = :spotId ORDER BY date ASC";
 
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
 		vParams.addValue("spotId", spotId);
-		
+
 		NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 		List<Commentaire> commentaires = vJdbcTemplate.query(vSQL, vParams, commentaireRM);
@@ -52,26 +53,25 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 	@Override
 	public Commentaire createCommentaire(int spotId, Commentaire commentaire) {
 		LOGGER.traceEntry("spotId = " + spotId + "commentaire = " + commentaire);
-		
-		if(commentaire!=null) {
+
+		if (commentaire != null) {
 			ZoneTexte zt = daoFactory.getZoneTexteDao().createZoneTexte(commentaire);
 			String vSQL = "INSERT INTO public.commentaire (id,date,pseudo_auteur,alerte,spot_id) VALUES (:id, :date,:pseudoAuteur,:alerte,:spotId)";
 
-			
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("id", zt.getId());
 			vParams.addValue("date", commentaire.getDate());
 			vParams.addValue("pseudoAuteur", commentaire.getAuteur().getPseudo());
 			vParams.addValue("alerte", commentaire.isAlerte());
 			vParams.addValue("spotId", spotId);
-			
+
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
-			
+
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			vJdbcTemplate.update(vSQL, vParams, keyHolder);
 			commentaire.setId((int) keyHolder.getKeys().get("id"));
 		}
-		
+
 		LOGGER.traceExit(commentaire);
 		return commentaire;
 	}
@@ -79,26 +79,26 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 	@Override
 	public void deleteCommentaire(int id) {
 		LOGGER.traceEntry("id = " + id);
-		
-		//Suppression en cascade du commentaire à partir de la zone de texte
+
+		// Suppression en cascade du commentaire à partir de la zone de texte
 		daoFactory.getZoneTexteDao().deleteZoneTexte(id);
-		
+
 		LOGGER.traceExit();
 	}
 
 	@Override
 	public void deleteAllCommentaires(int spotId) {
 		LOGGER.traceEntry("spotId = " + spotId);
-		
+
 		List<Commentaire> commentaires = this.getListCommentaire(spotId);
-		if(commentaires!=null) {
+		if (commentaires != null) {
 			for (Commentaire commentaire : commentaires) {
-				//Suppression en cascade du commentaire à partir de la zone de texte
+				// Suppression en cascade du commentaire à partir de la zone de texte
 				daoFactory.getZoneTexteDao().deleteZoneTexte(commentaire.getId());
 			}
 		}
-		
+
 		LOGGER.traceExit();
-		
+
 	}
 }

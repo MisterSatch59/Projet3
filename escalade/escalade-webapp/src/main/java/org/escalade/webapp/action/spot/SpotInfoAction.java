@@ -15,6 +15,8 @@ import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.texte.Commentaire;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.escalade.model.exception.FunctionalException;
+import org.escalade.model.exception.NotFoundException;
+import org.escalade.model.exception.TechnicalException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -102,14 +104,16 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	 * Action affichant la fiche d'un spot (spotInfo.jsp)
 	 * 
 	 * @return SUCCESS
+	 * @throws NotFoundException 
 	 */
-	public String getInfo() {
+	public String getInfo() throws NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
 		LOGGER.debug("spotId = " + spotId);
 
 		spot = managerFactory.getSpotManager().getSpot(spotId);
+
 		listTopo = managerFactory.getSpotManager().getListTopo(spotId);
 
 		LOGGER.traceExit(result);
@@ -120,8 +124,11 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	 * Action ajoutant un commantaire et retournant le spot modifié
 	 * 
 	 * @return SUCCESS ou ERROR
+	 * @throws TechnicalException 
+	 * @throws FunctionalException 
+	 * @throws NotFoundException 
 	 */
-	public String doAJAXnouveauCommentaire() {
+	public String doAJAXnouveauCommentaire() throws FunctionalException, TechnicalException, NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
@@ -140,15 +147,11 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 		}
 
 		Commentaire commentaire = new Commentaire(0, titre, listParagraphes, date, auteur, alerte);
-		try {
-			managerFactory.getSpotManager().createCommentaire(spotId, commentaire);
-		} catch (FunctionalException e) {
-			LOGGER.error(e);
-			this.addActionError(getText(e.getMessage()));
-			result = ActionSupport.ERROR;
-		}
+		
+		managerFactory.getSpotManager().createCommentaire(spotId, commentaire);
 
 		listCommentaires = managerFactory.getSpotManager().getSpot(spotId).getListCommentaires();
+
 
 		LOGGER.debug("listCommentaires = " + listCommentaires);
 		LOGGER.traceExit(result);
@@ -168,7 +171,12 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 				addFieldError("titre",getText("erreur.commentaire.titre"));
 			}
 			
-			listCommentaires = managerFactory.getSpotManager().getSpot(spotId).getListCommentaires();
+			try {
+				listCommentaires = managerFactory.getSpotManager().getSpot(spotId).getListCommentaires();
+			} catch (NotFoundException e) {
+				LOGGER.error(e);
+				this.addActionError(getText(e.getMessage()));
+			}
 		}
 		
 		LOGGER.traceExit("hasFieldErrors() ? : " + hasFieldErrors());
@@ -177,8 +185,10 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	/**
 	 * Action de suppression d'un commentaire
 	 * @return SUCCESS
+	 * @throws TechnicalException 
+	 * @throws NotFoundException 
 	 */
-	public String doAJAXsupprimerCommentaire() {
+	public String doAJAXsupprimerCommentaire() throws TechnicalException, NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 		

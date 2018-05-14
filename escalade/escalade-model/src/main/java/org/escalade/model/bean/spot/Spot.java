@@ -25,7 +25,7 @@ public class Spot {
 	 * nom du spot
 	 */
 	@NotNull
-	@Size(min=1, max=40)
+	@Size(min = 1, max = 40)
 	private String nom;
 	/**
 	 * Indique si le spot est accessible ou interdit
@@ -38,12 +38,12 @@ public class Spot {
 	/**
 	 * Latitude du spot
 	 */
-	@Size(max=15)
+	@Size(max = 15)
 	private String latitude;
 	/**
 	 * Longitude du spot
 	 */
-	@Size(max=15)
+	@Size(max = 15)
 	private String longitude;
 	/**
 	 * Types présent sur le spot
@@ -82,19 +82,19 @@ public class Spot {
 	 * Nombre de voies
 	 */
 	@NotNull
-	@Size(min = 1, max=50)
+	@Size(min = 1, max = 50)
 	private String nbVoie;
 	/**
 	 * Difficulté de la voie la plus simple
 	 */
 	@NotNull
-	@Size (min=2, max=2)
+	@Size(min = 2, max = 2)
 	private String difficulteMin;
 	/**
 	 * Difficulté de la voie la plus difficile
 	 */
 	@NotNull
-	@Size (min=2, max=2)
+	@Size(min = 2, max = 2)
 	private String difficulteMax;
 	/**
 	 * Auteur de la fiche du spot
@@ -115,9 +115,10 @@ public class Spot {
 	 * liste des noms des photos du spot
 	 */
 	private List<String> listPhotos;
-	
+
 	/**
 	 * Constructeur avec paramètres
+	 * 
 	 * @param id
 	 * @param nom
 	 * @param ouvert
@@ -139,9 +140,8 @@ public class Spot {
 	 * @param listCommentaires
 	 */
 	public Spot(int id, String nom, boolean ouvert, Boolean adapteEnfants, String latitude, String longitude,
-			Ville ville, int nbSecteur,
-			int hauteurMax, int hauteurMin, String nbVoie, String difficulteMin, String difficulteMax, Utilisateur auteur,
-			ZoneTexte presentation) {
+			Ville ville, int nbSecteur, int hauteurMax, int hauteurMin, String nbVoie, String difficulteMin,
+			String difficulteMax, Utilisateur auteur, ZoneTexte presentation) {
 		this.id = id;
 		this.nom = nom;
 		this.ouvert = ouvert;
@@ -158,128 +158,163 @@ public class Spot {
 		this.auteur = auteur;
 		this.presentation = presentation;
 	}
-	
+
 	/**
 	 * Constructeur par défaut
 	 */
 	public Spot() {
-		
+
 	}
 
-
-	//Getters et Setters
+	// Getters et Setters
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getNom() {
 		return nom;
 	}
+
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
+
 	public boolean getOuvert() {
 		return ouvert;
 	}
+
 	public void setOuvert(boolean ouvert) {
 		this.ouvert = ouvert;
 	}
+
 	public Boolean getAdapteEnfants() {
 		return adapteEnfants;
 	}
+
 	public void setAdapteEnfants(Boolean adapteEnfants) {
 		this.adapteEnfants = adapteEnfants;
 	}
+
 	public String getLatitude() {
 		return latitude;
 	}
+
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
+
 	public String getLongitude() {
 		return longitude;
 	}
+
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+
 	public List<String> getTypes() {
 		return types;
 	}
+
 	public void setTypes(List<String> types) {
 		this.types = types;
 	}
+
 	public List<String> getOrientations() {
 		return orientations;
 	}
+
 	public void setOrientations(List<String> orientations) {
 		this.orientations = orientations;
 	}
+
 	public List<String> getProfils() {
 		return profils;
 	}
+
 	public void setProfils(List<String> profils) {
 		this.profils = profils;
 	}
+
 	public Ville getVille() {
 		return ville;
 	}
+
 	public void setVille(Ville ville) {
 		this.ville = ville;
 	}
+
 	public int getNbSecteur() {
 		return nbSecteur;
 	}
+
 	public void setNbSecteur(int nbSecteur) {
 		this.nbSecteur = nbSecteur;
 	}
+
 	public int getHauteurMax() {
 		return hauteurMax;
 	}
+
 	public void setHauteurMax(int hauteurMax) {
 		this.hauteurMax = hauteurMax;
 	}
+
 	public int getHauteurMin() {
 		return hauteurMin;
 	}
+
 	public void setHauteurMin(int hauteurMin) {
 		this.hauteurMin = hauteurMin;
 	}
+
 	public String getNbVoie() {
 		return nbVoie;
 	}
+
 	public void setNbVoie(String nbVoie) {
 		this.nbVoie = nbVoie;
 	}
+
 	public String getDifficulteMin() {
 		return difficulteMin;
 	}
+
 	public void setDifficulteMin(String difficulteMin) {
 		this.difficulteMin = difficulteMin;
 	}
+
 	public String getDifficulteMax() {
 		return difficulteMax;
 	}
+
 	public void setDifficulteMax(String difficulteMax) {
 		this.difficulteMax = difficulteMax;
 	}
+
 	public Utilisateur getAuteur() {
 		return auteur;
 	}
+
 	public void setAuteur(Utilisateur auteur) {
 		this.auteur = auteur;
 	}
+
 	public ZoneTexte getPresentation() {
 		return presentation;
 	}
+
 	public void setPresentation(ZoneTexte presentation) {
 		this.presentation = presentation;
 	}
-	
+
 	public List<@Valid Commentaire> getListCommentaires() {
 		return listCommentaires;
 	}
+
 	public void setListCommentaires(List<@Valid Commentaire> listCommentaires) {
 		this.listCommentaires = listCommentaires;
 	}
@@ -292,10 +327,9 @@ public class Spot {
 		this.listPhotos = listPhotos;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Spot [id=" + id + ", nom=" + nom + "]";
 	}
-	
+
 };

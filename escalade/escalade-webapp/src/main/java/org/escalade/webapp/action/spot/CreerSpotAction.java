@@ -21,6 +21,7 @@ import org.escalade.model.bean.spot.Ville;
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.escalade.model.exception.FunctionalException;
+import org.escalade.model.exception.TechnicalException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -287,9 +288,11 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 
 	/**
 	 * Action de création d'un spot
+	 * @throws FunctionalException 
+	 * @throws TechnicalException 
 	 * @returnSUCCESS
 	 */
-	public String creer() {
+	public String creer() throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
@@ -369,12 +372,8 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 		spot.setAuteur(auteur);
 		
 		//Création dans la base de donnés
-		try {
-			spot = managerFactory.getSpotManager().createSpot(spot);
-		} catch (FunctionalException e) {
-			result = ActionSupport.INPUT;
-			this.addActionError(e.getMessage());
-		}
+		spot = managerFactory.getSpotManager().createSpot(spot);
+
 		
 		spotId = spot.getId();
 		LOGGER.debug("spot = " + spot);

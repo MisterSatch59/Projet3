@@ -23,7 +23,7 @@ import org.escalade.consumer.contract.dao.utilisateur.UtilisateurDao;
 @Named("daoFactory")
 public class DaoFactoryImpl implements DaoFactory {
 	private static final Logger LOGGER = LogManager.getLogger(DaoFactoryImpl.class);
-	
+
 	@Inject
 	private SpotDao spotDao;
 	@Inject
@@ -56,7 +56,7 @@ public class DaoFactoryImpl implements DaoFactory {
 		LOGGER.traceExit(zoneTexteDao);
 		return zoneTexteDao;
 	}
-		
+
 	@Override
 	public TopoDao getTopoDao() {
 		LOGGER.traceExit(topoDao);
@@ -81,7 +81,4 @@ public class DaoFactoryImpl implements DaoFactory {
 		return empruntDao;
 	}
 
-
-
-	
 }

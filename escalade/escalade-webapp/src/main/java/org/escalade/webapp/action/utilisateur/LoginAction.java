@@ -11,6 +11,7 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.utilisateur.Utilisateur;
+import org.escalade.model.exception.FunctionalException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -82,8 +83,9 @@ public class LoginAction extends ActionSupport implements ServletRequestAware, S
 	/**
 	 * Action de connection à un compte utilisateur
 	 * @return SUCCESS ou INPUT si les données entr&es sont incorrectes
+	 * @throws FunctionalException 
 	 */
-	public String login() {
+	public String login() throws FunctionalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 

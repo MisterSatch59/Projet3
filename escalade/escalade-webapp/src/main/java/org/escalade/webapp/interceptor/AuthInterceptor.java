@@ -11,16 +11,17 @@ public class AuthInterceptor extends AbstractInterceptor {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Vérifie que le parametre de session "utilisateur" n'est pas null et donc que l'utilisateur est connecté.
+	 * Vérifie que le parametre de session "utilisateur" n'est pas null et donc que
+	 * l'utilisateur est connecté.
 	 */
 	@Override
-    public String intercept(ActionInvocation pInvocation) throws Exception {
-        String vResult;
-        if (pInvocation.getInvocationContext().getSession().get("utilisateur") != null) {
-            vResult = pInvocation.invoke();
-        } else {
-            vResult = "error-forbidden";
-        }
-        return vResult;
-    }
+	public String intercept(ActionInvocation pInvocation) throws Exception {
+		String vResult;
+		if (pInvocation.getInvocationContext().getSession().get("utilisateur") != null) {
+			vResult = pInvocation.invoke();
+		} else {
+			vResult = "error-forbidden";
+		}
+		return vResult;
+	}
 }

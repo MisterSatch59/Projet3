@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 
 /**
  * 
- * Superclasse des DAO permettant la gestion de la datasource pour tous les DAO 
+ * Superclasse des DAO permettant la gestion de la datasource pour tous les DAO
  * 
  * @author Oltenos
  *
@@ -22,6 +22,7 @@ public abstract class AbstractDaoImpl {
 
 	/**
 	 * getter de la DataSource
+	 * 
 	 * @return DataSource
 	 */
 	protected DataSource getDataSource() {
