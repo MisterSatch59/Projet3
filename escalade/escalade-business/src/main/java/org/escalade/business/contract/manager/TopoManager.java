@@ -1,5 +1,7 @@
 package org.escalade.business.contract.manager;
 
+import java.util.List;
+
 import org.escalade.model.bean.topo.Topo;
 import org.escalade.model.exception.FunctionalException;
 import org.escalade.model.exception.NotFoundException;
@@ -22,6 +24,12 @@ public interface TopoManager {
 	 * @throws FunctionalException 
 	 */
 	public Topo getTopo(String titre) throws NotFoundException, FunctionalException;
+	
+	/**
+	 * Retourne la liste des topos
+	 * @return List<Topo>
+	 */
+	public List<Topo> getListTopos();
 
 	/**
 	 * Enregistre le topo dans la base de données

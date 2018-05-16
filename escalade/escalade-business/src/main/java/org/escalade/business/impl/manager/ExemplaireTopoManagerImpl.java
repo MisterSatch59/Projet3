@@ -1,6 +1,7 @@
 package org.escalade.business.impl.manager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -38,6 +39,24 @@ public class ExemplaireTopoManagerImpl extends AbstractManagerImpl implements Ex
 		LOGGER.traceExit(result);
 		return result;
 
+	}
+	
+	@Override
+	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin) throws FunctionalException{
+		LOGGER.traceEntry("titreTopo = " + titreTopo);
+
+		if (titreTopo == null) {
+			throw new FunctionalException("Invalid informations sent to database");
+		}
+		
+		List<ExemplaireTopo> result = this.getDaoFactory().getExemplaireTopoDao().getListExemplaireTitreTopo(titreTopo,debut, fin);
+		
+		if (result == null) {
+			result = new ArrayList<ExemplaireTopo>();
+		}
+
+		LOGGER.traceExit(result);
+		return result;
 	}
 
 	@Override

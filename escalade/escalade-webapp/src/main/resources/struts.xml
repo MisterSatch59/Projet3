@@ -26,8 +26,7 @@
 			</interceptor-stack>
 		</interceptors>
 
-		<default-interceptor-ref
-			name="applicationDefaultStack" />
+		<default-interceptor-ref name="applicationDefaultStack" />
 
 		<!-- Results globaux -->
 		<global-results>
@@ -93,6 +92,20 @@
 			method="getInfo">
 			<result name="success">/WEB-INF/jsp/spot/spotInfo.jsp</result>
 		</action>
+		
+		<!-- Action affichant la page avec la liste des topos -->
+		<action name="topos"
+			class="org.escalade.webapp.action.topo.TopoAction"
+			method="versTopos">
+			<result name="success">/WEB-INF/jsp/topo/topos.jsp</result>
+		</action>
+		
+		<!-- Action affichant la page avec la liste des topos -->
+		<action name="infoTopo"
+			class="org.escalade.webapp.action.topo.TopoAction"
+			method="infoTopo">
+			<result name="success">/WEB-INF/jsp/topo/infoTopo.jsp</result>
+		</action>
 
 		<!-- Action d'accés au formulaire et de création d'un utilisateur -->
 		<action name="creerUtilisateur"
@@ -113,7 +126,7 @@
 			<result name="input">/WEB-INF/jsp/utilisateur/login.jsp</result><!-- En 
 				arrivant sur le formulaire + en cas d'informations invalides dans le formulaire -->
 			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
+				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
 
@@ -128,7 +141,7 @@
 			class="org.escalade.webapp.action.spot.SupprimerSpotAction"
 			method="supprimerSpot">
 			<result name="success" type="redirectAction">
-				<param name="actionName">index</param>
+				<param name="actionName">spots</param>
 			</result>
 		</action>
 
@@ -162,11 +175,37 @@
 		<action name="creerSpot"
 			class="org.escalade.webapp.action.spot.CreerSpotAction"
 			method="creer">
-			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas 
-				d'informations invalides dans le formulaire -->
+			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas d'informations invalides dans le formulaire -->
 			<result name="success" type="redirectAction">
 				<param name="actionName">spotInfo</param>
 				<param name="spotId">${spotId}</param>
+			</result>
+		</action>
+		
+		<!-- Action de suppression d'un topo -->
+		<action name="supprimerTopo"
+			class="org.escalade.webapp.action.topo.TopoAction"
+			method="supprimerTopo">
+			<result name="success" type="redirectAction">
+				<param name="actionName">topos</param>
+			</result>
+		</action>
+		
+		<!-- Action de chargement de la page d'information du compte utilisateur -->
+		<action name="infoUtilisateur"
+			class="org.escalade.webapp.action.utilisateur.InfoUtilisateurAction"
+			method="info">
+			<result name="input">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp</result>
+			<result name="success">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp</result>
+		</action>
+		
+		<!-- Action de modification d'un compte utilisateur -->
+		<action name="modifierUtilisateur"
+			class="org.escalade.webapp.action.utilisateur.ModifierUtilisateurAction"
+			method="modifier">
+			<result name="input">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp</result><!-- En cas d'informations invalides dans le formulaire -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
 
@@ -176,6 +215,24 @@
 			method="logout">
 			<result name="success" type="redirectAction">
 				<param name="actionName">index</param>
+			</result>
+		</action>
+		
+		<!-- Action de suppression d'une reservation (emprunt) -->
+		<action name="supprimerEmprunt"
+			class="org.escalade.webapp.action.emprunt.SupprimerEmpruntAction"
+			method="supprimer">
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoUtilisateur</param>
+			</result>
+		</action>
+		
+		<!-- Action de création d'un emprunt -->
+		<action name="emprunterTopo"
+			class="org.escalade.webapp.action.emprunt.EmprunterAction"
+			method="emprunter">
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
 
@@ -222,6 +279,15 @@
 			method="doAJAXsupprimerCommentaire">
 			<result name="success" type="json">
 				<param name="root">listCommentaires</param>
+			</result>
+		</action>
+		
+		<!-- Afficher la liste des exemplaires du topo dispo aux dates souhaités -->
+		<action name="ajax_topoDispo"
+			class="org.escalade.webapp.action.topo.TopoAction"
+			method="doAJAXtopoDispo">
+			<result name="success" type="json">
+				<param name="root">listExemplaire</param>
 			</result>
 		</action>
 	</package>

@@ -1,5 +1,6 @@
 package org.escalade.business.impl.manager;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -41,6 +42,16 @@ public class TopoManagerImpl extends AbstractManagerImpl implements TopoManager 
 
 		LOGGER.traceExit(result);
 		return result;
+	}
+	
+	@Override
+	public List<Topo> getListTopos(){
+		LOGGER.traceEntry();
+		
+		List<Topo> list = this.getDaoFactory().getTopoDao().getListTopos();
+		
+		LOGGER.traceExit(list);
+		return list;
 	}
 
 	@Override

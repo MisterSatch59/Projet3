@@ -67,7 +67,7 @@ public class EmpruntManagerImpl extends AbstractManagerImpl implements EmpruntMa
 		}
 
 		Set<ConstraintViolation<Emprunt>> violations = this.getValidator().validate(emprunt);
-		LOGGER.debug("resultat validation spot = " + violations);
+		LOGGER.debug("resultat validation emprunt = " + violations);
 
 		if (violations.isEmpty()) {
 			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());

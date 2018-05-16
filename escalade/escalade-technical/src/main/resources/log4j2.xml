@@ -40,7 +40,7 @@
 		</Logger>
 
 		<!-- == Logger de base == -->
-		<Root level="off">
+		<Root level="all">
 			<AppenderRef ref="STDOUT" />
 		</Root>
 	</Loggers>

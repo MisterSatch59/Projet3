@@ -35,8 +35,8 @@ public interface UtilisateurManager {
 
 	/**
 	 * Modifie l'utilisateur dans la base de données Modifie le mot de passe si
-	 * nouveauMdp n'est pas null ATTENTION le pseudo ne peut pas être modifié (clé
-	 * dans la base de données)
+	 * nouveauMdp n'est pas null<br/>
+	 * ATTENTION le pseudo ne peut pas être modifié (clé dans la base de données)
 	 * 
 	 * @param utilisateur
 	 * @throws FunctionalException

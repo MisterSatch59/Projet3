@@ -14,6 +14,7 @@ import org.escalade.consumer.impl.dao.AbstractDaoImpl;
 import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.topo.Topo;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -119,6 +120,20 @@ public class TopoDaoImpl extends AbstractDaoImpl implements TopoDao {
 		return listSpot;
 	}
 
+	@Override
+	public List<Topo> getListTopos(){
+		LOGGER.traceEntry();
+
+		String vSQL = "SELECT titre,description_id FROM public.topo";
+
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
+
+		List<Topo> listTopos = vJdbcTemplate.query(vSQL, topoRM);
+
+		LOGGER.traceExit(listTopos);
+		return listTopos;
+	}
+	
 	@Override
 	public void createTopo(Topo topo) {
 		LOGGER.traceEntry("topo = " + topo);

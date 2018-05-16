@@ -83,16 +83,18 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 			throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
 
-		if (utilisateur == null || nouveauMdp == null) {
+		if (utilisateur == null) {
 			throw new FunctionalException("Invalid informations");
 		}
 
-		// Génération d'un nouveau sel
-		utilisateur.setSel(PasswordUtils.getSalt(20));
+		if(nouveauMdp!=null) {
+			// Génération d'un nouveau sel
+			utilisateur.setSel(PasswordUtils.getSalt(20));
 
-		// Génération du nouveau mot de passe sécurisé
-		String mdpSecurise = PasswordUtils.generateSecurePassword(nouveauMdp, utilisateur.getSel());
-		utilisateur.setMdp(mdpSecurise);
+			// Génération du nouveau mot de passe sécurisé
+			String mdpSecurise = PasswordUtils.generateSecurePassword(nouveauMdp, utilisateur.getSel());
+			utilisateur.setMdp(mdpSecurise);
+		}
 
 		Set<ConstraintViolation<Utilisateur>> violations = this.getValidator().validate(utilisateur);
 		LOGGER.debug("resultat validation utilisateur = " + violations);

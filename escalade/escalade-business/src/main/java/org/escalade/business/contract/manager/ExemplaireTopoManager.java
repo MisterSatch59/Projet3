@@ -1,5 +1,6 @@
 package org.escalade.business.contract.manager;
 
+import java.util.Date;
 import java.util.List;
 
 import org.escalade.model.bean.topo.ExemplaireTopo;
@@ -20,16 +21,27 @@ public interface ExemplaireTopoManager {
 	 * 
 	 * @param pseudoProprietaire
 	 * @return List<ExemplaireTopo>
-	 * @throws FunctionalException 
+	 * @throws FunctionalException
 	 */
 	public List<ExemplaireTopo> getListExemplaireTopo(String pseudoProprietaire) throws FunctionalException;
+
+	/**
+	 * Retourne la liste des exemplaire existant d'un topo à partir de son titre et diponible entre les dates indiqués
+	 * 
+	 * @param titreTopo
+	 * @param fin 
+	 * @param debut 
+	 * @return List<ExemplaireTopo>
+	 * @throws FunctionalException 
+	 */
+	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin) throws FunctionalException;
 
 	/**
 	 * Retourne l'exemplaire de topo à partir de son identifiant
 	 * 
 	 * @param id
 	 * @return ExemplaireTopo
-	 * @throws NotFoundException 
+	 * @throws NotFoundException
 	 */
 	public ExemplaireTopo getExemplaireTopo(int id) throws NotFoundException;
 
@@ -41,15 +53,16 @@ public interface ExemplaireTopoManager {
 	 * @return ExemplaireTopo
 	 * @throws FunctionalException
 	 *             levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
-	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo) throws FunctionalException, TechnicalException;
+	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo)
+			throws FunctionalException, TechnicalException;
 
 	/**
 	 * Supprime de la base données un exemplaire de topo à partir de son identifiant
 	 * 
 	 * @param id
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void deleteExemplaireTopo(int id) throws TechnicalException;
 

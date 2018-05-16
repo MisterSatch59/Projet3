@@ -1,5 +1,7 @@
 package org.escalade.consumer.contract.dao.topo;
 
+import java.util.List;
+
 import org.escalade.model.bean.topo.Topo;
 
 /**
@@ -17,6 +19,12 @@ public interface TopoDao {
 	 * @return Topo
 	 */
 	public Topo getTopo(String titre);
+	
+	/**
+	 * Retourne la liste des topos
+	 * @return List<Topo>
+	 */
+	public List<Topo> getListTopos();
 
 	/**
 	 * Enregistre le topo dans la base de données

@@ -1,10 +1,10 @@
 package org.escalade.consumer.impl.dao.topo;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.inject.Named;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.escalade.consumer.contract.dao.DaoFactory;
@@ -44,6 +44,44 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 		LOGGER.traceExit(null);
 		return null;
 
+	}
+
+	@Override
+	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin) {
+		LOGGER.traceEntry("titreTopo = " + titreTopo + " debut = " + debut + " fin = " + fin);
+		
+		String format = "yyyy-MM-dd"; 
+		SimpleDateFormat formater = new java.text.SimpleDateFormat( format );  
+
+		java.sql.Date datedebut = java.sql.Date.valueOf(formater.format(debut));
+		java.sql.Date datefin = java.sql.Date.valueOf(formater.format(fin));
+		
+		try {
+			if (titreTopo != null) {
+				//String vSQL = "SELECT * FROM public.exemplaire_topo WHERE titre_topo = :titreTopo";
+				String vSQL = "SELECT exemplaire_topo.* FROM public.exemplaire_topo INNER JOIN public.emprunt ON emprunt.exemplaire_topo_id=exemplaire_topo.id "
+						+ "WHERE exemplaire_topo.titre_topo = :titreTopo AND (debut > :dateFin OR fin < :dateDebut)";
+
+				MapSqlParameterSource vParams = new MapSqlParameterSource();
+				vParams.addValue("titreTopo", titreTopo);
+				vParams.addValue("dateFin", datefin);
+				vParams.addValue("dateDebut", datedebut);
+
+				NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
+
+				List<ExemplaireTopo> listExemplaireTopo = vJdbcTemplate.query(vSQL, vParams, exemplaireTopoRM);
+				
+
+				LOGGER.traceExit(listExemplaireTopo);
+				return listExemplaireTopo;
+			}
+		}catch(Exception e) {
+			LOGGER.fatal(e);
+			e.printStackTrace();
+		}
+
+		LOGGER.traceExit(null);
+		return null;
 	}
 
 	@Override

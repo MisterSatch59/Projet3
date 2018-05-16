@@ -1,5 +1,6 @@
 package org.escalade.consumer.contract.dao.topo;
 
+import java.util.Date;
 import java.util.List;
 
 import org.escalade.model.bean.topo.ExemplaireTopo;
@@ -19,6 +20,16 @@ public interface ExemplaireTopoDao {
 	 * @return List<ExemplaireTopo>
 	 */
 	public List<ExemplaireTopo> getListExemplaireTopo(String pseudoProprietaire);
+
+	/**
+	 * Retourne la liste des exemplaire existant d'un topo à partir de son titre et diponible entre les dates indiqués
+	 * 
+	 * @param titreTopo
+	 * @param fin 
+	 * @param debut 
+	 * @return List<ExemplaireTopo>
+	 */
+	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin);
 
 	/**
 	 * Retourne l'exemplaire de topo à partir de son identifiant
@@ -43,4 +54,5 @@ public interface ExemplaireTopoDao {
 	 * @param id
 	 */
 	public void deleteExemplaireTopo(int id);
+
 }

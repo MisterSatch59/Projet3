@@ -21,10 +21,10 @@
 
 	<s:if test="#session.utilisateur">
 		<p>
-			<s:a action="versModifierSpot"><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.modifier" /></s:a>
+			<s:a action="versModifierSpot"><s:param name="spotId" value="spot.id" /><s:text name="modifier" /></s:a>
 			<s:if test="#session.utilisateur.pseudo==spot.auteur.pseudo||#session.utilisateur.admin==true">
 					 - 
-					<s:a action="supprimerSpot"><s:param name="spotId" value="spot.id" /><s:text name="spotInfo.supprimer" /></s:a>
+					<s:a action="supprimerSpot"><s:param name="spotId" value="spot.id" /><s:text name="supprimer" /></s:a>
 					<br/><br/>
 			</s:if>
 		</p>
@@ -87,8 +87,8 @@
 	</ul>
 	<h3><s:text name="spotsInfo.listTopos" /> : </h3>
 	<ul>
-		<s:iterator value="listTopo" var="nom">
-			<s:property value="nom" /> - <s:a action="topoInfo"><s:param name="nomTopo" value="nom" /><s:text name="spotInfo.voirTopo" /></s:a><br/>
+		<s:iterator value="listTopo" var="topo">
+			<s:property value="topo" /> - <s:a action="infoTopo"><s:param name="titreTopo" value="topo" /><s:text name="spotInfo.voirTopo" /></s:a><br/>
 		</s:iterator>
 	</ul>
 	
