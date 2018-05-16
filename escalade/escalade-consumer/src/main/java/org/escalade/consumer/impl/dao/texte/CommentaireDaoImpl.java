@@ -55,7 +55,10 @@ public class CommentaireDaoImpl extends AbstractDaoImpl implements CommentaireDa
 		LOGGER.traceEntry("spotId = " + spotId + "commentaire = " + commentaire);
 
 		if (commentaire != null) {
+			//Enregistrement dans la table zone_texte (Commentaire hérite de Zone de texte)
 			ZoneTexte zt = daoFactory.getZoneTexteDao().createZoneTexte(commentaire);
+			
+			//Enregistrement dans la table commentaire
 			String vSQL = "INSERT INTO public.commentaire (id,date,pseudo_auteur,alerte,spot_id) VALUES (:id, :date,:pseudoAuteur,:alerte,:spotId)";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();

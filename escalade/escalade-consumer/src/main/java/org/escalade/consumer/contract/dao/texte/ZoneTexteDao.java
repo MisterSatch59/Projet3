@@ -20,7 +20,7 @@ public interface ZoneTexteDao {
 
 	/**
 	 * Enregistre la zone de texte dans la base de données et retourne la zoneTexte
-	 * modifié (avec l'id dans la base de données)
+	 * modifiée (avec l'id dans la base de données)
 	 * 
 	 * @param zoneTexte
 	 * @return ZoneTexte (avec id)

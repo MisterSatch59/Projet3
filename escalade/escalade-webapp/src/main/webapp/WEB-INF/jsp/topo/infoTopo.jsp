@@ -31,8 +31,14 @@
 				<br />
 			</s:if>
 		</p>
+		
+		<s:a action="ajouterExemplaireTopo">
+			<s:param name="titreTopo" value="topo.titre" />
+			<s:text name="ajouterExemplaire" />
+		</s:a>
 	</s:if>
 
+	<br/><br/>
 	<s:if test="topo.description.titre!=''">
 		<s:property value="topo.description.titre" />
 		<br />

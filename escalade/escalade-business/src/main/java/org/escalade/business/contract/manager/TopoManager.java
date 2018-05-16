@@ -16,17 +16,18 @@ import org.escalade.model.exception.TechnicalException;
 public interface TopoManager {
 
 	/**
-	 * Retourne le topo correspondant
+	 * Retourne le topo correspondant au titre
 	 * 
 	 * @param titre
 	 * @return
-	 * @throws NotFoundException 
-	 * @throws FunctionalException 
+	 * @throws NotFoundException
+	 * @throws FunctionalException
 	 */
 	public Topo getTopo(String titre) throws NotFoundException, FunctionalException;
-	
+
 	/**
 	 * Retourne la liste des topos
+	 * 
 	 * @return List<Topo>
 	 */
 	public List<Topo> getListTopos();
@@ -37,7 +38,7 @@ public interface TopoManager {
 	 * @param topo
 	 * @throws FunctionalException
 	 *             FunctionalException levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void createTopo(Topo topo) throws FunctionalException, TechnicalException;
 
@@ -48,7 +49,7 @@ public interface TopoManager {
 	 * @param topo
 	 * @throws FunctionalException
 	 *             FunctionalException levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void updateTopo(Topo topo) throws FunctionalException, TechnicalException;
 
@@ -56,8 +57,8 @@ public interface TopoManager {
 	 * Supprime de la base de données le topo correspondant
 	 * 
 	 * @param titre
-	 * @throws TechnicalException 
-	 * @throws FunctionalException 
+	 * @throws TechnicalException
+	 * @throws FunctionalException
 	 */
 	public void deleteTopo(String titre) throws FunctionalException, TechnicalException;
 

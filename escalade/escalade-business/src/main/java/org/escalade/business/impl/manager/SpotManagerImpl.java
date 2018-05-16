@@ -36,7 +36,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		LOGGER.traceEntry("id = " + id);
 
 		Spot result = this.getDaoFactory().getSpotDao().getSpot(id);
-		
+
 		if (result == null) {
 			throw new NotFoundException("The place was not found with id = " + id);
 		}
@@ -48,7 +48,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	@Override
 	public Spot createSpot(Spot spot) throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("spot = " + spot);
-		
+
 		if (spot == null) {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
@@ -57,8 +57,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		LOGGER.debug("resultat validation spot = " + violations);
 
 		if (violations.isEmpty()) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-					.getTransaction(new DefaultTransactionDefinition());
+			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 			try {
 				spot = this.getDaoFactory().getSpotDao().createSpot(spot);
 
@@ -82,7 +81,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	@Override
 	public void updateSpot(Spot spot) throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("spot = " + spot);
-		
+
 		if (spot == null) {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
@@ -91,8 +90,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		LOGGER.debug("resultat validation spot = " + violations);
 
 		if (violations.isEmpty()) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-					.getTransaction(new DefaultTransactionDefinition());
+			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 			try {
 				this.getDaoFactory().getSpotDao().updateSpot(spot);
 
@@ -116,8 +114,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	public void deleteSpot(int id) throws TechnicalException {
 		LOGGER.traceEntry("id = " + id);
 
-		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-				.getTransaction(new DefaultTransactionDefinition());
+		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 		try {
 			this.getDaoFactory().getSpotDao().deleteSpot(id);
 
@@ -135,9 +132,10 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	}
 
 	@Override
-	public Commentaire createCommentaire(int spotId, Commentaire commentaire) throws FunctionalException, TechnicalException {
+	public Commentaire createCommentaire(int spotId, Commentaire commentaire)
+			throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry("spotId = " + spotId + ", commentaire" + commentaire);
-		
+
 		if (commentaire == null) {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
@@ -146,8 +144,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		LOGGER.debug("resultat validation commentaire = " + violations);
 
 		if (violations.isEmpty()) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-					.getTransaction(new DefaultTransactionDefinition());
+			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 			try {
 				commentaire = this.getDaoFactory().getCommentaireDao().createCommentaire(spotId, commentaire);
 
@@ -172,8 +169,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	public void deleteCommentaire(int id) throws TechnicalException {
 		LOGGER.traceEntry("id = " + id);
 
-		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-				.getTransaction(new DefaultTransactionDefinition());
+		TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 		try {
 			this.getDaoFactory().getCommentaireDao().deleteCommentaire(id);
 
@@ -193,7 +189,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	@Override
 	public List<Spot> rechercheSpot(RechercheSpot criteres) throws FunctionalException {
 		LOGGER.traceEntry("criteres = " + criteres);
-		
+
 		if (criteres == null) {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
@@ -204,7 +200,7 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		List<Spot> result;
 
 		if (violations.isEmpty()) {
-				result = this.getDaoFactory().getSpotDao().rechercheSpot(criteres);
+			result = this.getDaoFactory().getSpotDao().rechercheSpot(criteres);
 		} else {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
@@ -226,15 +222,15 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	@Override
 	public List<Ville> getVilles(String NumeroDepartement) throws FunctionalException {
 		LOGGER.traceEntry("NumeroDepartement = " + NumeroDepartement);
-		
+
 		if (NumeroDepartement == null) {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
 
 		List<Ville> result = this.getDaoFactory().getSpotDao().getVilles(NumeroDepartement);
-		
-		if(result==null) {
-			result=new ArrayList<Ville>();
+
+		if (result == null) {
+			result = new ArrayList<Ville>();
 		}
 
 		LOGGER.traceExit(result);
@@ -286,8 +282,8 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		LOGGER.traceEntry("spotId = " + spotId);
 
 		List<String> result = this.getDaoFactory().getSpotDao().getListTopo(spotId);
-		
-		if(result==null) {
+
+		if (result == null) {
 			new ArrayList<String>();
 		}
 

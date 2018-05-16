@@ -16,6 +16,14 @@ import org.escalade.model.recherche.RechercheSpot;
 public interface SpotDao {
 
 	/**
+	 * Retourne le Spot correspondant à l'identifiant
+	 * 
+	 * @param id
+	 * @return Spot
+	 */
+	public Spot getSpot(int id);
+
+	/**
 	 * Enregistre le spot dans la base de donnée et retourne le spot modifié (avec
 	 * l'identifiant dans la base de données)</br>
 	 * Remarque : le spot n'a pas de commentaire à la création
@@ -24,14 +32,6 @@ public interface SpotDao {
 	 * @return Spot
 	 */
 	public Spot createSpot(Spot spot);
-
-	/**
-	 * Retourne le Spot correspondant à l'identifiant
-	 * 
-	 * @param id
-	 * @return Spot
-	 */
-	public Spot getSpot(int id);
 
 	/**
 	 * Modifie le spot dans la base de donnée</br>
@@ -75,8 +75,8 @@ public interface SpotDao {
 	public List<Departement> getDepartements();
 
 	/**
-	 * Retourne la liste des villes d'un département contenu dans la base de donné,
-	 * retourne la liste de toute le villes si NumeroDepartement est vide ou null
+	 * Retourne la liste des villes d'un département contenu dans la base de données,
+	 * retourne la liste de toute les villes si NumeroDepartement est vide ou null
 	 * 
 	 * @param numeroDepartement
 	 * @return List<Ville>

@@ -15,6 +15,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+/**
+ * Implementation de EmpruntDao
+ * 
+ * @author Oltenos
+ *
+ */
 @Named("empruntDao")
 public class EmpruntDaoImpl extends AbstractDaoImpl implements EmpruntDao {
 	private static final Logger LOGGER = LogManager.getLogger(EmpruntDaoImpl.class);

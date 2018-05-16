@@ -32,12 +32,12 @@ public class SpotRM implements RowMapper<Spot> {
 	public Spot mapRow(ResultSet pRS, int pRowNum) throws SQLException {
 		LOGGER.traceEntry();
 
-		// Création du Bean département
+		// Création du Bean département (nécéssaire pour le bean Ville)
 		String numero = pRS.getString("numero");
 		String nomDepartement = pRS.getString("nom_departement");
 		Departement departement = new Departement(numero, nomDepartement);
 
-		// Création du Bean Ville (utilise le bean département ci dessus)
+		// Création du Bean Ville (nécéssaire pour le bean Spot)
 		int villeId = pRS.getInt("ville_id");
 		String cp = pRS.getString("cp");
 		String nomVille = pRS.getString("ville_nom");

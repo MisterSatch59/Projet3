@@ -1,6 +1,5 @@
 --CREATION TABLES
 
-
 CREATE SEQUENCE public.photo_id_seq;
 
 CREATE TABLE public.photo (

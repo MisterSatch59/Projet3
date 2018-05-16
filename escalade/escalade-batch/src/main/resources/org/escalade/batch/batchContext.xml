@@ -20,7 +20,7 @@
 			<property name="location" value="file:${application.home}/escalade/escalade-batch/src/data/conf/db.properties"/>
 		</bean>
 	
-		<!-- Création de la datasource "dataSource" -->
+		<!-- Création du bean "dataSource" -->
 		<bean id="dataSource"
 			class="org.apache.commons.dbcp2.BasicDataSourceFactory"
 			factory-method="createDataSource"

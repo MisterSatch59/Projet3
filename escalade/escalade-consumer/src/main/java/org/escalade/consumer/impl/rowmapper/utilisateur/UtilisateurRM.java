@@ -2,14 +2,18 @@ package org.escalade.consumer.impl.rowmapper.utilisateur;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.inject.Named;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * RowMapper pour le Bean Utilisateur
+ * 
+ * @author Oltenos
+ *
+ */
 @Named
 public class UtilisateurRM implements RowMapper<Utilisateur> {
 	private static final Logger LOGGER = LogManager.getLogger(UtilisateurRM.class);

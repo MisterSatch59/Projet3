@@ -16,6 +16,12 @@ import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * RowMapper pour le Bean Commentaire
+ * 
+ * @author Oltenos
+ *
+ */
 @Named
 public class CommentaireRM implements RowMapper<Commentaire> {
 	private static final Logger LOGGER = LogManager.getLogger(CommentaireRM.class);
@@ -33,7 +39,7 @@ public class CommentaireRM implements RowMapper<Commentaire> {
 		Utilisateur auteur = daoFactory.getUtilisateurDao().getUtilisateur(pRS.getString("pseudo_auteur"));
 		boolean alerte = pRS.getBoolean("alerte");
 
-		ZoneTexte zoneTexte = daoFactory.getZoneTexteDao().getZoneTexte(id);
+		ZoneTexte zoneTexte = daoFactory.getZoneTexteDao().getZoneTexte(id);//Commentaire hérite de zone de texte, à partir de l'id je récupére les info stocker dans la table Zone de texte
 		String titre = zoneTexte.getTitre();
 		List<String> listParagraphes = zoneTexte.getListParagraphes();
 

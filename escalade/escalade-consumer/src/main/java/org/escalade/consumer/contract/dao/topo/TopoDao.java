@@ -19,9 +19,10 @@ public interface TopoDao {
 	 * @return Topo
 	 */
 	public Topo getTopo(String titre);
-	
+
 	/**
 	 * Retourne la liste des topos
+	 * 
 	 * @return List<Topo>
 	 */
 	public List<Topo> getListTopos();

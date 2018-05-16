@@ -19,7 +19,7 @@ public interface EmpruntManager {
 	 * 
 	 * @param pseudoEmprunteur
 	 * @return List<Emprunt>
-	 * @throws FunctionalException 
+	 * @throws FunctionalException
 	 */
 	public List<Emprunt> getListEmprunt(String pseudoEmprunteur) throws FunctionalException;
 
@@ -38,7 +38,7 @@ public interface EmpruntManager {
 	 * @param emprunt
 	 * @throws FunctionalException
 	 *             levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public Emprunt createEmprunt(Emprunt emprunt) throws FunctionalException, TechnicalException;
 
@@ -46,7 +46,7 @@ public interface EmpruntManager {
 	 * Supprime de la base de données l'emprunt correspondant à l'identifiant
 	 * 
 	 * @param id
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void deleteEmprunt(int id) throws TechnicalException;
 }

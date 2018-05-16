@@ -15,6 +15,12 @@ import org.escalade.model.bean.topo.Topo;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * RowMapper pour le Bean ExemplaireTopo
+ * 
+ * @author Oltenos
+ *
+ */
 @Named
 public class ExemplaireTopoRM implements RowMapper<ExemplaireTopo> {
 	private static final Logger LOGGER = LogManager.getLogger(ExemplaireTopoRM.class);

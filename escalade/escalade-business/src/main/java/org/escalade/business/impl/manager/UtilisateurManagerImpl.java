@@ -48,8 +48,7 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 
 		// Génération du sel
 		utilisateur.setSel(PasswordUtils.getSalt(20));
-
-		// Génération du mot de passe sécurisé
+		// Génération du mot de passe sécurisé pour enregistrement dans la base de données
 		String mdpSecurise = PasswordUtils.generateSecurePassword(utilisateur.getMdp(), utilisateur.getSel());
 		utilisateur.setMdp(mdpSecurise);
 
@@ -57,8 +56,7 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 		LOGGER.debug("resultat validation utilisateur = " + violations);
 
 		if (violations.isEmpty()) {
-			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager()
-					.getTransaction(new DefaultTransactionDefinition());
+			TransactionStatus vTransactionStatus = this.getPlatformTransactionManager().getTransaction(new DefaultTransactionDefinition());
 			try {
 				this.getDaoFactory().getUtilisateurDao().createUtilisateur(utilisateur);
 
@@ -87,11 +85,10 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 			throw new FunctionalException("Invalid informations");
 		}
 
-		if(nouveauMdp!=null) {
+		if (nouveauMdp != null) {//si nouveauMdp est null le mot de passe n'est pas modifié dans la base de données
 			// Génération d'un nouveau sel
 			utilisateur.setSel(PasswordUtils.getSalt(20));
-
-			// Génération du nouveau mot de passe sécurisé
+			// Génération du mot de passe sécurisé pour enregistrement dans la base de données
 			String mdpSecurise = PasswordUtils.generateSecurePassword(nouveauMdp, utilisateur.getSel());
 			utilisateur.setMdp(mdpSecurise);
 		}
@@ -147,7 +144,7 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 	@Override
 	public Utilisateur authentification(String pseudo, String mdp) throws FunctionalException {
 		LOGGER.traceEntry("pseudo = " + pseudo);
-		
+
 		if (pseudo == null || mdp == null) {
 			throw new FunctionalException("Invalid informations sent to database");
 		}
@@ -158,12 +155,12 @@ public class UtilisateurManagerImpl extends AbstractManagerImpl implements Utili
 			LOGGER.traceExit(false);
 			return (null);
 		} else {
-			// Hachage du mdp proposé
+			// Hachage du mdp proposé en utilsant le sel de l'utilisateur pour comparaison avec le mot de passe enregistré dans la base de données
 			String mdpHache = PasswordUtils.generateSecurePassword(mdp, utilisateurBD.getSel());
-			if(mdpHache.equals(utilisateurBD.getMdp())) {
+			if (mdpHache.equals(utilisateurBD.getMdp())) {
 				LOGGER.traceExit(true);
 				return (utilisateurBD);
-			}else {
+			} else {
 				LOGGER.traceExit(false);
 				return (null);
 			}

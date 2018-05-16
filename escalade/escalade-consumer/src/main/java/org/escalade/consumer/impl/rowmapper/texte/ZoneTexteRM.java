@@ -9,6 +9,12 @@ import org.apache.logging.log4j.Logger;
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * RowMapper pour le Bean ZoneTexte
+ * 
+ * @author Oltenos
+ *
+ */
 @Named
 public class ZoneTexteRM implements RowMapper<ZoneTexte> {
 	private static final Logger LOGGER = LogManager.getLogger(ZoneTexteRM.class);

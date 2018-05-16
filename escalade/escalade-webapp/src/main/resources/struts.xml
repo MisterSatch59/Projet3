@@ -6,8 +6,7 @@
 	<!-- ===== Package de configuration de base ===== -->
 	<package name="base" abstract="true" extends="struts-default">
 		<interceptors>
-			<interceptor name="auth"
-				class="org.escalade.webapp.interceptor.AuthInterceptor" />
+			<interceptor name="auth" class="org.escalade.webapp.interceptor.AuthInterceptor" />
 
 			<interceptor-stack name="applicationDefaultStack">
 				<interceptor-ref name="store">
@@ -33,6 +32,8 @@
 			<result name="error">/WEB-INF/jsp/error.jsp</result>
 			<result name="error-forbidden" type="httpheader">
 				<param name="error">403</param>
+				<param name="parse">true</param>
+				<param name="errorMessage">${getText("Error.acces")}</param>
 			</result>
 			<result name="Exception" type="httpheader">
 				<param name="error">500</param>
@@ -42,27 +43,23 @@
 			<result name="TechnicalException" type="httpheader">
 				<param name="error">500</param>
 				<param name="parse">true</param>
-				<param name="errorMessage">Erreur technique - %{exception.message}</param>
+				<param name="errorMessage">%{exception.message}</param>
 			</result>
 			<result name="NotFoundException" type="httpheader">
 				<param name="error">404</param>
 				<param name="parse">true</param>
-				<param name="errorMessage">Objet introuvable - %{exception.message}</param>
+				<param name="errorMessage">%{exception.message}</param>
 			</result>
 		</global-results>
 
 		<global-exception-mappings>
-			<exception-mapping exception="java.lang.Exception"
-				result="Exception" />
-			<exception-mapping
-				exception="org.escalade.model.exception.TechnicalException"
-				result="TechnicalException" />
-			<exception-mapping
-				exception="org.escalade.model.exception.NotFoundException"
-				result="NotFoundException" />
+			<exception-mapping exception="java.lang.Exception" result="Exception" />
+			<exception-mapping exception="org.escalade.model.exception.TechnicalException" result="TechnicalException" />
+			<exception-mapping exception="org.escalade.model.exception.NotFoundException" result="NotFoundException" />
 		</global-exception-mappings>
 	</package>
 
+	<!-- ===== Package pour les actions public ===== -->
 	<package name="public" extends="base">
 
 		<!-- Action par défaut -->
@@ -92,18 +89,16 @@
 			method="getInfo">
 			<result name="success">/WEB-INF/jsp/spot/spotInfo.jsp</result>
 		</action>
-		
+
 		<!-- Action affichant la page avec la liste des topos -->
 		<action name="topos"
-			class="org.escalade.webapp.action.topo.TopoAction"
-			method="versTopos">
+			class="org.escalade.webapp.action.topo.TopoAction" method="versTopos">
 			<result name="success">/WEB-INF/jsp/topo/topos.jsp</result>
 		</action>
-		
+
 		<!-- Action affichant la page avec la liste des topos -->
 		<action name="infoTopo"
-			class="org.escalade.webapp.action.topo.TopoAction"
-			method="infoTopo">
+			class="org.escalade.webapp.action.topo.TopoAction" method="infoTopo">
 			<result name="success">/WEB-INF/jsp/topo/infoTopo.jsp</result>
 		</action>
 
@@ -132,6 +127,7 @@
 
 	</package>
 
+	<!-- ===== Package pour les actions privées ===== -->
 	<package name="prive" extends="base">
 		<default-interceptor-ref
 			name="authenticatedStack" />
@@ -175,13 +171,14 @@
 		<action name="creerSpot"
 			class="org.escalade.webapp.action.spot.CreerSpotAction"
 			method="creer">
-			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas d'informations invalides dans le formulaire -->
+			<result name="input">/WEB-INF/jsp/spot/creerSpot.jsp</result><!-- En cas 
+				d'informations invalides dans le formulaire -->
 			<result name="success" type="redirectAction">
 				<param name="actionName">spotInfo</param>
 				<param name="spotId">${spotId}</param>
 			</result>
 		</action>
-		
+
 		<!-- Action de suppression d'un topo -->
 		<action name="supprimerTopo"
 			class="org.escalade.webapp.action.topo.TopoAction"
@@ -190,20 +187,23 @@
 				<param name="actionName">topos</param>
 			</result>
 		</action>
-		
+
 		<!-- Action de chargement de la page d'information du compte utilisateur -->
 		<action name="infoUtilisateur"
 			class="org.escalade.webapp.action.utilisateur.InfoUtilisateurAction"
 			method="info">
-			<result name="input">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp</result>
-			<result name="success">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp</result>
+			<result name="input">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp
+			</result>
+			<result name="success">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp
+			</result>
 		</action>
-		
+
 		<!-- Action de modification d'un compte utilisateur -->
 		<action name="modifierUtilisateur"
 			class="org.escalade.webapp.action.utilisateur.ModifierUtilisateurAction"
 			method="modifier">
-			<result name="input">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp</result><!-- En cas d'informations invalides dans le formulaire -->
+			<result name="input">/WEB-INF/jsp/utilisateur/infoUtilisateur.jsp
+			</result><!-- En cas d'informations invalides dans le formulaire -->
 			<result name="success" type="redirectAction">
 				<param name="actionName">infoUtilisateur</param>
 			</result>
@@ -217,16 +217,26 @@
 				<param name="actionName">index</param>
 			</result>
 		</action>
-		
-		<!-- Action de suppression d'une reservation (emprunt) -->
-		<action name="supprimerEmprunt"
+
+		<!-- Action de suppression d'une reservation (emprunt) par l'emprunteur -->
+		<action name="supprimerEmpruntEmprunteur"
 			class="org.escalade.webapp.action.emprunt.SupprimerEmpruntAction"
 			method="supprimer">
 			<result name="success" type="redirectAction">
 				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
-		
+
+		<!-- Action de suppression d'une reservation (emprunt) par le preteur -->
+		<action name="supprimerEmpruntPreteur"
+			class="org.escalade.webapp.action.emprunt.SupprimerEmpruntAction"
+			method="supprimer">
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoExemplaireTopo</param>
+				<param name="exemplaireId">${exemplaireId}</param>
+			</result>
+		</action>
+
 		<!-- Action de création d'un emprunt -->
 		<action name="emprunterTopo"
 			class="org.escalade.webapp.action.emprunt.EmprunterAction"
@@ -236,10 +246,28 @@
 			</result>
 		</action>
 
+		<!-- Action d'affichage des détail d'un exemplaire possédé -->
+		<action name="infoExemplaireTopo"
+			class="org.escalade.webapp.action.exemplaire.InfoExemplaireAction"
+			method="versInfo">
+			<result name="success">/WEB-INF/jsp/exemplaireTopo/infoExemplaireTopo.jsp
+			</result>
+		</action>
+
+		<!-- Action de modification d'un compte utilisateur -->
+		<action name="ajouterExemplaireTopo"
+			class="org.escalade.webapp.action.exemplaire.AjouterExemplaireAction"
+			method="ajouter">
+			<result name="input">/WEB-INF/jsp/exemplaireTopo/ajouterExemplaire.jsp
+			</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoUtilisateur</param>
+			</result>
+		</action>
+
 	</package>
 
 	<!-- ===== Package pour les actions AJAX ===== -->
-
 	<package name="ajax" extends="base, json-default">
 
 		<!-- Action affichant le résultat de la recherche de spot -->
@@ -252,7 +280,7 @@
 		</action>
 
 		<!-- Action affichant mettant à jour la liste des villes en fonction du 
-			déprtement sélectionné -->
+			département sélectionné -->
 		<action name="ajax_getVilles"
 			class="org.escalade.webapp.action.spot.RechercheSpotAction"
 			method="doAJAXgetVilles">
@@ -261,7 +289,7 @@
 			</result>
 		</action>
 
-		<!-- Action ajoutant un commentaire et retournant le spot modifié -->
+		<!-- Action ajoutant un commentaire à un spot et affichant les commentaires du Spot -->
 		<action name="ajax_nouveauCommentaire"
 			class="org.escalade.webapp.action.spot.SpotInfoAction"
 			method="doAJAXnouveauCommentaire">
@@ -281,8 +309,8 @@
 				<param name="root">listCommentaires</param>
 			</result>
 		</action>
-		
-		<!-- Afficher la liste des exemplaires du topo dispo aux dates souhaités -->
+
+		<!-- Afficher la liste des exemplaires du topo disponibles aux dates souhaités -->
 		<action name="ajax_topoDispo"
 			class="org.escalade.webapp.action.topo.TopoAction"
 			method="doAJAXtopoDispo">

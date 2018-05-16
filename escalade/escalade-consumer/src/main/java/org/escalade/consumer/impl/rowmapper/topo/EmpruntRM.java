@@ -15,6 +15,12 @@ import org.escalade.model.bean.topo.ExemplaireTopo;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * RowMapper pour le Bean Emprunt
+ * 
+ * @author Oltenos
+ *
+ */
 @Named
 public class EmpruntRM implements RowMapper<Emprunt> {
 	private static final Logger LOGGER = LogManager.getLogger(EmpruntRM.class);
@@ -30,7 +36,8 @@ public class EmpruntRM implements RowMapper<Emprunt> {
 		Date dateDebut = pRS.getDate("debut");
 		Date DateFin = pRS.getDate("fin");
 		Utilisateur emprunteur = daoFactory.getUtilisateurDao().getUtilisateur(pRS.getString("pseudo_emprunteur"));
-		ExemplaireTopo exemplaire = daoFactory.getExemplaireTopoDao().getExemplaireTopo(pRS.getInt("exemplaire_topo_id"));
+		ExemplaireTopo exemplaire = daoFactory.getExemplaireTopoDao()
+				.getExemplaireTopo(pRS.getInt("exemplaire_topo_id"));
 		Emprunt emprunt = new Emprunt(id, dateDebut, DateFin, emprunteur, exemplaire);
 
 		LOGGER.traceExit(emprunt);

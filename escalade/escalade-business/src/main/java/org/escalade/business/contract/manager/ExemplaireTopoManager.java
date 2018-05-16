@@ -26,15 +26,17 @@ public interface ExemplaireTopoManager {
 	public List<ExemplaireTopo> getListExemplaireTopo(String pseudoProprietaire) throws FunctionalException;
 
 	/**
-	 * Retourne la liste des exemplaire existant d'un topo à partir de son titre et diponible entre les dates indiqués
+	 * Retourne la liste des exemplaires existant d'un topo à partir de son titre et
+	 * disponible entre les dates indiquées
 	 * 
 	 * @param titreTopo
-	 * @param fin 
-	 * @param debut 
+	 * @param fin
+	 * @param debut
 	 * @return List<ExemplaireTopo>
-	 * @throws FunctionalException 
+	 * @throws FunctionalException
 	 */
-	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin) throws FunctionalException;
+	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin)
+			throws FunctionalException;
 
 	/**
 	 * Retourne l'exemplaire de topo à partir de son identifiant

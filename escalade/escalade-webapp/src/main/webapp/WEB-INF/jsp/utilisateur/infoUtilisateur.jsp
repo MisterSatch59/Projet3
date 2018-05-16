@@ -30,7 +30,7 @@
 	<h3><s:text name="listEmprunt.title" /></h3>
 	<s:iterator value="listEmprunt">
 		<s:a action="infoTopo"><s:param name="titreTopo" value="exemplaire.topo.titre"/><s:property value="exemplaire.topo.titre" /></s:a> - <s:property value="dateDebut" /> - <s:property value="dateFin" /> - <s:text name="proprio" /> : <s:property value="exemplaire.proprietaire.pseudo" /> - 
-		<s:text name="email" /> : <s:property value="exemplaire.proprietaire.mail" /> - <s:a action="supprimerEmprunt"><s:param name="empruntId" value="id"/><s:text name="supprimerEmprunt" /></s:a>
+		<s:text name="email" /> : <s:property value="exemplaire.proprietaire.mail" /> - <s:a action="supprimerEmpruntEmprunteur"><s:param name="empruntId" value="id"/><s:text name="supprimerEmprunt" /></s:a>
 		<br/>
 	</s:iterator>
 	
@@ -41,7 +41,6 @@
 		<s:a action="infoExemplaireTopo"><s:param name="exemplaireId" value="id"/><s:text name="voirPeriodeEmprunt" /></s:a>
 		<br/>
 	</s:iterator>
-	<br/>
-	<s:a action="ajouterExemplaireTopo"><s:text name="ajouterExemplaire" /></s:a>
+
 </body>
 </html>

@@ -17,6 +17,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+/**
+ * Implementation de ExemplaireTopoDao
+ * 
+ * @author Oltenos
+ *
+ */
 @Named("exemplaireTopoDao")
 public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements ExemplaireTopoDao {
 	private static final Logger LOGGER = LogManager.getLogger(ExemplaireTopoDaoImpl.class);
@@ -49,35 +55,29 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 	@Override
 	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin) {
 		LOGGER.traceEntry("titreTopo = " + titreTopo + " debut = " + debut + " fin = " + fin);
-		
-		String format = "yyyy-MM-dd"; 
-		SimpleDateFormat formater = new java.text.SimpleDateFormat( format );  
+
+		//Création des object java.sql.Date du début et fin de période
+		String format = "yyyy-MM-dd";
+		SimpleDateFormat formater = new java.text.SimpleDateFormat(format);
 
 		java.sql.Date datedebut = java.sql.Date.valueOf(formater.format(debut));
 		java.sql.Date datefin = java.sql.Date.valueOf(formater.format(fin));
-		
-		try {
-			if (titreTopo != null) {
-				//String vSQL = "SELECT * FROM public.exemplaire_topo WHERE titre_topo = :titreTopo";
-				String vSQL = "SELECT exemplaire_topo.* FROM public.exemplaire_topo INNER JOIN public.emprunt ON emprunt.exemplaire_topo_id=exemplaire_topo.id "
-						+ "WHERE exemplaire_topo.titre_topo = :titreTopo AND (debut > :dateFin OR fin < :dateDebut)";
 
-				MapSqlParameterSource vParams = new MapSqlParameterSource();
-				vParams.addValue("titreTopo", titreTopo);
-				vParams.addValue("dateFin", datefin);
-				vParams.addValue("dateDebut", datedebut);
+		if (titreTopo != null) {
+			String vSQL = "SELECT exemplaire_topo.* FROM public.exemplaire_topo INNER JOIN public.emprunt ON emprunt.exemplaire_topo_id=exemplaire_topo.id "
+					+ "WHERE exemplaire_topo.titre_topo = :titreTopo AND (debut > :dateFin OR fin < :dateDebut)";
 
-				NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
+			MapSqlParameterSource vParams = new MapSqlParameterSource();
+			vParams.addValue("titreTopo", titreTopo);
+			vParams.addValue("dateFin", datefin);
+			vParams.addValue("dateDebut", datedebut);
 
-				List<ExemplaireTopo> listExemplaireTopo = vJdbcTemplate.query(vSQL, vParams, exemplaireTopoRM);
-				
+			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
-				LOGGER.traceExit(listExemplaireTopo);
-				return listExemplaireTopo;
-			}
-		}catch(Exception e) {
-			LOGGER.fatal(e);
-			e.printStackTrace();
+			List<ExemplaireTopo> listExemplaireTopo = vJdbcTemplate.query(vSQL, vParams, exemplaireTopoRM);
+
+			LOGGER.traceExit(listExemplaireTopo);
+			return listExemplaireTopo;
 		}
 
 		LOGGER.traceExit(null);

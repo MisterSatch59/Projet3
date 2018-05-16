@@ -23,8 +23,8 @@ public interface UtilisateurManager {
 	public Utilisateur getUtilisateur(String pseudo) throws FunctionalException;
 
 	/**
-	 * Enregistre l'utilisateur dans la base de données Rq : un sel sera généré et
-	 * le mot de passe sécurisé
+	 * Enregistre l'utilisateur dans la base de données
+	 * <br/>Rq : un sel sera généré et le mot de passe sécurisé
 	 * 
 	 * @param utilisateur
 	 * @throws FunctionalException
@@ -34,9 +34,9 @@ public interface UtilisateurManager {
 	public void createUtilisateur(Utilisateur utilisateur) throws FunctionalException, TechnicalException;
 
 	/**
-	 * Modifie l'utilisateur dans la base de données Modifie le mot de passe si
-	 * nouveauMdp n'est pas null<br/>
-	 * ATTENTION le pseudo ne peut pas être modifié (clé dans la base de données)
+	 * Modifie l'utilisateur dans la base de données</br>
+	 * Modifie le mot de passe si nouveauMdp n'est pas null<br/>
+	 * ATTENTION le pseudo ne doit pas être modifié (clé dans la base de données)
 	 * 
 	 * @param utilisateur
 	 * @throws FunctionalException
@@ -55,8 +55,8 @@ public interface UtilisateurManager {
 	public void deleteUtilisateur(String pseudo) throws FunctionalException, TechnicalException;
 
 	/**
-	 * Vérifie la concordance du couple pseudo-mot de passe dans la base de donnée
-	 * et retourne l'utilisateur si le mdp correpond au pseudo et null sinon
+	 * Vérifie la concordance du couple pseudo-mot de passe dans la base de donnée.<br/>
+	 * Retourne l'utilisateur si le mdp correpond au pseudo et null sinon
 	 * 
 	 * @param pseudo
 	 * @param mdp

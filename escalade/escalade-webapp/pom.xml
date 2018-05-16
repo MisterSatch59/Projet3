@@ -97,7 +97,7 @@
 		<finalName>projet-webapp</finalName>
 	</build>
 	<!-- ======================== -->
-	<!-- PROFILES -->
+	<!-- Profiles -->
 	<!-- ======================== -->
 	<profiles>
 		<profile>

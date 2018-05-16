@@ -12,6 +12,12 @@ import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.bean.topo.Topo;
 import org.springframework.jdbc.core.RowMapper;
 
+/**
+ * RowMapper pour le Bean Topo
+ * 
+ * @author Oltenos
+ *
+ */
 @Named
 public class TopoRM implements RowMapper<Topo> {
 	private static final Logger LOGGER = LogManager.getLogger(TopoRM.class);

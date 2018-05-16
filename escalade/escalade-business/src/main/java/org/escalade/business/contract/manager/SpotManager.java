@@ -24,19 +24,20 @@ public interface SpotManager {
 	 * 
 	 * @param id
 	 * @return Spot
-	 * @throws NotFoundException 
+	 * @throws NotFoundException
 	 */
 	public Spot getSpot(int id) throws NotFoundException;
 
 	/**
 	 * Enregistre le spot dans la base de données et le retourne modifié (avec son
-	 * identifiant dans la base de données)
+	 * identifiant dans la base de données)</br>
+	 * Remarque : le spot n'a pas de commentaire à la création
 	 * 
 	 * @param spot
 	 * @return Spot
 	 * @throws FunctionalException
 	 *             levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public Spot createSpot(Spot spot) throws FunctionalException, TechnicalException;
 
@@ -49,36 +50,37 @@ public interface SpotManager {
 	 * @param spot
 	 * @throws FunctionalException
 	 *             levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void updateSpot(Spot spot) throws FunctionalException, TechnicalException;
 
 	/**
-	 * Supprime de la base de données le spot correspondant à l'id
+	 * Supprime de la base de données le spot correspondant à l'identifiant
 	 * 
 	 * @param id
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void deleteSpot(int id) throws TechnicalException;
 
 	/**
-	 * Enregistre le commentaire dans la base de données et le retourne modifié (avec
-	 * son identifiant dans la base de données)
+	 * Enregistre le commentaire dans la base de données et le retourne modifié
+	 * (avec son identifiant dans la base de données)
 	 * 
 	 * @param spotId
 	 * @param commentaire
 	 * @return Commentaire
 	 * @throws FunctionalException
 	 *             levée en cas de non validation du bean
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
-	public Commentaire createCommentaire(int spotId, Commentaire commentaire) throws FunctionalException, TechnicalException;
+	public Commentaire createCommentaire(int spotId, Commentaire commentaire)
+			throws FunctionalException, TechnicalException;
 
 	/**
 	 * Supprime de la base de données le commentaire correspondant à l'identifiant
 	 * 
 	 * @param id
-	 * @throws TechnicalException 
+	 * @throws TechnicalException
 	 */
 	public void deleteCommentaire(int id) throws TechnicalException;
 
@@ -137,12 +139,13 @@ public interface SpotManager {
 	List<String> getListTopo(int spotId);
 
 	/**
-	 * Retourne la liste des villes d'un département contenu dans la base de données,
-	 * retourne la liste de toute le villes si NumeroDepartement est vide ou null
+	 * Retourne la liste des villes d'un département contenu dans la base de
+	 * données, retourne la liste de toute les villes si NumeroDepartement est vide
+	 * ou null
 	 * 
 	 * @param NumeroDepartement
 	 * @return List<Ville>
-	 * @throws FunctionalException 
+	 * @throws FunctionalException
 	 */
 	public List<Ville> getVilles(String NumeroDepartement) throws FunctionalException;
 

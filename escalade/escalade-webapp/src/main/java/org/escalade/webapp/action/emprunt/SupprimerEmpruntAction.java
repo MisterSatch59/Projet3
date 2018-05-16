@@ -18,9 +18,13 @@ public class SupprimerEmpruntAction extends ActionSupport {
 	private ManagerFactory managerFactory;
 
 	// ----- Paramètres en entrée
+	
 	private int empruntId;
+	
 	// ----- Eléments en entrée et sortie
-
+	
+	private int exemplaireId;
+	
 	// ----- Eléments en sortie
 
 	// ==================== Getters/Setters ====================
@@ -32,7 +36,14 @@ public class SupprimerEmpruntAction extends ActionSupport {
 	}
 
 	// ----- Eléments en entrée et sortie (setters et getters)
-
+	
+	public int getExemplaireId() {
+		return exemplaireId;
+	}
+	public void setExemplaireId(int exemplaireId) {
+		this.exemplaireId = exemplaireId;
+	}
+	
 	// ----- Eléments en sortie (getters uniquement)
 
 	// ================= Méthodes d'action ====================
@@ -40,6 +51,7 @@ public class SupprimerEmpruntAction extends ActionSupport {
 	public String supprimer() throws TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
+		LOGGER.trace("empruntId = " + empruntId);
 
 		managerFactory.getEmpruntManager().deleteEmprunt(empruntId);
 
@@ -48,5 +60,4 @@ public class SupprimerEmpruntAction extends ActionSupport {
 		LOGGER.traceExit(result);
 		return result;
 	}
-
 }

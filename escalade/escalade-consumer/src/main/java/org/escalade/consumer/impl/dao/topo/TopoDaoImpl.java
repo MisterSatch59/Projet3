@@ -55,8 +55,8 @@ public class TopoDaoImpl extends AbstractDaoImpl implements TopoDao {
 				topo = null;
 			} else {
 				topo = listTopo.get(0);
-				topo.setListPhotos(this.getListPhotos(topo.getTitre()));
-				topo.setListSpot(this.getListSpots(topo.getTitre()));
+				topo.setListPhotos(this.getListPhotos(topo.getTitre()));	//Ajoute la liste des photos au topos avec une requete SQL séparée dans getListPhotos(String titre)
+				topo.setListSpot(this.getListSpots(topo.getTitre()));		//Ajoute la liste des spots au topos une requete SQL séparée dans getListSpots(String titre)
 			}
 
 			LOGGER.traceExit(topo);
@@ -151,8 +151,8 @@ public class TopoDaoImpl extends AbstractDaoImpl implements TopoDao {
 
 			vJdbcTemplate.update(vSQL, vParams);
 
-			this.createPhotos(topo);
-			this.createListSpot(topo);
+			this.createPhotos(topo);	//Enregistre les photos du topos avec une requete SQL séparée
+			this.createListSpot(topo);	//Enregistre les associations entre les spots et le topo avec une requete SQL séparée
 		}
 
 		LOGGER.traceExit();
@@ -228,10 +228,10 @@ public class TopoDaoImpl extends AbstractDaoImpl implements TopoDao {
 
 		daoFactory.getZoneTexteDao().updateZoneTexte(topo.getDescription());
 
-		this.deletePhotos(topo);
-		this.deleteListSpot(topo);
-		this.createPhotos(topo);
-		this.createListSpot(topo);
+		this.deletePhotos(topo);	//Supprime de la base de données les anciennes photos associé au spot avec une requete SQL séparée
+		this.deleteListSpot(topo);	//Supprime de la base de données les anciennes associations entre les spots et le topo avec une requete SQL séparée
+		this.createPhotos(topo);	//Enregistre les photos du topos avec une requete SQL séparée
+		this.createListSpot(topo);	//Enregistre les associations entre les spots et le topo avec une requete SQL séparée
 
 		LOGGER.traceExit();
 	}
@@ -243,8 +243,7 @@ public class TopoDaoImpl extends AbstractDaoImpl implements TopoDao {
 		if (titre != null && !titre.isEmpty()) {
 			ZoneTexte description = this.getTopo(titre).getDescription();
 
-			// Rq : supprime en cascade les exemplaire de topo, liste des spot associé et
-			// les photos
+			// Rq : supprime en cascade les exemplaire de topo, les associations entre les spots et le topo et les photos
 			String vSQL = "DELETE FROM public.topo WHERE titre = :titre";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();

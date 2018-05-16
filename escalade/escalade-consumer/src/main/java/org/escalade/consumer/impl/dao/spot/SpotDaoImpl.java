@@ -12,7 +12,6 @@ import org.escalade.consumer.impl.dao.AbstractDaoImpl;
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
 import org.escalade.model.bean.spot.Ville;
-import org.escalade.model.bean.texte.Commentaire;
 import org.escalade.model.bean.texte.ZoneTexte;
 import org.escalade.model.recherche.RechercheSpot;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -44,12 +43,13 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	@Override
 	public Spot getSpot(int id) {
 		LOGGER.traceEntry("id = " + id);
-
+		
+		//Requête avec INNER JOIN sur les table ville et département permettant la récupération de tous les éléments du Spot
 		String vSQL = "SELECT"
 				+ " spot.id AS spot_id,spot.nom AS spot_nom,pseudo_auteur,ouvert,adapte_enfants,latitude,longitude,presentation_id,nb_secteur,nb_voie,hauteur_min,hauteur_max,difficulte_min,difficulte_max,"
-				+ " ville.id AS ville_id,cp,ville.nom AS ville_nom," + " numero, departement.nom AS nom_departement"
+				+ " ville.id AS ville_id,cp,ville.nom AS ville_nom, numero, departement.nom AS nom_departement"
 				+ " FROM public.spot INNER JOIN public.ville ON spot.ville_id = ville.id"
-				+ " INNER JOIN public.departement ON ville.departement = departement.numero" + " WHERE spot.id = :id";
+				+ " INNER JOIN public.departement ON ville.departement = departement.numero WHERE spot.id = :id";
 
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
 		vParams.addValue("id", id);
@@ -63,11 +63,11 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			spot = null;
 		} else {
 			spot = listSpot.get(0);
-			spot.setTypes(this.getTypes(spot.getId()));
-			spot.setOrientations(this.getOrientations(spot.getId()));
-			spot.setProfils(this.getProfils(spot.getId()));
-			spot.setListPhotos(this.getListPhotos(spot.getId()));
-			spot.setListCommentaires(daoFactory.getCommentaireDao().getListCommentaire(spot.getId()));
+			spot.setTypes(this.getTypes(spot.getId()));					//Ajoute les types du Spot en utilisant une requete SQL séparée dans this.getTypes()
+			spot.setOrientations(this.getOrientations(spot.getId()));	//Ajoute les orientations du Spot en utilisant une requete SQL séparée dans this.getOrientations()
+			spot.setProfils(this.getProfils(spot.getId()));				//Ajoute les profils du Spot en utilisant une requete SQL séparée dans this.getProfils()
+			spot.setListPhotos(this.getListPhotos(spot.getId()));		//Ajoute les photos du Spot en utilisant une requete SQL séparée dans this.getListPhotos()
+			spot.setListCommentaires(daoFactory.getCommentaireDao().getListCommentaire(spot.getId())); //Ajoute les commentaires du Spot en utilisant le CommentaireDao
 		}
 
 		LOGGER.traceExit(spot);
@@ -184,6 +184,7 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 		LOGGER.traceEntry("spot = " + spot);
 
 		if (spot != null) {
+			//Test si la ville existe déja dans la base de données
 			int villeId = IdDansBD(spot.getVille());
 			if (villeId == 0) {
 				villeId = this.createVille(spot.getVille());
@@ -227,10 +228,10 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			int spotId = (int) keyHolder.getKeys().get("id");
 			spot.setId(spotId);
 
-			this.createTypes(spot.getTypes(), spotId);
-			this.createOrientations(spot.getOrientations(), spotId);
-			this.createProfils(spot.getProfils(), spotId);
-			this.createPhotos(spot.getListPhotos(), spotId);
+			this.createTypes(spot.getTypes(), spotId);					//Enregistre les types du Spot en utilisant une requete SQL séparée
+			this.createOrientations(spot.getOrientations(), spotId);	//Enregistre les orientations du Spot en utilisant une requete SQL séparée
+			this.createProfils(spot.getProfils(), spotId);				//Enregistre les profils du Spot en utilisant une requete SQL séparée
+			this.createPhotos(spot.getListPhotos(), spotId);			//Enregistre les photos du Spot en utilisant une requete SQL séparée
 		}
 
 		LOGGER.traceExit(spot);
@@ -238,8 +239,7 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	}
 
 	/**
-	 * Retourne l'identifiant de la ville dans la base de données si elle existe,
-	 * retourne 0 sinon
+	 * Retourne l'identifiant de la ville dans la base de données si elle existe, retourne 0 sinon
 	 * 
 	 * @return int
 	 */
@@ -420,12 +420,15 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 		LOGGER.traceEntry("spot =" + spot);
 
 		if (spot != null) {
+			//Test si la ville existe déja dans la base de données
 			int villeId = IdDansBD(spot.getVille());
 			if (villeId == 0) {
 				villeId = this.createVille(spot.getVille());
 			} else {
 				spot.getVille().setId(villeId);
 			}
+			
+			//Enregistre la ZoneTexte presentation si non null
 			if (spot.getPresentation() != null) {
 				if (spot.getPresentation().getId() > 0) {
 					daoFactory.getZoneTexteDao().updateZoneTexte(spot.getPresentation());
@@ -466,6 +469,7 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 
 			vJdbcTemplate.update(vSQL, vParams);
 
+			//Mise à jour des typs, orientations, profils et photos du spot dans la base de données par suppression des ancens et enregistrement des nouveaux
 			int spotId = spot.getId();
 			this.deleteTypes(spotId);
 			this.deleteOrientations(spotId);
@@ -475,12 +479,6 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 			this.createOrientations(spot.getOrientations(), spotId);
 			this.createProfils(spot.getProfils(), spotId);
 			this.createPhotos(spot.getListPhotos(), spotId);
-
-			daoFactory.getCommentaireDao().deleteAllCommentaires(spotId);
-			List<Commentaire> commentaires = spot.getListCommentaires();
-			for (Commentaire commentaire : commentaires) {
-				daoFactory.getCommentaireDao().createCommentaire(spotId, commentaire);
-			}
 		}
 
 		LOGGER.traceExit();
@@ -684,7 +682,7 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 		LOGGER.traceEntry("numeroDepartement = " + numeroDepartement);
 
 		List<Ville> listVille;
-		if (numeroDepartement == null || numeroDepartement.isEmpty()) {
+		if (numeroDepartement == null || numeroDepartement.isEmpty()) {//Retourne la liste de toutes les ville si numeroDepartement est null ou vide
 			String vSQL = "SELECT * FROM public.ville ORDER BY nom";
 
 			JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());

@@ -48,7 +48,8 @@ public class ZoneTexteDaoImpl extends AbstractDaoImpl implements ZoneTexteDao {
 			zoneTexte = null;
 		} else {
 			zoneTexte = zoneTexteResult.get(0);
-			zoneTexte.setListParagraphes(this.getListParaphes(zoneTexte.getId()));
+			zoneTexte.setListParagraphes(this.getListParaphes(zoneTexte.getId()));	//Ajoute les paragraphes dans la zone de texte en utilisant
+																					//une requete SQL séparé dans this.getListParaphes()
 		}
 
 		LOGGER.traceExit(zoneTexte);
@@ -89,14 +90,14 @@ public class ZoneTexteDaoImpl extends AbstractDaoImpl implements ZoneTexteDao {
 
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
-			KeyHolder keyHolder = new GeneratedKeyHolder();// permet de récupérer la clef primaire généré par
-															// autoincrement
+			KeyHolder keyHolder = new GeneratedKeyHolder();	// permet de récupérer la clef primaire généré par autoincrement
+
 			vJdbcTemplate.update(vSQL, vParams, keyHolder);
 			int zoneTexteId = (int) keyHolder.getKeys().get("id");
-			zoneTexte.setId(zoneTexteId);// enregistre l'id créer dans le bean
+			zoneTexte.setId(zoneTexteId);	// enregistre l'id créer dans le bean
 
 			List<String> listParagraphes = zoneTexte.getListParagraphes();
-			this.createListParagraphes(zoneTexteId, listParagraphes);
+			this.createListParagraphes(zoneTexteId, listParagraphes);	//Enregistre les paragraphes de la zone de texte en utilisant une requete SQL séparé
 		}
 
 		LOGGER.traceExit(zoneTexte);
@@ -163,8 +164,9 @@ public class ZoneTexteDaoImpl extends AbstractDaoImpl implements ZoneTexteDao {
 			vJdbcTemplate.update(vSQL, vParams);
 
 			List<String> listParagraphes = zoneTexte.getListParagraphes();
-			this.deleteListParagraphes(zoneTexte.getId());
-			this.createListParagraphes(zoneTexte.getId(), listParagraphes);
+			
+			this.deleteListParagraphes(zoneTexte.getId());					//Supprime les anciens paragraphes de la base de données en utilisant une requete SQL séparé
+			this.createListParagraphes(zoneTexte.getId(), listParagraphes);	//Enregistre les paragraphes de la zone de texte en utilisant une requete SQL séparé
 		}
 
 		LOGGER.traceExit();

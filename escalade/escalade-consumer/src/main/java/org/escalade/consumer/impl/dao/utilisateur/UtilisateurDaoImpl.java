@@ -32,6 +32,7 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 		LOGGER.traceEntry("pseudo = " + pseudo);
 
 		if (pseudo != null && !pseudo.isEmpty()) {
+			//Recherche de l'utilisateur dans la base de données
 			String vSQL = "SELECT pseudo,mail,mdp,sel,avatar,admin FROM public.utilisateur WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -40,14 +41,14 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 			List<Utilisateur> utilisateur = vJdbcTemplate.query(vSQL, vParams, utilisateurRM);
-			if (utilisateur.isEmpty()) {
+			if (utilisateur.isEmpty()) {//Retourne null si la recherche ne retourne aucun resultat
 				LOGGER.traceExit("null");
 				return null;
-			} else {
+			} else {//Retoune le premier (et unique pseudo étant la clé primaire de la table) élément sinon
 				LOGGER.traceExit(utilisateur.get(0));
 				return utilisateur.get(0);
 			}
-		} else {
+		} else {//Retourne null si le pseudo est incorrecte
 			LOGGER.traceExit("null");
 			return null;
 		}
@@ -57,7 +58,8 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 	public void createUtilisateur(Utilisateur utilisateur) {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
 
-		if (utilisateur != null && utilisateur.getPseudo() != null && !utilisateur.getPseudo().isEmpty()) {
+		if (utilisateur != null && utilisateur.getPseudo() != null && !utilisateur.getPseudo().isEmpty()) {//Vérifie que l'utilisateur n'est pas null et qu'un pseudo est bien insérer
+			//Enregistrement dans la base de données
 			String vSQL = "INSERT INTO public.utilisateur (pseudo,mail,mdp,sel,avatar,admin) VALUES (:pseudo,:mail,:mdp,:sel,:avatar,:admin)";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -80,7 +82,8 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 	public void deleteUtilisateur(String pseudo) {
 		LOGGER.traceEntry("pseudo = " + pseudo);
 
-		if (pseudo != null && !pseudo.isEmpty()) {
+		if (pseudo != null && !pseudo.isEmpty()) {//Vérifie que le pseudo est nu null ni vide
+			//Suppression de la base de données
 			String vSQL = "DELETE FROM public.utilisateur WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
@@ -98,7 +101,8 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 	public void updateUtilisateur(Utilisateur utilisateur) {
 		LOGGER.traceEntry("utilisateur = " + utilisateur);
 
-		if (utilisateur != null && utilisateur.getPseudo() != null && !utilisateur.getPseudo().isEmpty()) {
+		if (utilisateur != null && utilisateur.getPseudo() != null && !utilisateur.getPseudo().isEmpty()) {//Vérifie que l'utilisateur n'est pas null et qu'un pseudo est bien insérer
+			//Enregistrement des modifications dans la base de données
 			String vSQL = "UPDATE public.utilisateur SET mail = :mail, mdp = :mdp, sel = :sel, avatar = :avatar, admin = :admin WHERE pseudo = :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();

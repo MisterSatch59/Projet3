@@ -26,7 +26,8 @@ public class PasswordUtils {
 	/**
 	 * Génére un sel aléatoire de la longueur indiquée
 	 * 
-	 * @param length longeur du sel à générer
+	 * @param length
+	 *            longeur du sel à générer
 	 * @return String contenent le sel
 	 */
 	public static String getSalt(int length) {
