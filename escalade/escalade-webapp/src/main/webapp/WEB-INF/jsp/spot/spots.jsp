@@ -14,33 +14,47 @@
 		<s:text name="spots" />
 	</h1>
 	
-	<s:if test="#session.utilisateur">
-		<p>
-			<s:a action="versCreerSpot">
-				<s:text name="spots.creer" />
-			</s:a>
-		</p>
-	</s:if>
+	<div class="row">
+		<s:if test="#session.utilisateur">
+			<div class="col-sm-offset-1 col-sm-2 col-xs-12">
+				<s:a action="versCreerSpot" class="btn btn-default btn-custom">
+					<s:text name="spots.creer" />
+				</s:a>
+			</div>
+		</s:if>
+	</div>
 
-	<s:form>
-		<legend>
-			<s:text name="recherche" />
-		</legend>
-		<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="false" onchange="onSelectDepartementChange()" />
-		<s:select id = "ville" name="ville" key="ville" list="listVille" emptyOption="true" requiredLabel="false" />
-		<s:select id = "difficulteMin" name="difficulteMin" key="diffMin" list="listDifficultes" emptyOption="true" requiredLabel="false" />
-		<s:select id = "difficulteMax" name="difficulteMax" key="diffMax" list="listDifficultes" emptyOption="true" requiredLabel="false" />
-
-	</s:form>
-		<button onclick="rechercheSpots()">
+	<div class="row marge">
+		<s:form>
+			<div class="formInLinePerso">
+				<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="false" onchange="onSelectDepartementChange()" cssClass="form-control" />
+				<s:select id = "ville" name="ville" key="ville" list="listVille" emptyOption="true" requiredLabel="false" cssClass="form-control" />
+				<s:select id = "difficulteMin" name="difficulteMin" key="diffMin" list="listDifficultes" emptyOption="true" requiredLabel="false" cssClass="form-control" />
+				<s:select id = "difficulteMax" name="difficulteMax" key="diffMax" list="listDifficultes" emptyOption="true" requiredLabel="false" cssClass="form-control" />
+				
+			</div>
+		</s:form>
+	</div>
+	<div class="row marge">
+		<button onclick="rechercheSpots()"  class="btn btn-default btn-custom col-sm-offset-4 col-sm-4 col-xs-12">
 			<s:text name="spots.rechercheButton" />
 		</button>
+	</div>
 
-	<ul id="rechercheListe">
-		
-	</ul>
+	<div class="row marge">
+		<div id="rechercheListe" class="col-xs-12">
+			
+		</div>
+	</div>
 	
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<!-- jQuery -->
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<!-- Javascript de Bootstrap -->
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous">
+		</script>
 	<script>
 		function rechercheSpots() {
 			// URL de l'action AJAX
@@ -60,9 +74,9 @@
 					$listSpots.empty();
 					jQuery.each(data, function (key, val) {
 						//Types, profils et orientations
-						var detail = '<ul><li>' + val.types;
-						detail += '<li>' + val.profils;
-						detail += '<li>' + val.orientations;
+						var detail = '<ul class="list-unstyled"><li>' + '<s:text name="types"/> : ' + val.types;
+						detail += '<li>' + '<s:text name="profils"/> : ' + val.profils;
+						detail += '<li>' + '<s:text name="orientations"/> : ' + val.orientations;
 						detail += '<li>' + '<s:text name="spots.resultat.difficulte.de" /> ' + val.difficulteMin + ' <s:text name="spots.resultat.a" /> ' + val.difficulteMax;
 						//Hauteurs Min et Max
 						detail += '<li>' ;
@@ -91,10 +105,10 @@
 						
 						//lien vers fiche
 						var url2 = "spotInfo.action?spotId="+ val.id ; 
-						detail+= '<li>' + '<a href = "' + url2 + '">' + '<s:text name="accesDescriptionSpot" />';
+						detail+= '<li><div class="col-xs-offset-5 col-sm-7">' + '<a href = "' + url2 + '" class="btn btn-default btn-custom" >' + '<s:text name="accesDescriptionSpot" />';
 						
 						
-						$listSpots.append($('<li>').append(val.nom + " - " + val.ville.departement.nom + " - " + val.ville.nom).append(detail));
+						$listSpots.append($('<div class="col-md-6">').append($('<div class="jumbotron">').append('<h2>' +val.nom + " - " + val.ville.nom + " - " + val.ville.departement.nom).append(detail)));
 					});
 					
 					
@@ -108,7 +122,6 @@
 		function onSelectDepartementChange() {
 		    // URL de l'action AJAX
 		    var url = "<s:url action="ajax_getVilles"/>";
-
 		    // Paramètres de la requête AJAX
 		    var params = {
 		    	departement: jQuery("#departement").val()
@@ -140,9 +153,7 @@
 		}
 	</script>
 	
+	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 </body>
 
-<footer>
-	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
-</footer>
 </html>

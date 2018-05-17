@@ -7,26 +7,36 @@
 		<%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 	</head>
 	
-	<body class="corps container">
+	<body class="container">
 		<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 		
-		<img src="img/logoBleu.png" alt= "test" />
-		<img src="img/PhotoAccueil.jpg" alt= "Accueil" />
+		<img class="gdeImage" src="img/PhotoAccueil.jpg" alt= "Accueil" />
+
+		<div class="jumbotron marge">
+			<h2><s:text name="index.titre" /></h2>
+			
+			<p>
+				<s:text name="index.para.l1" /><br/>
+				<s:text name="index.para.l2" /><br/>
+				<s:text name="index.para.l3" /><br/>
+				<s:text name="index.para.l4" /><br/>
+				<s:text name="index.para.l5" /><br/><br/>
+				<s:text name="index.para.l6" />
+			</p>
+		</div>
+
 		
+		<!-- jQuery -->
+		<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<!-- Javascript de Bootstrap -->
+		<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+			integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+			crossorigin="anonymous">
+		</script>
 		
-		<h2><s:text name="index.titre" /></h2>
-		
-		<p>
-			<s:text name="index.para.l1" /><br/>
-			<s:text name="index.para.l2" /><br/>
-			<s:text name="index.para.l3" /><br/>
-			<s:text name="index.para.l4" /><br/>
-			<s:text name="index.para.l5" /><br/><br/>
-			<s:text name="index.para.l6" />
-		</p>
+		<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 	</body>
 	
-	<footer>
-		<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
-	</footer>
+
 </html>
