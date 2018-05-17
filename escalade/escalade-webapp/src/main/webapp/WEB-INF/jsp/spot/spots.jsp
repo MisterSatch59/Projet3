@@ -10,13 +10,15 @@
 <body class="corps container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 
-	<h1>
-		<s:text name="spots" />
-	</h1>
+	<div class="row aligneCentre">
 	
-	<div class="row">
+		<div class="col-sm-6 col-xs-12">
+			<h1><s:text name="spots" /></h1>
+		</div>
+	
+
 		<s:if test="#session.utilisateur">
-			<div class="col-sm-offset-1 col-sm-2 col-xs-12">
+			<div class="col-sm-offset-3 col-sm-3 col-xs-12">
 				<s:a action="versCreerSpot" class="btn btn-default btn-custom">
 					<s:text name="spots.creer" />
 				</s:a>
@@ -31,7 +33,6 @@
 				<s:select id = "ville" name="ville" key="ville" list="listVille" emptyOption="true" requiredLabel="false" cssClass="form-control" />
 				<s:select id = "difficulteMin" name="difficulteMin" key="diffMin" list="listDifficultes" emptyOption="true" requiredLabel="false" cssClass="form-control" />
 				<s:select id = "difficulteMax" name="difficulteMax" key="diffMax" list="listDifficultes" emptyOption="true" requiredLabel="false" cssClass="form-control" />
-				
 			</div>
 		</s:form>
 	</div>

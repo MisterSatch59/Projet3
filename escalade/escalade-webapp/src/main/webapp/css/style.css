@@ -1,9 +1,30 @@
+/* Couleur texte et fond */
 body {
-	margin-top: 60px;
+	margin-top: 70px;
 	background-color: #A2ACC4;
 	color: #783627;
 }
 
+legend{
+	color: #783627;
+}
+
+/* IMAGES */
+.miniLogo {
+	margin: 5px;
+	max-height: 50px;
+}
+
+.avatar {
+	max-width : 50px;
+	max-height : 50px;
+}
+
+.gdeImage {
+	max-width: 100%;
+}
+
+/* ALignement et affichage */
 .footer {
 	padding: 5px;
 	margin-top: 5px;
@@ -11,15 +32,6 @@ body {
 	
 	background-color: #893627;
 	color: #617AB8;
-}
-
-.miniLogo {
-	margin: 5px;
-	max-height: 50px;
-}
-
-.gdeImage {
-	max-width: 100%;
 }
 
 .jumbotron {
@@ -32,6 +44,26 @@ body {
 	margin-top: 10px;
 }
 
+.miniMarge{
+	margin-top: 2px;
+}
+
+.cadrePerso{
+	border: 2px outset black;
+	border-radius: 5px;
+	min-height : 100px;
+	padding: 10px;
+}
+
+.aligneCentre{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	align-content: center;
+	flex-wrap: wrap;
+}
+
+/* Formulaires */
 .formInLinePerso{
 	display: flex;
 	flex-direction: row;
@@ -46,10 +78,13 @@ body {
 }
 
 .label{
-	color: #783627 ;
-	font-style: normal ;
+	color: #783627;
+	font-style: normal;
 	font-weight: bold;
 	font-size: 14px;
+	min-height: 22px;
+	min-width:150px;
+	text-align : right;
 }
 
 .btn-custom{
@@ -67,12 +102,14 @@ body {
 	color: #fff !important;
 	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
 	-webkit-font-smoothing: antialiased;
+	
+	min-width:180px;
 }
 
 @media screen and (max-width: 1200px)
 {
 	body {
-		margin-top: 110px;
+		margin-top: 120px;
 
 	}
 }
@@ -89,7 +126,7 @@ body {
 @media screen and (max-width: 768px)
 {
 	body {
-		margin-top: 60px;
+		margin-top: 70px;
 
 	}
 }
