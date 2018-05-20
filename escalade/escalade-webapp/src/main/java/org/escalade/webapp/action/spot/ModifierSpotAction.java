@@ -225,7 +225,7 @@ public class ModifierSpotAction extends ActionSupport {
 		
 		spot.setNom(nom);
 		
-		//ville
+		//Création de la ville si elle n'existe pas dans la base de données
 		List<Ville> listVilles = managerFactory.getSpotManager().getVilles(departement.getNumero());
 		for (Ville ville : listVilles) {
 			if(ville.getNom().equalsIgnoreCase(villeNom)&&ville.getCP().equalsIgnoreCase(villeCP)) {
@@ -267,7 +267,7 @@ public class ModifierSpotAction extends ActionSupport {
 		spot.setLatitude(latitude);
 		spot.setLongitude(longitude);
 		
-		//presentation
+		//Création du Bean ZonteTexte "presentation" si remplis, laisse null sinon
 		if(descriptionTitre.isEmpty()||descriptionTexte.isEmpty()) {
 			spot.setPresentation(null);
 		}else {
@@ -286,6 +286,7 @@ public class ModifierSpotAction extends ActionSupport {
 			spot.setPresentation(presentation);
 		}
 
+		//Création des listes Types, profils et orientations
 		List<String> listTypesSpot = Arrays.asList(types.split(", "));
 		List<String> listProfilsSpot = Arrays.asList(profils.split(", "));
 		List<String> listOrientationsSpot = Arrays.asList(orientations.split(", "));
@@ -293,9 +294,8 @@ public class ModifierSpotAction extends ActionSupport {
 		spot.setProfils(listProfilsSpot);
 		spot.setOrientations(listOrientationsSpot);
 		
-		//Mise à jour dans la base de donnés
+		//Mise à jout dans la base de donnés (appel du SpotManager)
 		managerFactory.getSpotManager().updateSpot(spot);
-
 
 		LOGGER.debug("spot = " + spot);
 
@@ -311,6 +311,8 @@ public class ModifierSpotAction extends ActionSupport {
 		LOGGER.traceEntry();
 		if(nom!=null) {//si nom est null c'est la méthode versModifier qui est appeler (donc pas de validation), sinon n'est pas null mais au minimum vide
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator(); 
+			
+			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
 			
 			Set<ConstraintViolation<Spot>> valueViolationsSpot = validator.validateValue(Spot.class, "nom", nom);
 			if (!valueViolationsSpot.isEmpty())

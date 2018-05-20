@@ -69,6 +69,12 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 
 	// ================= Méthodes d'action ====================
 
+	/**
+	 * Action de modification d'un compte utilisateur
+	 * @return SUCCESS
+	 * @throws FunctionalException
+	 * @throws TechnicalException
+	 */
 	public String modifier() throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
@@ -77,7 +83,7 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 		
 		utilisateur.setMail(email);
 		
-		if(mdp.isEmpty()) {
+		if(mdp.isEmpty()) {//Si le champ mdp est vide, il faut insérer null en second paramètre (et non pas un String vide) pour ne pas changer le mot de passe
 			managerFactory.getUtilisateurManager().updateUtilisateur(utilisateur, null);
 		}else {
 			managerFactory.getUtilisateurManager().updateUtilisateur(utilisateur, mdp);
@@ -97,6 +103,8 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 		LOGGER.traceEntry();
 
 		Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
+		
+		//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
 
 		Set<ConstraintViolation<Utilisateur>> valueViolationsUtilisateur = validator.validateValue(Utilisateur.class, "mail", email);
 		if (!valueViolationsUtilisateur.isEmpty())
@@ -106,6 +114,7 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 			if (!mdp.equals(mdp2)) {
 				addFieldError("mdp2", getText("error.mdpDiff"));
 			} else {
+				//Vérification de la compléxité du mot de passe (8caractères, 1 lettre, 1 caractère spécial et 1 chiffre minimum)
 				Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*\\W).{8,}$");
 				Matcher matcher = pattern.matcher(mdp);
 				if (!matcher.lookingAt()) {

@@ -7,7 +7,7 @@
     <%@ include file="_include/head.jsp"%>
 </head>
 
-<body>
+<body class="container">
     <h2><s:text name="error.title" /></h2>
 
     <s:actionerror />

@@ -7,7 +7,7 @@
 <%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 </head>
 
-<body class="corps container">
+<body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
 	<!-- En tête de la page (titre et bouton si connecté -->
@@ -19,14 +19,14 @@
 		<div class="col-sm-6">
 			<div class="row">
 				<s:if test="#session.utilisateur">
+					<s:if test="#session.utilisateur.pseudo==spot.auteur.pseudo||#session.utilisateur.admin==true">
+					<div class="col-sm-6 ">
+						<s:a action="supprimerSpot" class="btn btn-default btn-custom-rouge"><s:param name="spotId" value="spot.id" /><s:text name="supprimer"/></s:a>
+					</div>
+					</s:if>
 					<div class="col-sm-6">
 						<s:a action="versModifierSpot" class="btn btn-default btn-custom"><s:param name="spotId" value="spot.id" /><s:text name="modifier"/></s:a>
 					</div>
-					<s:if test="#session.utilisateur.pseudo==spot.auteur.pseudo||#session.utilisateur.admin==true">
-					<div class="col-sm-6 ">
-						<s:a action="supprimerSpot" class="btn btn-default btn-custom"><s:param name="spotId" value="spot.id" /><s:text name="supprimer"/></s:a>
-					</div>
-					</s:if>
 				</s:if>
 			</div>
 		</div>

@@ -7,19 +7,25 @@
 <%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 </head>
 
-<body class="corps container">
+<body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
-	<s:form action="login">
-		<legend>
-			<s:text name="login.title" />
-		</legend>
-		<s:textfield id = "pseudo" name="pseudo" key="pseudo" requiredLabel="true" maxlength="30" />
-		
-		<s:password id = "mdp" name="mdp" key="mdp" requiredLabel="true" />
+	<h1><s:text name="login.title" /></h1>
 	
-		<s:submit key="valider" name=""/>
-	</s:form>
+	<div class="row">
+		<div class="jumbotron col-sm-offset-3 col-sm-6 col-xs-12 marge">
+			<s:form action="login">
+				<div class="container">
+					<s:textfield id = "pseudo" name="pseudo" key="pseudo" requiredLabel="true" maxlength="30" class=" form-control"/>
+					
+					<s:password id = "mdp" name="mdp" key="mdp" requiredLabel="true" class="form-control miniMarge"/>
+				
+					<s:submit class="col-sm-offset-3 col-sm-6 col-xs-12 marge btn btn-default btn-custom" key="valider" name=""/>
+				</div>
+			</s:form>
+		</div>
+	</div>
 	
+	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 </body>
 </html>

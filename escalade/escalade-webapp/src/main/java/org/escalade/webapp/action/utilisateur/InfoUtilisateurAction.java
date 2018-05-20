@@ -56,12 +56,17 @@ public class InfoUtilisateurAction extends ActionSupport implements SessionAware
 	}
 
 	// ================= Méthodes d'action ====================
-
+	/**
+	 * Action de chargement de la page d'information du compte utilisateur
+	 * @return SUCCESS
+	 * @throws FunctionalException
+	 */
 	public String info() throws FunctionalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 		Utilisateur utilisateur = (Utilisateur) this.session.get("utilisateur");
 		
+		//Charge de l'utilisateur et de la list des exemplaire possédés
 		listEmprunt = managerFactory.getEmpruntManager().getListEmprunt(utilisateur.getPseudo());
 		listExemplaireTopo = managerFactory.getExemplaireTopoManager().getListExemplaireTopo(utilisateur.getPseudo());
 		

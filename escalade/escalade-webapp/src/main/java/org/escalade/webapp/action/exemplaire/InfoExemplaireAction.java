@@ -54,11 +54,17 @@ public class InfoExemplaireAction extends ActionSupport {
 
 	// ================= Méthodes d'action ====================
 
+	/**
+	 * Action d'affichage des détail d'un exemplaire possédé
+	 * @return SUCCESS
+	 * @throws NotFoundException
+	 */
 	public String versInfo() throws NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 		LOGGER.trace("exemplaireId = " + exemplaireId);
 		
+		//Récupére les info de l'exemplaire et la list de toute les reservation réalisé de cet exemplaire
 		exemplaire = managerFactory.getExemplaireTopoManager().getExemplaireTopo(exemplaireId);
 		listEmprunt = managerFactory.getEmpruntManager().getListEmprunt(exemplaireId);
 

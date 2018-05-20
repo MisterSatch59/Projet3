@@ -7,7 +7,7 @@
 <%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 </head>
 
-<body class="corps container">
+<body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 
 	<div class="row aligneCentre">

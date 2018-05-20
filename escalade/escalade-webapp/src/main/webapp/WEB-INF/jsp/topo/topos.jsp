@@ -8,32 +8,43 @@
 <%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 </head>
 
-<body class="corps container">
+<body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
+	
+	<div class="row aligneCentre">
+	
+		<div class="col-sm-6 col-xs-12">
+			<h1><s:text name="topos" /></h1>
+		</div>
+	
+	</div>
 
-	<h1>
-		<s:text name="topos" />
-	</h1>
+	<div class="jumbotron">
+		<div class="row">
+			<s:iterator value="listTopos">
+				<h4><s:property value="titre" /></h4>
+	
+				<s:if test="description.titre!=''">
+					<ul>
+						<li><s:text name="descriptionTopo" /> :
+							<ul class="list-unstyled">
+								<li><strong><s:property value="description.titre" /></strong></li>
+								<s:iterator	value="description.listParagraphes" var="parag">
+									<li><s:property value="parag" /></li>
+								</s:iterator>
+							</ul>
+						</li>
+					</ul>
+				</s:if>
 
-	<s:iterator value="listTopos">
-			
-		<s:property value="titre" />
-		<ul>
-			<s:if test="description.titre!=''">
-				<li>
-					<s:property value="description.titre" /><br/>
-					<s:iterator value="description.listParagraphes" var="parag">
-						<s:property value="parag" /><br/>
-					</s:iterator>
-		  		</li>
-			</s:if>
-		</ul>
-		<s:a action="infoTopo"><s:param name="titreTopo"><s:property value="titre" /></s:param><s:text name="spotInfo.voirTopo" /></s:a>
-	</s:iterator>
-	<s:if test="#session.utilisateur">
-		<br/><br/>
-		<s:a action="creerTopo"><s:text name="creerTopo" /></s:a>
-	</s:if>
+				<s:a action="infoTopo" class="btn btn-default btn-custom">
+					<s:param name="titreTopo"><s:property value="titre" /></s:param>
+					<s:text name="accesInfoTopo" />
+				</s:a>
+			</s:iterator>
+		</div>
+	</div>
 
+	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 </body>
 </html>

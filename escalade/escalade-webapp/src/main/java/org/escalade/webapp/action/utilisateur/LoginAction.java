@@ -89,15 +89,15 @@ public class LoginAction extends ActionSupport implements ServletRequestAware, S
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
-		if (pseudo == null) {// = entré dans le formulaire
+		if (pseudo == null) {// = arrivé dans le formulaire
 			result = ActionSupport.INPUT;
 		}else { //  = traitement du formulaire
 			
-			if(managerFactory.getUtilisateurManager().getUtilisateur(pseudo)==null) {
+			if(managerFactory.getUtilisateurManager().getUtilisateur(pseudo)==null) {//Vérification du pseudo
 				result = ActionSupport.INPUT;
 				addFieldError("pseudo", getText("error.pseudoExistePas"));
 			}else {
-				Utilisateur utilisateur = managerFactory.getUtilisateurManager().authentification(pseudo, mdp);
+				Utilisateur utilisateur = managerFactory.getUtilisateurManager().authentification(pseudo, mdp);//Vérification du mot de passe
 				if(utilisateur==null) {
 					addFieldError("mdp", getText("error.mdpIncorrecte"));
 					result = ActionSupport.INPUT;

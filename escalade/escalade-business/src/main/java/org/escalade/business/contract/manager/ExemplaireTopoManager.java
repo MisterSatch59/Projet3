@@ -57,8 +57,7 @@ public interface ExemplaireTopoManager {
 	 *             levée en cas de non validation du bean
 	 * @throws TechnicalException
 	 */
-	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo)
-			throws FunctionalException, TechnicalException;
+	public ExemplaireTopo createExemplaireTopo(ExemplaireTopo exemplaireTopo) throws FunctionalException, TechnicalException;
 
 	/**
 	 * Supprime de la base données un exemplaire de topo à partir de son identifiant

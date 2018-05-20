@@ -116,6 +116,7 @@ public class RechercheSpotAction extends ActionSupport {
 		
 		LOGGER.debug("departement = " + departement);
 		
+		//Recherche dans la base de données de la liste des villes du département
 		String result = ActionSupport.SUCCESS;
 		if (departement == null) {
 			listVille = managerFactory.getSpotManager().getVilles(null);
@@ -141,7 +142,8 @@ public class RechercheSpotAction extends ActionSupport {
 		listDepartements = managerFactory.getSpotManager().getDepartements();
 		listDifficultes = managerFactory.getSpotManager().getDifficultes();
 		
-		RechercheSpot recherche=new RechercheSpot();
+		//Création du Bean de recherche
+		RechercheSpot recherche = new RechercheSpot();
 		
 		recherche.setDepartement(departement);
 		
@@ -164,6 +166,7 @@ public class RechercheSpotAction extends ActionSupport {
 		
 		LOGGER.debug("recherche = " + recherche);
 		
+		//Réalisation de la recherhce dans la base de données
 		resultatRecherche = managerFactory.getSpotManager().rechercheSpot(recherche);
 		
 		LOGGER.debug("resultatRecherche" + resultatRecherche);

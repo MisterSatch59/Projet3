@@ -7,22 +7,28 @@
 <%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 </head>
 
-<body class="corps container">
+<body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
-	<s:form action="creerUtilisateur">
-		<legend>
-			<s:text name="creerUtilisateur.title" />
-		</legend>
-		<s:textfield id = "pseudo" name="pseudo" key="pseudo" requiredLabel="true" maxlength="30" />
-		
-		<s:password id = "mdp" name="mdp" key="mdp" requiredLabel="true" />
-		<s:password id = "mdp2" name="mdp2" key="confirmation" requiredLabel="true" />
-		
-		<s:textfield id = "email" name="email" key="email" requiredLabel="true" type="email" />
+	<h1><s:text name="creerUtilisateur.title" /></h1>
 	
-		<s:submit key="valider" name=""/>
-	</s:form>
+	<div class="row">
+		<div class="jumbotron col-sm-offset-3 col-sm-6 col-xs-12 marge">
+			<s:form action="creerUtilisateur">
+				<div class="container">
+					<s:textfield id = "pseudo" name="pseudo" key="pseudo" requiredLabel="true" maxlength="30" class=" form-control"/>
+					
+					<s:password id = "mdp" name="mdp" key="mdp" requiredLabel="true" class="form-control miniMarge"/>
+					<s:password id = "mdp2" name="mdp2" key="confirmation" requiredLabel="true" class="form-control miniMarge"/>
+					
+					<s:textfield id = "email" name="email" key="email" requiredLabel="true" type="email" class="form-control miniMarge"/>
+				
+					<s:submit class="col-sm-offset-3 col-sm-6 col-xs-12 marge btn btn-default btn-custom" key="valider" name=""/>
+				</div>
+			</s:form>
+		</div>
+	</div>
 	
+	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 </body>
 </html>

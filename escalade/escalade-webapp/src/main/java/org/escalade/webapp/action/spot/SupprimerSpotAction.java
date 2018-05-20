@@ -54,6 +54,7 @@ public class SupprimerSpotAction extends ActionSupport {
 
 		LOGGER.debug("spotId = " + spotId);
 
+		//Suppression du spot dans la base de données
 		managerFactory.getSpotManager().deleteSpot(spotId);
 
 		this.addActionMessage(getText("spot.confirmation.supprimé"));

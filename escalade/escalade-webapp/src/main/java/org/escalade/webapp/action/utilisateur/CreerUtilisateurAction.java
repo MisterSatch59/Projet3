@@ -93,7 +93,7 @@ public class CreerUtilisateurAction extends ActionSupport {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
-		if (pseudo == null) {// = entré dans le formulaire
+		if (pseudo == null) {// = arrivé sur le formulaire
 			result = ActionSupport.INPUT;
 		} else {// = traitement du formulaire
 			Utilisateur utilisateur = new Utilisateur(pseudo, email, null, false);
@@ -101,7 +101,6 @@ public class CreerUtilisateurAction extends ActionSupport {
 
 			managerFactory.getUtilisateurManager().createUtilisateur(utilisateur);
 			this.addActionMessage(getText("creerUtilisateur.utilisateurCreer"));
-
 		}
 
 		LOGGER.traceExit(result);
@@ -117,6 +116,8 @@ public class CreerUtilisateurAction extends ActionSupport {
 
 		if (pseudo != null) {// Pas de validation à réaliser en arrivant sur le formulaire
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
+			
+			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
 			
 			Utilisateur utilisateur = null;
 			try {
@@ -140,6 +141,7 @@ public class CreerUtilisateurAction extends ActionSupport {
 			if (!mdp.equals(mdp2)) {
 				addFieldError("mdp2", getText("error.mdpDiff"));
 			} else {
+				//Vérification de la compléxité du mot de passe (8caractères, 1 lettre, 1 caractère spécial et 1 chiffre minimum)
 				Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*\\W).{8,}$");
 				Matcher matcher = pattern.matcher(mdp);
 				if (!matcher.lookingAt()) {

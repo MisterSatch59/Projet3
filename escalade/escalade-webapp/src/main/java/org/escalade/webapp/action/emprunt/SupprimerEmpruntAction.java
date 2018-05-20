@@ -48,6 +48,11 @@ public class SupprimerEmpruntAction extends ActionSupport {
 
 	// ================= Méthodes d'action ====================
 
+	/**
+	 * Action de suppression d'une reservation (emprunt) par l'emprunteur
+	 * @return SUCCESS
+	 * @throws TechnicalException
+	 */
 	public String supprimer() throws TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;

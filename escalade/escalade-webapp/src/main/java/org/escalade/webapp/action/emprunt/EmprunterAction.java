@@ -67,6 +67,13 @@ public class EmprunterAction extends ActionSupport  implements SessionAware {
 		
 		// =================  Méthodes d'action  ====================
 		
+		/**
+		 * Action de création d'un emprunt
+		 * @return SUCCESS
+		 * @throws NotFoundException
+		 * @throws FunctionalException
+		 * @throws TechnicalException
+		 */
 		public String emprunter() throws NotFoundException, FunctionalException, TechnicalException {
 			LOGGER.traceEntry("exemplaireId = " + exemplaireId + "debut = " + debut + "fin = " + fin);
 			String result = ActionSupport.SUCCESS;

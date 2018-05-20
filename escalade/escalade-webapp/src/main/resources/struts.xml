@@ -254,12 +254,11 @@
 			</result>
 		</action>
 
-		<!-- Action de modification d'un compte utilisateur -->
+		<!-- Action d'ajout d'un exemplaire d'un topo -->
 		<action name="ajouterExemplaireTopo"
 			class="org.escalade.webapp.action.exemplaire.AjouterExemplaireAction"
 			method="ajouter">
-			<result name="input">/WEB-INF/jsp/exemplaireTopo/ajouterExemplaire.jsp
-			</result>
+			<result name="input">/WEB-INF/jsp/exemplaireTopo/ajouterExemplaire.jsp</result>
 			<result name="success" type="redirectAction">
 				<param name="actionName">infoUtilisateur</param>
 			</result>

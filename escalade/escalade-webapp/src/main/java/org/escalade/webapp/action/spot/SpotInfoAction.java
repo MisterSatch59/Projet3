@@ -137,27 +137,33 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 		LOGGER.debug("texteCommentaire = " + texteCommentaire);
 		LOGGER.debug("alerte = " + alerte);
 
+		//Utilisation de l'utilisateur en session comme auteur du commentaire
 		Utilisateur auteur = (Utilisateur) session.get("utilisateur");
+		//Utilisation de la date du jour pour le commentaire
 		Date date = new java.util.Date();
 		
+		//Création de la liste des paragrpahes à partir du contenu du textarea
 		List<String> listParagraphes = new ArrayList<String>();
 		String[] paragraphes = texteCommentaire.split("\n");
 		for (int i = 0; i < paragraphes.length; i++) {
 			listParagraphes.add(paragraphes[i]);
 		}
 
+		//Création du commentaire dans la base de données
 		Commentaire commentaire = new Commentaire(0, titre, listParagraphes, date, auteur, alerte);
-		
 		managerFactory.getSpotManager().createCommentaire(spotId, commentaire);
 
+		//Récupération de la listes des commentaires pour affichage
 		listCommentaires = managerFactory.getSpotManager().getSpot(spotId).getListCommentaires();
-
 
 		LOGGER.debug("listCommentaires = " + listCommentaires);
 		LOGGER.traceExit(result);
 		return result;
 	}
 	
+	/**
+	 * Validation du formulaire
+	 */
 	@Override
 	public void validate() {
 		LOGGER.traceEntry();

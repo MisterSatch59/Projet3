@@ -300,7 +300,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 		
 		spot.setNom(nom);
 		
-		//ville
+		//Création de la ville si elle n'existe pas dans la base de données
 		List<Ville> listVilles = managerFactory.getSpotManager().getVilles(departement.getNumero());
 		for (Ville ville : listVilles) {
 			if(ville.getNom().equalsIgnoreCase(villeNom)&&ville.getCP().equalsIgnoreCase(villeCP)) {
@@ -342,7 +342,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 		spot.setLatitude(latitude);
 		spot.setLongitude(longitude);
 		
-		//presentation
+		//Création du Bean ZonteTexte "presentation" si remplis, laisse null sinon
 		if(descriptionTitre.isEmpty()||descriptionTexte.isEmpty()) {
 			spot.setPresentation(null);
 		}else {
@@ -361,6 +361,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 			spot.setPresentation(presentation);
 		}
 
+		//Création des listes Types, profils et orientations
 		List<String> listTypesSpot = Arrays.asList(types.split(", "));
 		List<String> listProfilsSpot = Arrays.asList(profils.split(", "));
 		List<String> listOrientationsSpot = Arrays.asList(orientations.split(", "));
@@ -368,13 +369,14 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 		spot.setProfils(listProfilsSpot);
 		spot.setOrientations(listOrientationsSpot);
 		
+		//Ajout de l'utilisateur connecté comme auteur de la fiche spot
 		Utilisateur auteur = (Utilisateur) session.get("utilisateur");
 		spot.setAuteur(auteur);
 		
-		//Création dans la base de donnés
+		//Ajout dans la base de donnés (appel du SpotManager)
 		spot = managerFactory.getSpotManager().createSpot(spot);
 
-		
+		//Récupération de l'id du spot dans la base de données nécéssaire pour la redirection vers l'action d'affichage de la fiche du spot
 		spotId = spot.getId();
 		LOGGER.debug("spot = " + spot);
 		
@@ -390,6 +392,8 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 		LOGGER.traceEntry();
 		if(nom!=null) {//si nom est null c'est la méthode versModifier qui est appeler (donc pas de validation), sinon n'est pas null mais au minimum vide
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator(); 
+			
+			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
 			
 			Set<ConstraintViolation<Spot>> valueViolationsSpot = validator.validateValue(Spot.class, "nom", nom);
 			if (!valueViolationsSpot.isEmpty())
@@ -479,7 +483,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware {
 				addFieldError("orientations",getText("erreur.orientations"));
 		}
 		
-		if(this.hasFieldErrors()) {
+		if(this.hasFieldErrors()) {//Si il y a une erreur il faut redonner les liste suivantes
 			listDepartements = managerFactory.getSpotManager().getDepartements();
 			listTypes = managerFactory.getSpotManager().getTypes();
 			listProfils = managerFactory.getSpotManager().getProfils();
