@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="row marge">
-		<s:form>
+		<s:form theme="css_xhtml">
 			<div class="formInLinePerso">
 				<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="false" onchange="onSelectDepartementChange()" cssClass="form-control" />
 				<s:select id = "ville" name="ville" key="ville" list="listVille" emptyOption="true" requiredLabel="false" cssClass="form-control" />

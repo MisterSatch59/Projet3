@@ -284,6 +284,7 @@
 	            		infoComm+= value + "<br/>";
 	            	});
 	            	infoComm +='</div>';
+	            	
 	            	infoComm +='<div class="col-sm-offset-8 col-sm-4 marge">';
             		infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'" class="btn btn-default btn-custom">' + '<s:text name="spotInfo.supprCommentaire" />';
             		infoComm +='</div>';
