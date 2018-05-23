@@ -13,8 +13,7 @@
 	<h1><s:text name="creerSpot.title" /></h1>
 	
 	<div class="jumbotron marge container">
-		<s:form action="creerSpot">
-			<div class="row">
+		<s:form action="creerSpot"  class="formClassiq">
 			
 				<s:textfield id = "nom" name="nom" key="nom" requiredLabel="true" maxlength="40" value="%{nom}" class="form-control"/>
 				<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="true" value="%{departement}" class="form-control miniMarge"/>
@@ -51,7 +50,6 @@
 				<s:textarea id = "descriptionTexte" name="descriptionTexte" requiredLabel="false" value="%{descriptionTexte}" class="form-control miniMarge" cols="150" rows="6"/>
 			
 				<s:submit class="col-sm-offset-4 col-sm-4 col-xs-12 marge btn btn-default btn-custom" key="valider" name=""/>
-			</div>
 		</s:form>
 	</div>
 	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>

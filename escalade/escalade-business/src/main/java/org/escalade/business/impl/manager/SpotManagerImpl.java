@@ -223,10 +223,6 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 	public List<Ville> getVilles(String NumeroDepartement) throws FunctionalException {
 		LOGGER.traceEntry("NumeroDepartement = " + NumeroDepartement);
 
-		if (NumeroDepartement == null) {
-			throw new FunctionalException("Invalid informations sent to database");
-		}
-
 		List<Ville> result = this.getDaoFactory().getSpotDao().getVilles(NumeroDepartement);
 
 		if (result == null) {

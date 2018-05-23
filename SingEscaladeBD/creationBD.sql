@@ -771,5 +771,5 @@ INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_id)
 
 --EXEMPLE DE PRET DU TOPO A OLTENOS
 
-INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Oltenos',1,{d '2018-05-21'},{d '2018-05-22'});
+INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Oltenos',1,{d '2018-06-01'},{d '2018-06-03'});
 

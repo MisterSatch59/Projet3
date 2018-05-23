@@ -1,6 +1,7 @@
 /* Couleur texte et fond */
 body {
 	margin-top: 70px;
+	margin-bottom: 50px;
 	background-color: #A2ACC4;
 	color: #783627;
 }
@@ -27,9 +28,8 @@ legend{
 /* ALignement et affichage */
 .footer {
 	padding: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	
+	border-width: 1px;
+	border-color: black;
 	background-color: #893627;
 	color: #617AB8;
 }
@@ -63,14 +63,27 @@ legend{
 	flex-wrap: wrap;
 }
 
-/* Formulaires */
+.spot{
+	min-height: 340px;
+}
+
+/*Formulaires "clasiques" */
+.formClassiq .wwgrp{
+	display: flex;
+
+}
+
+.formClassiq .wwerr, .formClassiq .wwlbl, .formClassiq .wwctrl{
+	margin: 10px;
+}
+
+/* Formulaires en lignes */
 .formInLinePerso{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-around;
 }
-
-.wwgrp{
+.formInLinePerso .wwgrp{
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -87,6 +100,7 @@ legend{
 	text-align : right;
 }
 
+/* Boutons */
 .btn-custom{
 	background-color: hsl(110, 56%, 16%) !important;
 	background-repeat: repeat-x;
@@ -123,10 +137,12 @@ legend{
 	-webkit-font-smoothing: antialiased;
 }
 
+/* Adaptations de la mise en page pour écrans plus petits */
 @media screen and (max-width: 1200px)
 {
 	body {
 		margin-top: 120px;
+		margin-bottom: 75px;
 
 	}
 }

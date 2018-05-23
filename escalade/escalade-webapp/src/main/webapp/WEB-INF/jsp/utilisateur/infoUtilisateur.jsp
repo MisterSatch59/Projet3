@@ -53,14 +53,12 @@
 		<div class="jumbotron col-sm-offset-3 col-sm-6 col-xs-12 marge">
 			<h2><s:text name="modifierUtilisateur.title" /></h2>
 			<s:form action="modifierUtilisateur">
-				<div class="container">
-					<s:password id = "mdp" name="mdp" key="mdp" class="form-control miniMarge"/>
-					<s:password id = "mdp2" name="mdp2" key="confirmation" class="form-control miniMarge"/>
-					
-					<s:textfield id = "email" name="email" key="email" type="email" value="%{#session.utilisateur.mail}" class="form-control miniMarge"/>
+				<s:password id = "mdp" name="mdp" key="mdp" class="form-control miniMarge"/>
+				<s:password id = "mdp2" name="mdp2" key="confirmation" class="form-control miniMarge"/>
 				
-					<s:submit class="col-sm-offset-3 col-sm-6 col-xs-12 marge btn btn-default btn-custom" key="valider" name=""/>
-				</div>
+				<s:textfield id = "email" name="email" key="email" type="email" value="%{#session.utilisateur.mail}" class="form-control miniMarge"/>
+				
+				<s:submit class="col-sm-offset-3 col-sm-6 col-xs-12 marge btn btn-default btn-custom" key="valider" name=""/>
 			</s:form>
 		</div>
 	</div>

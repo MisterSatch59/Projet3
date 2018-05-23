@@ -11,8 +11,8 @@
 	crossorigin="anonymous">
 	</script>
 	
-<footer class="footer">
-	<div class="container-fluid">
+<footer class="footer navbar navbar-fixed-bottom">
+	<div class="container">
 		<p class="text-muted">
 			<s:text name="footer.text" />
 		</p>

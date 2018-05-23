@@ -43,20 +43,26 @@
 	</div>
 
 	<div class="row marge">
+		<div class="col-md-12" id="aucunResultat">
+			<div class="jumbotron">
+				<s:text name="aucunSpot" />
+			</div>
+		</div>
+	
 		<div id="rechercheListe" class="col-xs-12">
 			
 		</div>
 	</div>
 	
-	<!-- jQuery -->
-	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<!-- Javascript de Bootstrap -->
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-		crossorigin="anonymous">
-		</script>
+	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 	<script>
+		//Masque le texte "aucun résultat"
+		$(document).ready(function() {
+			var aucunResult = $("#aucunResultat");
+			aucunResult.hide();
+		});
+	
+	
 		function rechercheSpots() {
 			// URL de l'action AJAX
 			var url = "<s:url action="ajax_rechercheSpot"/>";
@@ -65,6 +71,10 @@
 			var params = {
 				ville: jQuery("#ville").val(), departement: jQuery("#departement").val(), difficulteMin: jQuery("#difficulteMin").val(), difficulteMax: jQuery("#difficulteMax").val()
 			};
+			
+			//Masque le texte "aucun résultat"
+			var aucunResult = $("#aucunResultat");
+			aucunResult.hide();
 	
 			// Action AJAX en POST
 			jQuery.post(
@@ -73,9 +83,10 @@
 				function (data) {
 					var $listSpots = jQuery("#rechercheListe");
 					$listSpots.empty();
+					var detail = '';
 					jQuery.each(data, function (key, val) {
 						//Types, profils et orientations
-						var detail = '<ul class="list-unstyled"><li>' + '<s:text name="types"/> : ' + val.types;
+						detail = '<ul class="list-unstyled"><li>' + '<s:text name="types"/> : ' + val.types;
 						detail += '<li>' + '<s:text name="profils"/> : ' + val.profils;
 						detail += '<li>' + '<s:text name="orientations"/> : ' + val.orientations;
 						detail += '<li>' + '<s:text name="spots.resultat.difficulte.de" /> ' + val.difficulteMin + ' <s:text name="spots.resultat.a" /> ' + val.difficulteMax;
@@ -109,10 +120,12 @@
 						detail+= '<li><div class="col-xs-offset-5 col-sm-7">' + '<a href = "' + url2 + '" class="btn btn-default btn-custom" >' + '<s:text name="accesDescriptionSpot" />';
 						
 						
-						$listSpots.append($('<div class="col-md-6">').append($('<div class="jumbotron">').append('<h2>' +val.nom + " - " + val.ville.nom + " - " + val.ville.departement.nom).append(detail)));
+						$listSpots.append($('<div class="col-md-6 spot">').append($('<div class="jumbotron">').append('<h2>' +val.nom + " - " + val.ville.nom + " - " + val.ville.departement.nom).append(detail)));
 					});
 					
-					
+					if(detail==''){
+						aucunResult.show();
+					}
 				}
 			)
 			.fail(function () {
@@ -154,7 +167,7 @@
 		}
 	</script>
 	
-	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
+
 </body>
 
 </html>

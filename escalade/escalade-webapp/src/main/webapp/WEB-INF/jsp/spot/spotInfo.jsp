@@ -193,6 +193,7 @@
 			</div>
 		</div>
 	</s:if>
+	
 
 	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 	<script>
@@ -285,10 +286,14 @@
 	            	});
 	            	infoComm +='</div>';
 	            	
-	            	infoComm +='<div class="col-sm-offset-8 col-sm-4 marge">';
-            		infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'" class="btn btn-default btn-custom">' + '<s:text name="spotInfo.supprCommentaire" />';
-            		infoComm +='</div>';
-            		
+	            	var pseudo="<s:property value="#session.utilisateur.pseudo" />";
+	            	var admin="<s:property value="#session.utilisateur.admin" />"
+	            	if(val.auteur.pseudo==pseudo || admin=="true" ){
+		            	infoComm +='<div class="col-sm-offset-8 col-sm-4 marge">';
+	            		infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'" class="btn btn-default btn-custom">' + '<s:text name="spotInfo.supprCommentaire" />';
+	            		infoComm +='</div>';
+	            	}
+
 	            	if (val.alerte == true) {
 	            		$affAlertes.append($('<li>').append(infoComm));
 	            	} else { 

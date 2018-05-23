@@ -118,12 +118,14 @@ public class RechercheSpotAction extends ActionSupport {
 		
 		//Recherche dans la base de données de la liste des villes du département
 		String result = ActionSupport.SUCCESS;
+		
 		if (departement == null) {
 			listVille = managerFactory.getSpotManager().getVilles(null);
 		} else {
 			listVille = managerFactory.getSpotManager().getVilles(departement.getNumero());
 		}
 
+		LOGGER.warn(departement);
 		LOGGER.debug("listVille = " + listVille);
 		
 		LOGGER.traceExit(result);

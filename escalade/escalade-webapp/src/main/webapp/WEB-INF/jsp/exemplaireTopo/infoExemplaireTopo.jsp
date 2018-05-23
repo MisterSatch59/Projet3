@@ -16,9 +16,9 @@
 	
 	<div class="row">
 		<div class="jumbotron col-sm-offset-1 col-sm-10 col-xs-12 marge">
-			<s:a action="infoTopo" class="btn btn-default btn-custom"><s:param name="titreTopo" value="exemplaire.topo.titre"/><s:text name="accesInfoTopo" /></s:a>
-			
+					
 			<h2><s:text name="periodePretPrevues" /> :</h2>
+			
 			<ul>
 				<s:iterator value="listEmprunt">
 					<li><s:property value="dateDebut" /> - <s:property value="dateFin" /> :

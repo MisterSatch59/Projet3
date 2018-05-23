@@ -72,7 +72,7 @@
 	<div class="row marge">
 		<h2><s:text name="emprunterTopo" /></h2>
 		<div class="jumbotron marge">
-			<s:form action="login">
+			<s:form class="formClassiq">
 				<div class="container">
 					<s:textfield id="dateDebut" type="date" format="dd-MM-yyyy" key="dateDebut" requiredLabel="true" onchange="rechercheDispo()" class=" form-control" />
 			
@@ -81,8 +81,12 @@
 			</s:form>
 			
 			<h2><s:text name="topoDispo" /></h2>
-			<ul id="listTopoDispo">
 			
+			<ul id="aucunResultat">
+				<li><s:text name="aucunEx"  /></li>
+			</ul>
+			<ul id="listTopoDispo">
+				
 			</ul>
 		</div>
 	</div>
@@ -95,13 +99,17 @@
 
 			var debut = $("#dateDebut").val()
 			var fin = $('#dateFin').val()
+			
 
 			var $listTopoDispo = $("#listTopoDispo");
 			$listTopoDispo.empty();
 			
 			if(debut!='' && fin != ''){
-				if(fin>debut){
-					if(new Date(debut)>new Date()){
+				if(fin>=debut){
+					if(new Date(debut) >= new Date()){
+						var aucunResult = $("#aucunResultat");
+						aucunResult.hide();
+						
 						// URL de l'action AJAX
 						var url = "<s:url action="ajax_topoDispo"/>";
 
@@ -114,8 +122,10 @@
 
 						// Action AJAX en POST
 						jQuery.post(url, params, function(data) {
+							var info='';
+							
 							jQuery.each(data, function(key, val) {
-								var info = '<s:text name="proprio" /> : ' + val.proprietaire.pseudo + '  - <s:text name="email" /> : <a href="mailto:' + val.proprietaire.mail + '">' + val.proprietaire.mail + '</a><br/><strong>'
+								info = '<s:text name="proprio" /> : ' + val.proprietaire.pseudo + '  - <s:text name="email" /> : <a href="mailto:' + val.proprietaire.mail + '">' + val.proprietaire.mail + '</a><br/><strong>'
 										+ val.condition.titre + '</strong><br/>';
 								$.each(val.condition.listParagraphes, function(index, value) {
 									info += value + '<br/>';
@@ -127,6 +137,10 @@
 								info+= '</a></div>'
 								$listTopoDispo.append($('<li>').append(info));
 							});
+							
+							if(info==''){
+								aucunResult.show();
+							}
 							
 						}).fail(function(data) {
 							alert("Une erreur s'est produite.");

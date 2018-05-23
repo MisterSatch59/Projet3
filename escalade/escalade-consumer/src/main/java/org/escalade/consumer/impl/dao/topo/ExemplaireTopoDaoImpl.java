@@ -1,6 +1,7 @@
 package org.escalade.consumer.impl.dao.topo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -55,7 +56,7 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 	@Override
 	public List<ExemplaireTopo> getListExemplaireTitreTopo(String titreTopo, Date debut, Date fin) {
 		LOGGER.traceEntry("titreTopo = " + titreTopo + " debut = " + debut + " fin = " + fin);
-
+		
 		//Création des object java.sql.Date du début et fin de période
 		String format = "yyyy-MM-dd";
 		SimpleDateFormat formater = new java.text.SimpleDateFormat(format);
@@ -64,17 +65,36 @@ public class ExemplaireTopoDaoImpl extends AbstractDaoImpl implements Exemplaire
 		java.sql.Date datefin = java.sql.Date.valueOf(formater.format(fin));
 
 		if (titreTopo != null) {
-			String vSQL = "SELECT exemplaire_topo.* FROM public.exemplaire_topo INNER JOIN public.emprunt ON emprunt.exemplaire_topo_id=exemplaire_topo.id "
-					+ "WHERE exemplaire_topo.titre_topo = :titreTopo AND (debut > :dateFin OR fin < :dateDebut)";
+			
+			//Chargement de tout les exemplaire de topo correspondant
+			String vSQL = "SELECT * FROM public.exemplaire_topo WHERE exemplaire_topo.titre_topo = :titreTopo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("titreTopo", titreTopo);
-			vParams.addValue("dateFin", datefin);
-			vParams.addValue("dateDebut", datedebut);
 
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
 			List<ExemplaireTopo> listExemplaireTopo = vJdbcTemplate.query(vSQL, vParams, exemplaireTopoRM);
+			
+			// Suppression de la liste les topos non disponibles au dates souhaités
+			List<ExemplaireTopo> exemplairesASuppr=new ArrayList<ExemplaireTopo>();
+			for (ExemplaireTopo exemplaireTopo : listExemplaireTopo) {
+				String vSQL2 = "SELECT COUNT(*) FROM public.emprunt WHERE exemplaire_topo_id = :exemplaireId AND (debut <=  :dateFin AND fin >= :dateDebut)";
+
+				NamedParameterJdbcTemplate vJdbcTemplate2 = new NamedParameterJdbcTemplate(getDataSource());
+
+				MapSqlParameterSource vParams2 = new MapSqlParameterSource();
+				vParams2.addValue("exemplaireId", exemplaireTopo.getId());
+				vParams2.addValue("dateFin", datefin);
+				vParams2.addValue("dateDebut", datedebut);
+
+				int nbIntersection = vJdbcTemplate2.queryForObject(vSQL2, vParams2, Integer.class);
+
+				if (nbIntersection > 0) {
+					exemplairesASuppr.add(exemplaireTopo);
+				}
+			}
+			listExemplaireTopo.removeAll(exemplairesASuppr);
 
 			LOGGER.traceExit(listExemplaireTopo);
 			return listExemplaireTopo;
