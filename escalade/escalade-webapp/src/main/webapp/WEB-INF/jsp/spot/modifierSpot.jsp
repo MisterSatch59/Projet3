@@ -13,7 +13,7 @@
 	<h1><s:text name="modifierSpot.title" /></h1>
 
 	<div class="jumbotron marge container">
-		<s:form action="modifierSpot" class="formClassiq">
+		<s:form action="modifierSpot" class="formClassiq" method="POST" enctype="multipart/form-data">
 
 			<s:textfield id="nom" name="nom" key="nom" requiredLabel="true" maxlength="40" value="%{spot.nom}" class="form-control" />
 			<s:select id="departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="true" value="%{spot.ville.departement}" class="form-control miniMarge" />
@@ -70,6 +70,8 @@
 			<s:textarea id="descriptionTexte" name="descriptionTexte" requiredLabel="false" value="%{texte}" class="form-control miniMarge" cols="150" rows="6" />
 
 			<s:hidden name="spotId" value="%{spot.id}" />
+			
+			<s:file name="myFile" key="photosPresentation" accept="image/*" />
 
 			<s:submit class="col-sm-offset-4 col-sm-4 col-xs-12 marge btn btn-default btn-custom" key="valider" name="" />
 

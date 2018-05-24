@@ -82,16 +82,25 @@ public class UtilisateurDaoImpl extends AbstractDaoImpl implements UtilisateurDa
 	public void deleteUtilisateur(String pseudo) {
 		LOGGER.traceEntry("pseudo = " + pseudo);
 
-		if (pseudo != null && !pseudo.isEmpty()) {//Vérifie que le pseudo est nu null ni vide
-			//Suppression de la base de données
-			String vSQL = "DELETE FROM public.utilisateur WHERE pseudo = :pseudo";
+		if (pseudo != null && !pseudo.isEmpty()) {//Vérifie que le pseudo est ni null ni vide
+			//remplace l'utilisateur par l'utilisateur "Utilisateur supprimer" dans les tables commentaires et spot dont l'utilisateur et auteur
+			
+			String vSQL1 = "UPDATE public.spot SET pseudo_auteur='Utilisateur Supprimé' WHERE pseudo_auteur= :pseudo";
 
 			MapSqlParameterSource vParams = new MapSqlParameterSource();
 			vParams.addValue("pseudo", pseudo);
 
 			NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
 
-			vJdbcTemplate.update(vSQL, vParams);
+			vJdbcTemplate.update(vSQL1, vParams);
+			
+			String vSQL2 = "UPDATE public.commentaire SET pseudo_auteur='Utilisateur Supprimé' WHERE pseudo_auteur= :pseudo";
+			vJdbcTemplate.update(vSQL2, vParams);
+			
+			
+			//Suppression de la base de données
+			String vSQL3 = "DELETE FROM public.utilisateur WHERE pseudo = :pseudo";
+			vJdbcTemplate.update(vSQL3, vParams);
 		}
 
 		LOGGER.traceExit();

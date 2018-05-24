@@ -268,8 +268,8 @@ public class TopoDaoImpl extends AbstractDaoImpl implements TopoDao {
 	 */
 	private void deletePhotos(Topo topo) {
 		LOGGER.traceEntry("topo = " + topo);
-
-		String vSQL = "DELETE FROM public.photo_topo WHERE titre_topo = :titreTopo";
+		
+		String vSQL = "DELETE FROM public.photo WHERE id IN (SELECT photo_id AS id FROM public.photo_topo WHERE titre_topo = :titreTopo";
 
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
 		vParams.addValue("titreTopo", topo.getTitre());

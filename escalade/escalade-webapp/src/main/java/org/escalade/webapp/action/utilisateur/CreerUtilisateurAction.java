@@ -1,16 +1,21 @@
 package org.escalade.webapp.action.utilisateur;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.utilisateur.Utilisateur;
 import org.escalade.model.exception.FunctionalException;
@@ -24,7 +29,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author Olenos
  *
  */
-public class CreerUtilisateurAction extends ActionSupport {
+public class CreerUtilisateurAction extends ActionSupport implements ServletRequestAware{
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(CreerUtilisateurAction.class);
@@ -37,6 +42,11 @@ public class CreerUtilisateurAction extends ActionSupport {
 
 	private String mdp;
 	private String mdp2;
+	
+	private File myFile;
+	@SuppressWarnings("unused")
+	private String myFileContentType;
+	private String myFileFileName;
 
 	// ----- Eléments en entrée et sortie
 	// Rq les données de formulaire sont également en sortie afin de conserver les
@@ -46,6 +56,14 @@ public class CreerUtilisateurAction extends ActionSupport {
 	private String email;
 
 	// ----- Eléments en sortie
+	
+	// ================= Eléments Struts =======================
+	public HttpServletRequest request;
+
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
+	}
 
 	// ==================== Getters/Setters ====================
 
@@ -57,6 +75,18 @@ public class CreerUtilisateurAction extends ActionSupport {
 
 	public void setMdp2(String mdp2) {
 		this.mdp2 = mdp2;
+	}
+	
+	public void setMyFile(File myFile) {
+		this.myFile = myFile;
+	}
+
+	public void setMyFileContentType(String myFileContentType) {
+		this.myFileContentType = myFileContentType;
+	}
+
+	public void setMyFileFileName(String myFileFileName) {
+		this.myFileFileName = myFileFileName;
 	}
 
 	// ----- Eléments en entrée et sortie (setters et getters)
@@ -96,7 +126,27 @@ public class CreerUtilisateurAction extends ActionSupport {
 		if (pseudo == null) {// = arrivé sur le formulaire
 			result = ActionSupport.INPUT;
 		} else {// = traitement du formulaire
-			Utilisateur utilisateur = new Utilisateur(pseudo, email, null, false);
+
+			// traitement upload fichier
+			String destPath = request.getServletContext().getRealPath("/img/avatar");
+			
+			String fileName;
+			if(myFileFileName==null) {
+				fileName="no_avatar.png";
+			}else {
+				fileName = pseudo + ".png";
+
+				try {
+					File destFile = new File(destPath, fileName);
+					FileUtils.copyFile(myFile, destFile);
+
+				} catch (IOException e) {
+					LOGGER.debug(e);
+					return ERROR;
+				}
+			}
+
+			Utilisateur utilisateur = new Utilisateur(pseudo, email, fileName, false);
 			utilisateur.setMdp(mdp);
 
 			managerFactory.getUtilisateurManager().createUtilisateur(utilisateur);
@@ -117,7 +167,7 @@ public class CreerUtilisateurAction extends ActionSupport {
 		if (pseudo != null) {// Pas de validation à réaliser en arrivant sur le formulaire
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
 			
-			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
+			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formulaire
 			
 			Utilisateur utilisateur = null;
 			try {
@@ -148,9 +198,15 @@ public class CreerUtilisateurAction extends ActionSupport {
 					addFieldError("mdp", getText("error.mdp"));
 				}
 			}
+			
+			if(myFileFileName!=null) {
+				String[] tab = myFileFileName.split("\\.");
+				if(!tab[tab.length-1].equalsIgnoreCase("png")) {
+					addFieldError("myFile", getText("error.format"));
+				}
+			}
 		}
 
 		LOGGER.traceExit("hasFieldErrors ? : " + this.hasFieldErrors());
 	}
-
 }

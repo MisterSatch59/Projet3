@@ -124,7 +124,7 @@ public class LoginAction extends ActionSupport implements ServletRequestAware, S
 		// Invalidation de la session
         this.servletRequest.getSession().invalidate();
         
-        this.addActionMessage(this.getText("confirmationSuppressionUtilisateur"));
+        this.addActionMessage(this.getText("confirmationDecoUtilisateur"));
 		
 		LOGGER.traceExit(result);
 		return result;

@@ -353,7 +353,6 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	 */
 	private void createPhotos(List<String> listPhotos, int spotId) {
 		LOGGER.traceEntry("listPhotos = " + listPhotos + " - spotId = " + spotId);
-
 		if (listPhotos != null) {
 			for (String photo : listPhotos) {
 				String vSQL = "INSERT INTO public.photo (nom_fichier) VALUES (:nomFichier)";
@@ -363,9 +362,9 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 
 				KeyHolder keyHolder = new GeneratedKeyHolder();
 				NamedParameterJdbcTemplate vJdbcTemplate = new NamedParameterJdbcTemplate(getDataSource());
-				int photoId = (int) keyHolder.getKeys().get("id");
 
-				vJdbcTemplate.update(vSQL, vParams);
+				vJdbcTemplate.update(vSQL, vParams, keyHolder);
+				int photoId = (int) keyHolder.getKeys().get("id");
 
 				String vSQL2 = "INSERT INTO public.photo_spot (spot_id, photo_id) VALUES (:spotId, :photoId)";
 
@@ -576,8 +575,8 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 	 */
 	private void deletePhotos(int spotId) {
 		LOGGER.traceEntry("spotId =" + spotId);
-
-		String vSQL = "DELETE FROM public.photo_spot WHERE spot_id = :spotId";
+		
+		String vSQL = "DELETE FROM public.photo WHERE id IN (SELECT photo_id AS id FROM public.photo_spot WHERE spot_id = :spotId)";
 
 		MapSqlParameterSource vParams = new MapSqlParameterSource();
 		vParams.addValue("spotId", spotId);

@@ -1,16 +1,22 @@
 package org.escalade.webapp.action.spot;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
@@ -27,7 +33,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * @author Oltenos
  *
  */
-public class ModifierSpotAction extends ActionSupport {
+public class ModifierSpotAction extends ActionSupport implements ServletRequestAware {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(ModifierSpotAction.class);
 
@@ -55,6 +61,11 @@ public class ModifierSpotAction extends ActionSupport {
 	private String types;
 	private String profils;
 	private String orientations;
+	
+	private File myFile;
+	@SuppressWarnings("unused")
+	private String myFileContentType;
+	private String myFileFileName;
 	
 	// ----- Eléments en entrée et sortie
 	private int spotId;
@@ -145,6 +156,18 @@ public class ModifierSpotAction extends ActionSupport {
 	public void setOrientations(String orientations) {
 		this.orientations = orientations;
 	}
+	
+	public void setMyFile(File myFile) {
+		this.myFile = myFile;
+	}
+
+	public void setMyFileContentType(String myFileContentType) {
+		this.myFileContentType = myFileContentType;
+	}
+
+	public void setMyFileFileName(String myFileFileName) {
+		this.myFileFileName = myFileFileName;
+	}
 
 	// ----- Eléments en entrée et sortie (setters et getters)
 	public void setSpotId(int spotId) {
@@ -177,6 +200,15 @@ public class ModifierSpotAction extends ActionSupport {
 
 	public List<String> getListOrientations() {
 		return listOrientations;
+	}
+	
+	// ================= Eléments Struts =======================
+
+	public HttpServletRequest request;
+
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 	
 	// ================= Méthodes d'action ====================
@@ -294,6 +326,26 @@ public class ModifierSpotAction extends ActionSupport {
 		spot.setProfils(listProfilsSpot);
 		spot.setOrientations(listOrientationsSpot);
 		
+		
+		// traitement upload fichier
+		String destPath = request.getServletContext().getRealPath("/img/spot");
+
+		String fileName;
+		if (myFileFileName != null) {
+			String[] tab = myFileFileName.split("\\.");
+			fileName = spot.getId() + "_presentation." + tab[tab.length - 1];
+			try {
+				File destFile = new File(destPath, fileName);
+				FileUtils.copyFile(myFile, destFile);
+			} catch (IOException e) {
+				LOGGER.debug(e);
+				return ERROR;
+			}
+			List<String> listPhotos = new ArrayList<String>();
+			listPhotos.add(fileName);
+			spot.setListPhotos(listPhotos);
+		}
+		
 		//Mise à jout dans la base de donnés (appel du SpotManager)
 		managerFactory.getSpotManager().updateSpot(spot);
 
@@ -400,6 +452,13 @@ public class ModifierSpotAction extends ActionSupport {
 				addFieldError("profils",getText("erreur.profils"));
 			if(orientations.isEmpty())
 				addFieldError("orientations",getText("erreur.orientations"));
+			
+			if(myFileFileName!=null) {
+				String[] tab = myFileFileName.split("\\.");
+				if(!tab[tab.length-1].equalsIgnoreCase("png")&&!tab[tab.length-1].equalsIgnoreCase("jpg")&&!tab[tab.length-1].equalsIgnoreCase("jpeg")) {
+					addFieldError("myFile", getText("error.format"));
+				}
+			}
 		}
 		
 		if(this.hasFieldErrors()) {

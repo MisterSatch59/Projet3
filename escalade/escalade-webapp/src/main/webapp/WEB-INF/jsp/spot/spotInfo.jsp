@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 </head>
 
 <body class="container">
@@ -37,17 +38,16 @@
 		<div class="row alignCentre">
 			<div class="col-sm-8">
 				<h2><s:text name="presentation"/></h2>
+				<h4><s:text name="spotInfo.ceSpotEst"/> : 
+				<s:if test="spot.ouvert"><strong><s:text name="ouvert" /></strong></s:if>
+				<s:else><strong><s:text name="ferme" /></strong></s:else></h4>
 			</div>
 			<div class="col-sm-4">
-				<s:text name="auteur" /> : <img class="avatar" src="img/<s:property value="spot.auteur.avatar" />" alt= "avatar" /> - <strong><s:property value="spot.auteur.pseudo" /></strong>
-				<br/>
-				<s:text name="spotInfo.ceSpotEst"/> : 
-				<s:if test="spot.ouvert"><strong><s:text name="ouvert" /></strong></s:if>
-				<s:else><strong><s:text name="ferme" /></strong></s:else>
+				<s:text name="auteur" /> : <img class="avatar" src="img/avatar/<s:property value="spot.auteur.avatar" />" alt= "avatar" /> - <strong><s:property value="spot.auteur.pseudo" /></strong>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-4">
 				<ul class="list-unstyled">
 					<li>
 						<s:text name="types"/> : 
@@ -99,9 +99,52 @@
 								</s:iterator>
 						</li>
 					</s:if>
-					
 				</ul>
 			</div>
+			
+			<s:if test="%{spot.listPhotos.size()!=0}">
+				<div class="col-sm-8">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<s:iterator value="spot.listPhotos" status="stat">
+								<s:if test="#stat.index==0">
+									<li data-target="#carousel-example-generic" data-slide-to="#stat.index" class="active"></li>
+								</s:if>
+								<s:else>
+									<li data-target="#carousel-example-generic" data-slide-to="#stat.index"></li>
+								</s:else>
+							</s:iterator>
+						</ol>
+		
+						<!-- Wrapper for slides -->
+						<div  class="carousel-inner" role="listbox">
+							<s:iterator value="spot.listPhotos" var="photo" status="stat">
+								<s:if test="#stat.index==0">
+									<div class="item active ">
+										<img src="img/spot/<s:property value="photo" />" alt="photo" class="imageCarousel"/>
+									</div>
+								</s:if>
+								<s:else>
+									<div class="item">
+										<img src="img/spot/<s:property value="photo" />" alt="photo" class="imageCarousel"/>
+									</div>
+								</s:else>
+							</s:iterator>
+						</div>
+						<!-- Controls -->
+						<a class="left carousel-control" href="#carousel-example-generic"
+							role="button" data-slide="prev"> <span
+							class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a> <a class="right carousel-control" href="#carousel-example-generic"
+							role="button" data-slide="next"> <span
+							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+					</div>
+				</div>
+			</s:if>
 		</div>
 		
 		<div class="row">
@@ -123,7 +166,7 @@
 				<s:if test="alerte==true">
 					<li>
 						<h4>
-							<img class="avatar" src="img/<s:property value="auteur.avatar" />" alt= "avatar" /> - <strong><s:property value="auteur.pseudo" /></strong> - 
+							<img class="avatar" src="img/avatar/<s:property value="auteur.avatar" />" alt= "avatar" /> - <strong><s:property value="auteur.pseudo" /></strong> - 
 							<s:property value="date" /> - <s:property value="titre" />
 						</h4>
 						<div class="cadrePerso">
@@ -152,7 +195,7 @@
 				<s:if test="alerte==false">
 					<li>
 						<h4>
-							<img class="avatar" src="img/<s:property value="auteur.avatar" />" alt= "avatar" /> - <strong><s:property value="auteur.pseudo" /></strong> - 
+							<img class="avatar" src="img/avatar/<s:property value="auteur.avatar" />" alt= "avatar" /> - <strong><s:property value="auteur.pseudo" /></strong> - 
 							<s:property value="date" /> - <s:property value="titre" />
 						</h4>
 						<div class="cadrePerso">
@@ -176,7 +219,7 @@
 	<!-- Nouveau commentaire (ou alerte) -->
 	<s:if test="#session.utilisateur">
 		<div class="jumbotron marge container">
-			<s:form>
+			<s:form class="formClassiq">
 				<legend>
 					<s:text name="spotInfo.titreNouveauCommentaire" />
 				</legend>
@@ -279,7 +322,7 @@
 	            	curr_month++;
 	            	var curr_year = d.getFullYear();
 	            	
-	            	var infoComm ='<h4><img class="avatar" src="img/' + val.auteur.avatar + '" alt= "avatar" /> - <strong>'+ val.auteur.pseudo +'</strong> - ' + currDate + '/' + currMonth + '/' + curr_year + ' - ' + val.titre +'</h4>';
+	            	var infoComm ='<h4><img class="avatar" src="img/avatar/' + val.auteur.avatar + '" alt= "avatar" /> - <strong>'+ val.auteur.pseudo +'</strong> - ' + currDate + '/' + currMonth + '/' + curr_year + ' - ' + val.titre +'</h4>';
 	            	infoComm +='<div class="cadrePerso">';
 	            	$.each(val.listParagraphes, function( index, value ) {
 	            		infoComm+= value + "<br/>";

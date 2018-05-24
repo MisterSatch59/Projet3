@@ -106,12 +106,12 @@
 		<action name="creerUtilisateur"
 			class="org.escalade.webapp.action.utilisateur.CreerUtilisateurAction"
 			method="creer">
-			<result name="input">/WEB-INF/jsp/utilisateur/creerUtilisateur.jsp
-			</result><!-- En arrivant sur le formulaire + en cas d'informations invalides 
-				dans le formulaire -->
-			<result name="success" type="redirectAction">
-				<param name="actionName">login</param>
-			</result>
+				<result name="input">/WEB-INF/jsp/utilisateur/creerUtilisateur.jsp
+				</result><!-- En arrivant sur le formulaire + en cas d'informations invalides 
+					dans le formulaire -->
+				<result name="success" type="redirectAction">
+					<param name="actionName">login</param>
+				</result>
 		</action>
 
 		<!-- Action de connection à un compte utilisateur -->
@@ -208,6 +208,15 @@
 				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
+		
+		<!-- Action de suppression d'un compte utilisateur -->
+		<action name="supprimerUtilisateur"
+			class="org.escalade.webapp.action.utilisateur.SupprimerUtilisateur"
+			method="supprimer">
+			<result name="success" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+		</action>
 
 		<!-- Action de déconnection d'un compte utilisateur -->
 		<action name="logout"
@@ -259,6 +268,15 @@
 			class="org.escalade.webapp.action.exemplaire.AjouterExemplaireAction"
 			method="ajouter">
 			<result name="input">/WEB-INF/jsp/exemplaireTopo/ajouterExemplaire.jsp</result>
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoUtilisateur</param>
+			</result>
+		</action>
+		
+		<!-- Action de suppression d'un spot -->
+		<action name="supprimerExemplaireTopo"
+			class="org.escalade.webapp.action.exemplaire.SupprimerExemplaireTopoAction"
+			method="supprimerExemplaire">
 			<result name="success" type="redirectAction">
 				<param name="actionName">infoUtilisateur</param>
 			</result>

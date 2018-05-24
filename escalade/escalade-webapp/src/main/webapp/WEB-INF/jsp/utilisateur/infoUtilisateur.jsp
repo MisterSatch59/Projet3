@@ -10,7 +10,17 @@
 <body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
-	<h1><s:text name="profilUtilisateur" /> - <s:property value="#session.utilisateur.pseudo" /></h1>
+	<div class="row">
+		<div class="col-sm-6 col-xs-12">
+			<h1><s:text name="profilUtilisateur" /> - <img class="avatar" src="img/avatar/<s:property value="#session.utilisateur.avatar" />" alt= "avatar" />  <s:property value="#session.utilisateur.pseudo" /></h1>
+		</div>
+		<div class="col-sm-offset-3 col-sm-3 col-xs-12">
+			<s:a action="supprimerUtilisateur" class="btn btn-default btn-custom">
+				<s:text name="supprimerUtilisateur" />
+			</s:a>
+		</div>
+	</div>
+
 
 	<div class="row">
 		<!-- Liste des emprunts -->
@@ -41,7 +51,7 @@
 				<s:iterator value="listExemplaireTopo">
 					<s:property value="topo.titre" /> - <s:a action="infoTopo"><s:param name="titreTopo" value="topo.titre" /><s:text name="spotInfo.voirTopo" /></s:a> - 
 					<s:a action="infoExemplaireTopo"><s:param name="exemplaireId" value="id"/><s:text name="voirPeriodeEmprunt" /></s:a>
-					<br/>
+					<br/><s:a class="col-sm-offset-3 col-sm-6 col-xs-12 marge btn btn-default btn-custom" action="supprimerExemplaireTopo"><s:param name="exemplaireId" value="id"/><s:text name="supprimerExemplaire" /></s:a>.
 				</s:iterator>
 				<s:if test="%{listExemplaireTopo.size()==0}"><s:text name="aucunExemplaireEnr" /></s:if>
 			</div>
@@ -52,11 +62,13 @@
 	<div class="row">
 		<div class="jumbotron col-sm-offset-3 col-sm-6 col-xs-12 marge">
 			<h2><s:text name="modifierUtilisateur.title" /></h2>
-			<s:form action="modifierUtilisateur">
+			<s:form action="modifierUtilisateur" class="formClassiq" method="POST" enctype="multipart/form-data" >
 				<s:password id = "mdp" name="mdp" key="mdp" class="form-control miniMarge"/>
 				<s:password id = "mdp2" name="mdp2" key="confirmation" class="form-control miniMarge"/>
 				
 				<s:textfield id = "email" name="email" key="email" type="email" value="%{#session.utilisateur.mail}" class="form-control miniMarge"/>
+				
+				<s:file name="myFile" key="avatar" accept="image/png" />
 				
 				<s:submit class="col-sm-offset-3 col-sm-6 col-xs-12 marge btn btn-default btn-custom" key="valider" name=""/>
 			</s:form>

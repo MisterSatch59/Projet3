@@ -1,17 +1,22 @@
 package org.escalade.webapp.action.utilisateur;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.escalade.business.contract.ManagerFactory;
 import org.escalade.model.bean.utilisateur.Utilisateur;
@@ -20,7 +25,7 @@ import org.escalade.model.exception.TechnicalException;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ModifierUtilisateurAction extends ActionSupport implements SessionAware {
+public class ModifierUtilisateurAction extends ActionSupport implements SessionAware, ServletRequestAware {
 	// implements SessionAware si nécessaire uniquement
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = LogManager.getLogger(ModifierUtilisateurAction.class);
@@ -34,6 +39,10 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 	private String mdp;
 	private String mdp2;
 	private String email;
+	private File myFile;
+	@SuppressWarnings("unused")
+	private String myFileContentType;
+	private String myFileFileName;
 	
 	// ----- Eléments en entrée et sortie
 
@@ -45,6 +54,13 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 	@Override // Si implements SessionAware
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+	
+	public HttpServletRequest request;
+
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 
 	// ==================== Getters/Setters ====================
@@ -63,6 +79,18 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 		this.email = email;
 	}
 	
+	public void setMyFile(File myFile) {
+		this.myFile = myFile;
+	}
+
+	public void setMyFileContentType(String myFileContentType) {
+		this.myFileContentType = myFileContentType;
+	}
+
+	public void setMyFileFileName(String myFileFileName) {
+		this.myFileFileName = myFileFileName;
+	}
+
 	// ----- Eléments en entrée et sortie (setters et getters)
 
 	// ----- Eléments en sortie (getters uniquement)
@@ -80,6 +108,27 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 		String result = ActionSupport.SUCCESS;
 		
 		Utilisateur utilisateur = (Utilisateur) this.session.get("utilisateur");
+		
+		// traitement upload fichier
+		String destPath = request.getServletContext().getRealPath("/img/avatar");
+
+		String fileName;
+		if (myFileFileName != null) {
+			fileName = utilisateur.getPseudo() + ".png";
+
+			try {
+				File destFile = new File(destPath, fileName);
+				FileUtils.copyFile(myFile, destFile);
+
+			} catch (IOException e) {
+				LOGGER.debug(e);
+				return ERROR;
+			}
+			
+			utilisateur.setAvatar(fileName);
+		}
+		
+		
 		
 		utilisateur.setMail(email);
 		
@@ -120,6 +169,13 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 				if (!matcher.lookingAt()) {
 					addFieldError("mdp", getText("error.mdp"));
 				}
+			}
+		}
+		
+		if(myFileFileName!=null) {
+			String[] tab = myFileFileName.split("\\.");
+			if(!tab[tab.length-1].equalsIgnoreCase("png")) {
+				addFieldError("myFile", getText("error.format"));
 			}
 		}
 
