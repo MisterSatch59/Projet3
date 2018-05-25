@@ -110,10 +110,10 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 		Utilisateur utilisateur = (Utilisateur) this.session.get("utilisateur");
 		
 		// traitement upload fichier
-		String destPath = request.getServletContext().getRealPath("/img/avatar");
+		String destPath = request.getServletContext().getRealPath("/img/avatar");//path d'enregistrement de l'image avatar
 
 		String fileName;
-		if (myFileFileName != null) {
+		if (myFileFileName != null) {//si aucun fichier d'uploader, pas de changement de l'avatar
 			fileName = utilisateur.getPseudo() + ".png";
 
 			try {
@@ -128,16 +128,18 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 			utilisateur.setAvatar(fileName);
 		}
 		
-		
-		
+		//Modification de l'adresse e-mail
 		utilisateur.setMail(email);
 		
-		if(mdp.isEmpty()) {//Si le champ mdp est vide, il faut insérer null en second paramètre (et non pas un String vide) pour ne pas changer le mot de passe
+		//Modification du mdp si un nouveau mdp est entré
+		//Si le champ mdp est vide, il faut insérer null en second paramètre (et non pas un String vide) pour ne pas changer le mot de passe
+		if(mdp.isEmpty()) {
 			managerFactory.getUtilisateurManager().updateUtilisateur(utilisateur, null);
 		}else {
 			managerFactory.getUtilisateurManager().updateUtilisateur(utilisateur, mdp);
 		}
 		
+		//Message confirmation de modification de l'utilisateur
 		this.addActionMessage(this.getText("confirmationModificationUtilisateur"));
 
 		LOGGER.traceExit(result);
@@ -154,7 +156,6 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 		Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
 		
 		//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
-
 		Set<ConstraintViolation<Utilisateur>> valueViolationsUtilisateur = validator.validateValue(Utilisateur.class, "mail", email);
 		if (!valueViolationsUtilisateur.isEmpty())
 			addFieldError("email", getText("error.email"));
@@ -172,6 +173,7 @@ public class ModifierUtilisateurAction extends ActionSupport implements SessionA
 			}
 		}
 		
+		//vérification du fichier uploadé
 		if(myFileFileName!=null) {
 			String[] tab = myFileFileName.split("\\.");
 			if(!tab[tab.length-1].equalsIgnoreCase("png")) {

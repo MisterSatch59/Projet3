@@ -113,9 +113,7 @@ public class CreerUtilisateurAction extends ActionSupport implements ServletRequ
 
 	/**
 	 * Action d'accés au formulaire et de création d'un utilisateur
-	 * 
-	 * @return INPUT pour accéder au formulaire ou SUCCES aprés validation du
-	 *         formulaire
+	 * @return INPUT pour accéder au formulaire ou SUCCESS aprés validation du formulaire
 	 * @throws TechnicalException 
 	 * @throws FunctionalException 
 	 */
@@ -127,15 +125,14 @@ public class CreerUtilisateurAction extends ActionSupport implements ServletRequ
 			result = ActionSupport.INPUT;
 		} else {// = traitement du formulaire
 
-			// traitement upload fichier
-			String destPath = request.getServletContext().getRealPath("/img/avatar");
+			// traitement upload fichier image avatar
+			String destPath = request.getServletContext().getRealPath("/img/avatar");//path d'enregistrement de l'image avatar
 			
 			String fileName;
-			if(myFileFileName==null) {
+			if(myFileFileName==null) {//si aucun fichier d'uploader, le ficher no_avatar.png sera utilisé
 				fileName="no_avatar.png";
-			}else {
+			}else {//Sinon on enregsitre l'avatar avec le pseudo utilisateur dans le dossier prévus
 				fileName = pseudo + ".png";
-
 				try {
 					File destFile = new File(destPath, fileName);
 					FileUtils.copyFile(myFile, destFile);
@@ -145,11 +142,15 @@ public class CreerUtilisateurAction extends ActionSupport implements ServletRequ
 					return ERROR;
 				}
 			}
-
+			
+			//Création de l'utilisateur avec les données du formulaire et l'avatar
 			Utilisateur utilisateur = new Utilisateur(pseudo, email, fileName, false);
 			utilisateur.setMdp(mdp);
-
+			
+			//Création de l'utilisateur (aprés traitement, notament du mdp)
 			managerFactory.getUtilisateurManager().createUtilisateur(utilisateur);
+			
+			//Message confirmation de création de l'utilisateur
 			this.addActionMessage(getText("creerUtilisateur.utilisateurCreer"));
 		}
 
@@ -167,8 +168,7 @@ public class CreerUtilisateurAction extends ActionSupport implements ServletRequ
 		if (pseudo != null) {// Pas de validation à réaliser en arrivant sur le formulaire
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator();
 			
-			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formulaire
-			
+			//vérifie si le pseudo existe déja dans la base de données
 			Utilisateur utilisateur = null;
 			try {
 				utilisateur = managerFactory.getUtilisateurManager().getUtilisateur(pseudo);
@@ -180,6 +180,7 @@ public class CreerUtilisateurAction extends ActionSupport implements ServletRequ
 				addFieldError("pseudo", getText("error.pseudoExiste"));
 			}
 
+			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formulaire
 			Set<ConstraintViolation<Utilisateur>> valueViolationsUtilisateur = validator.validateValue(Utilisateur.class, "pseudo", pseudo);
 			if (!valueViolationsUtilisateur.isEmpty())
 				addFieldError("pseudo", getText("error.pseudo"));
@@ -199,6 +200,7 @@ public class CreerUtilisateurAction extends ActionSupport implements ServletRequ
 				}
 			}
 			
+			//vérification du fichier uploadé
 			if(myFileFileName!=null) {
 				String[] tab = myFileFileName.split("\\.");
 				if(!tab[tab.length-1].equalsIgnoreCase("png")) {

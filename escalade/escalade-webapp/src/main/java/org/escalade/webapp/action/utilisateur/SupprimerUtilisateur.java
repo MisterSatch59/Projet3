@@ -58,26 +58,38 @@ public class SupprimerUtilisateur extends ActionSupport implements ServletReques
 
 	// ================= Méthodes d'action ====================
 
+	/**
+	 * Action de suppression d'un compte utilisateur
+	 * @return SUCCESS
+	 * @throws FunctionalException
+	 * @throws TechnicalException
+	 */
 	public String supprimer() throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
-
+		// récupération de l'utilisateur en session
 		Utilisateur utilisateur = (Utilisateur) session.get("utilisateur");
+
+		// Retrait de l'utilisateur de la session
 		this.session.remove("utilisateur");
+
 		// Invalidation de la session
 		this.servletRequest.getSession().invalidate();
 
+		// suppression de la base de donnée (Rq remplacement par "Utilisateur Supprimé"
+		// pour les spot et commentaire créé)
 		managerFactory.getUtilisateurManager().deleteUtilisateur(utilisateur.getPseudo());
-		
+
+		// Suppression de l'image de l'avatar
 		String avatar = utilisateur.getAvatar();
 		LOGGER.debug("avatar = " + avatar);
-		if(avatar!=null && !avatar.equals("no_avatar.png")) {
-			LOGGER.debug("suppr fichier = " + avatar);
+		if (avatar != null && !avatar.equals("no_avatar.png")) {
 			String path = servletRequest.getServletContext().getRealPath("/img/avatar");
 			File file = new File(path, utilisateur.getAvatar());
 			FileUtils.deleteQuietly(file);
 		}
 
+		// Message de confirmation
 		this.addActionMessage(this.getText("confirmationSuppressionUtilisateur"));
 
 		LOGGER.traceExit(result);

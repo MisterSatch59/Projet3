@@ -10,13 +10,11 @@
 <body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 
+	<!-- Titre  et bouton création-->
 	<div class="row aligneCentre">
-	
 		<div class="col-sm-6 col-xs-12">
 			<h1><s:text name="spots" /></h1>
 		</div>
-	
-
 		<s:if test="#session.utilisateur">
 			<div class="col-sm-offset-3 col-sm-3 col-xs-12">
 				<s:a action="versCreerSpot" class="btn btn-default btn-custom">
@@ -25,8 +23,8 @@
 			</div>
 		</s:if>
 	</div>
-
-	<div class="row marge">
+	<!-- Cadre recherche -->
+	<div class="row marge cadrePerso">
 		<s:form theme="css_xhtml">
 			<div class="formInLinePerso">
 				<s:select id = "departement" name="departement" key="departement" list="listDepartements" emptyOption="true" requiredLabel="false" onchange="onSelectDepartementChange()" cssClass="form-control" />
@@ -35,17 +33,18 @@
 				<s:select id = "difficulteMax" name="difficulteMax" key="diffMax" list="listDifficultes" emptyOption="true" requiredLabel="false" cssClass="form-control" />
 			</div>
 		</s:form>
-	</div>
-	<div class="row marge">
-		<button onclick="rechercheSpots()"  class="btn btn-default btn-custom col-sm-offset-4 col-sm-4 col-xs-12">
-			<s:text name="spots.rechercheButton" />
-		</button>
+		<div class="row marge">
+			<button onclick="rechercheSpots()"  class="btn btn-default btn-custom col-xs-offset-4 col-xs-4">
+				<s:text name="spots.rechercheButton" />
+			</button>
+		</div>
 	</div>
 
+	<!-- Résultats -->
 	<div class="row marge">
 		<div class="col-md-12" id="aucunResultat">
 			<div class="jumbotron">
-				<s:text name="aucunSpot" />
+				<p><s:text name="aucunSpot" /></p>
 			</div>
 		</div>
 	
@@ -56,13 +55,13 @@
 	
 	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 	<script>
-		//Masque le texte "aucun résultat"
+		//Masque le texte "aucun résultat" au chrgement de la page
 		$(document).ready(function() {
 			var aucunResult = $("#aucunResultat");
 			aucunResult.hide();
 		});
 	
-	
+		//Réalisation de la recherche
 		function rechercheSpots() {
 			// URL de l'action AJAX
 			var url = "<s:url action="ajax_rechercheSpot"/>";
@@ -120,10 +119,11 @@
 						detail+= '<li><div class="col-xs-offset-5 col-sm-7">' + '<a href = "' + url2 + '" class="btn btn-default btn-custom" >' + '<s:text name="accesDescriptionSpot" />';
 						
 						
-						$listSpots.append($('<div class="col-md-6 spot">').append($('<div class="jumbotron">').append('<h2>' +val.nom + " - " + val.ville.nom + " - " + val.ville.departement.nom).append(detail)));
+						$listSpots.append($('<div class="col-md-6 spot">').append($('<div class="jumbotron">').append('<h3>' +val.nom + " - " + val.ville.nom + " - " + val.ville.departement.nom).append(detail)));
 					});
 					
 					if(detail==''){
+						//Affiche le texte "aucun résultat"
 						aucunResult.show();
 					}
 				}
@@ -133,6 +133,7 @@
 			});
 		}
 		
+		//Chargement de la liste des villes aprés séleection d'un département
 		function onSelectDepartementChange() {
 		    // URL de l'action AJAX
 		    var url = "<s:url action="ajax_getVilles"/>";

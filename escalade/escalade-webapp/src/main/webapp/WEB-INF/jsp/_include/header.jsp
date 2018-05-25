@@ -51,6 +51,6 @@
 	</div>
 </nav>
 
-<s:actionerror />
-<s:actionmessage />
+<s:actionerror class="alert alert-danger list-unstyled"/><!-- Bandeau rouge pour les messages d'erreur -->
+<s:actionmessage class="alert alert-info list-unstyled"/><!-- Bandeau bleu pour les message d'action -->
 

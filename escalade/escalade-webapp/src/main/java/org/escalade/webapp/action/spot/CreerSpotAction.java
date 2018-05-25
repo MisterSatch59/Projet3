@@ -305,6 +305,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
+		//Chargement des données nécéssaire pour le formulaire
 		listDepartements = managerFactory.getSpotManager().getDepartements();
 		listTypes = managerFactory.getSpotManager().getTypes();
 		listProfils = managerFactory.getSpotManager().getProfils();
@@ -319,14 +320,16 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 	 * Action de création d'un spot
 	 * @throws FunctionalException 
 	 * @throws TechnicalException 
-	 * @returnSUCCESS
+	 * @return SUCCESS ou INPUT en cas d'informations invalides dans le formulaire (méthode validate())
 	 */
 	public String creer() throws FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
+		//Création d'un spot "vide"
 		Spot spot = new Spot();
 		
+		//Changement du nom
 		spot.setNom(nom);
 		
 		//Création de la ville si elle n'existe pas dans la base de données
@@ -340,19 +343,19 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 			spot.setVille(new Ville(0,villeNom,villeCP,departement));
 		}
 		
+		//Changement situation (ouvert/fermé) et difficultés
 		spot.setOuvert(ouvert);
 		spot.setDifficulteMin(difficulteMin);
 		spot.setDifficulteMax(difficulteMax);
 		
-		//adapteEnfants
-		LOGGER.debug("accessibleEnfants = " + accessibleEnfants);
+		//Changement adapteEnfants
 		if(accessibleEnfants.isEmpty()) {
 			spot.setAdapteEnfants(null);
 		}else {
 			spot.setAdapteEnfants(Boolean.parseBoolean(accessibleEnfants));
 		}
 		
-		//hauteurMin et hauteurMax
+		//Changement hauteurMin et hauteurMax
 		if(!hauteurMin.isEmpty()) {
 			spot.setHauteurMin(Integer.parseInt(hauteurMin));
 		}else {
@@ -360,13 +363,14 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 		}
 		spot.setHauteurMax(Integer.parseInt(hauteurMax));
 		
-		//nbSecteur
+		//Changement nbSecteur
 		if(!nbSecteur.isEmpty()) {
 			spot.setNbSecteur(Integer.parseInt(nbSecteur));
 		}else {
 			spot.setNbSecteur(0);
 		}
 		
+		//Changement nbVoie latitude et longitude
 		spot.setNbVoie(nbVoie);
 		spot.setLatitude(latitude);
 		spot.setLongitude(longitude);
@@ -375,12 +379,8 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 		if(descriptionTitre.isEmpty()||descriptionTexte.isEmpty()) {
 			spot.setPresentation(null);
 		}else {
-			ZoneTexte presentation = spot.getPresentation();
-			if(presentation==null) {
-				presentation = new ZoneTexte(0, descriptionTitre);
-			}else {
-				presentation.setTitre(descriptionTitre);
-			}
+			ZoneTexte presentation = new ZoneTexte(0, descriptionTitre);
+			
 			List<String> listParagraphes = new ArrayList<String>();
 			String[] paragraphes = descriptionTexte.split("\n");
 			for (int i = 0; i < paragraphes.length; i++) {
@@ -405,12 +405,13 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 		//Ajout dans la base de donnés (appel du SpotManager)
 		spot = managerFactory.getSpotManager().createSpot(spot);
 
-		//Récupération de l'id du spot dans la base de données nécéssaire pour la redirection vers l'action d'affichage de la fiche du spot
+		//Récupération de l'id du spot dans la base de données
+		//nécéssaire pour la redirection vers l'action d'affichage de la fiche du spot
+		//Et pour l'enregistrement de l'image (si uploadé)
 		spotId = spot.getId();
 		LOGGER.debug("spot = " + spot);
 		
-		
-		// traitement upload fichier
+		// traitement upload fichier image
 		String destPath = request.getServletContext().getRealPath("/img/spot");
 
 		String fileName;
@@ -445,7 +446,6 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator(); 
 			
 			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
-			
 			Set<ConstraintViolation<Spot>> valueViolationsSpot = validator.validateValue(Spot.class, "nom", nom);
 			if (!valueViolationsSpot.isEmpty())
 				addFieldError("nom",getText("error.nom"));
@@ -492,6 +492,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 			if (!valueViolationsSpot.isEmpty())
 				addFieldError("hauteurMax",getText("erreur.hauteurMax"));
 
+			//vérification cohérence entre heuteur min et max
 			if(hMax<hMin) {
 				addFieldError("hauteurMax",getText("erreur.hauteur"));
 			}
@@ -533,6 +534,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 			if(orientations.isEmpty())
 				addFieldError("orientations",getText("erreur.orientations"));
 			
+			//Vérification du format du fichier (png ou jpg)
 			if(myFileFileName!=null) {
 				String[] tab = myFileFileName.split("\\.");
 				if(!tab[tab.length-1].equalsIgnoreCase("png")&&!tab[tab.length-1].equalsIgnoreCase("jpg")&&!tab[tab.length-1].equalsIgnoreCase("jpeg")) {
@@ -541,7 +543,7 @@ public class CreerSpotAction extends ActionSupport implements SessionAware, Serv
 			}
 		}
 		
-		if(this.hasFieldErrors()) {//Si il y a une erreur il faut redonner les liste suivantes
+		if(this.hasFieldErrors()) {//Si il y erreur, rechargement des données du formulaire (voir versCreer())
 			listDepartements = managerFactory.getSpotManager().getDepartements();
 			listTypes = managerFactory.getSpotManager().getTypes();
 			listProfils = managerFactory.getSpotManager().getProfils();

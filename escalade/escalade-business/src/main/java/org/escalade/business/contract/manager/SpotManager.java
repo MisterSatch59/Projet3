@@ -1,6 +1,7 @@
 package org.escalade.business.contract.manager;
 
 import java.util.List;
+import java.util.Map;
 
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
@@ -28,6 +29,12 @@ public interface SpotManager {
 	 */
 	public Spot getSpot(int id) throws NotFoundException;
 
+	/**
+	 * Retourne la liste de tous les spot (id/nom) dans l'ordre aplphabétique
+	 * @return Map<Integer, String>
+	 */
+	public Map<Integer, String> getAllSpot();
+	
 	/**
 	 * Enregistre le spot dans la base de données et le retourne modifié (avec son
 	 * identifiant dans la base de données)</br>
@@ -148,5 +155,7 @@ public interface SpotManager {
 	 * @throws FunctionalException
 	 */
 	public List<Ville> getVilles(String NumeroDepartement) throws FunctionalException;
+	
+
 
 }

@@ -11,7 +11,7 @@
 <body class="container">
 	<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 	
-	<!-- En tête de la page (titre et bouton si connecté -->
+	<!-- En tête de la page (titre et bouton si connecté) -->
 	<div class="row aligneCentre">
 		<div  class="col-sm-6">
 			<h1><s:property value="spot.nom" /> - <s:property value="spot.ville.departement.nom" /> - <s:property value="spot.ville.nom" /></h1>
@@ -20,11 +20,11 @@
 		<div class="col-sm-6">
 			<div class="row">
 				<s:if test="#session.utilisateur">
-					<s:if test="#session.utilisateur.pseudo==spot.auteur.pseudo||#session.utilisateur.admin==true">
 					<div class="col-sm-6 ">
-						<s:a action="supprimerSpot" class="btn btn-default btn-custom-rouge"><s:param name="spotId" value="spot.id" /><s:text name="supprimer"/></s:a>
+						<s:if test="#session.utilisateur.pseudo==spot.auteur.pseudo||#session.utilisateur.admin==true">
+							<s:a action="supprimerSpot" class="btn btn-default btn-custom-rouge"><s:param name="spotId" value="spot.id" /><s:text name="supprimer"/></s:a>
+						</s:if>
 					</div>
-					</s:if>
 					<div class="col-sm-6">
 						<s:a action="versModifierSpot" class="btn btn-default btn-custom"><s:param name="spotId" value="spot.id" /><s:text name="modifier"/></s:a>
 					</div>
@@ -94,9 +94,9 @@
 					<s:if test="spot.presentation.titre!=''">
 						<li>
 							<h3><s:property value="spot.presentation.titre" /></h3>
-								<s:iterator value="spot.presentation.listParagraphes" var="parag">
-									<h4><s:property value="parag" /></h4>
-								</s:iterator>
+							<s:iterator value="spot.presentation.listParagraphes" var="parag">
+								<h4><s:property value="parag" /></h4>
+							</s:iterator>
 						</li>
 					</s:if>
 				</ul>
@@ -105,18 +105,6 @@
 			<s:if test="%{spot.listPhotos.size()!=0}">
 				<div class="col-sm-8">
 					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-						<!-- Indicators -->
-						<ol class="carousel-indicators">
-							<s:iterator value="spot.listPhotos" status="stat">
-								<s:if test="#stat.index==0">
-									<li data-target="#carousel-example-generic" data-slide-to="#stat.index" class="active"></li>
-								</s:if>
-								<s:else>
-									<li data-target="#carousel-example-generic" data-slide-to="#stat.index"></li>
-								</s:else>
-							</s:iterator>
-						</ol>
-		
 						<!-- Wrapper for slides -->
 						<div  class="carousel-inner" role="listbox">
 							<s:iterator value="spot.listPhotos" var="photo" status="stat">
@@ -132,16 +120,18 @@
 								</s:else>
 							</s:iterator>
 						</div>
-						<!-- Controls -->
-						<a class="left carousel-control" href="#carousel-example-generic"
-							role="button" data-slide="prev"> <span
-							class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-							<span class="sr-only">Previous</span>
-						</a> <a class="right carousel-control" href="#carousel-example-generic"
-							role="button" data-slide="next"> <span
-							class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-							<span class="sr-only">Next</span>
-						</a>
+						<s:if test="%{spot.listPhotos.size()!=1}">
+							<!-- Controls -->
+							<a class="left carousel-control" href="#carousel-example-generic"
+								role="button" data-slide="prev"> <span
+								class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								<span class="sr-only">Previous</span>
+							</a> <a class="right carousel-control" href="#carousel-example-generic"
+								role="button" data-slide="next"> <span
+								class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+								<span class="sr-only">Next</span>
+							</a>
+						</s:if>
 					</div>
 				</div>
 			</s:if>
@@ -159,9 +149,9 @@
 	
 	
 	<!-- Alertes -->
-	<div class="jumbotron marge container">
+	<div class="jumbotron marge container" id="divAlerte">
 		<h2><s:text name="alertes" /> : </h2>
-		<ul id="affAlertes">
+		<ul id="affAlertes" class="list-unstyled">
 			<s:iterator value="spot.listCommentaires">
 				<s:if test="alerte==true">
 					<li>
@@ -190,7 +180,10 @@
 	<!-- Commentaires -->
 	<div class="jumbotron marge container">
 		<h2><s:text name="commentaires" /> : </h2>
-		<ul id="affCommentaires">
+		<ul class="list-unstyled" id="aucunComm">
+			<li><s:text name="aucunCommentaire" /></li>
+		</ul>
+		<ul id="affCommentaires" class="list-unstyled">
 			<s:iterator value="spot.listCommentaires">
 				<s:if test="alerte==false">
 					<li>
@@ -240,6 +233,19 @@
 
 	<%@ include file="/WEB-INF/jsp/_include/footer.jsp"%>
 	<script>
+		//Masque le div "Alertes" au chargement de la page si il n'y a aucune alerte
+		$(document).ready(function() {
+			var divAlerte = $("#divAlerte");
+			if($("#affAlertes > li").length==0){
+				divAlerte.hide();
+			}
+			
+			var aucunComm = $("#aucunComm");
+			if($("#affCommentaires > li").length!=0){
+				aucunComm.hide();
+			}
+		});
+	
 		function envoyerCommentaire() {
 			var titre = $("#titre").val()
 			var texteCommentaire = $("#texte").val()
@@ -298,51 +304,68 @@
 		
 		function AfficherComm(data) {
 			 var $affCommentaires = $("#affCommentaires");
-	            $affCommentaires.empty();
-	            var $affAlertes = $("#affAlertes");
-	            $affAlertes.empty();
-	            $("#titre").val('');
-	            $("#texte").val('');
-	            $("#alerte").prop("checked", false);
-	            jQuery.each(data, function (key, val) {
-	            	
-	            	var d = new Date(val.date);
-	            	var curr_date = d.getDate();
-	            	if (curr_date < 10) {
-	            		var currDate = '0' + curr_date;
-	            	}else{
-	            		var currDate = curr_date;
-	            	}
-	            	var curr_month = d.getMonth()+1;
-	            	if (curr_month < 10) {
-	            		var currMonth = '0' + curr_month;
-	            	}else{
-	            		var currMonth = curr_month;
-	            	}
-	            	curr_month++;
-	            	var curr_year = d.getFullYear();
-	            	
-	            	var infoComm ='<h4><img class="avatar" src="img/avatar/' + val.auteur.avatar + '" alt= "avatar" /> - <strong>'+ val.auteur.pseudo +'</strong> - ' + currDate + '/' + currMonth + '/' + curr_year + ' - ' + val.titre +'</h4>';
-	            	infoComm +='<div class="cadrePerso">';
-	            	$.each(val.listParagraphes, function( index, value ) {
-	            		infoComm+= value + "<br/>";
-	            	});
-	            	infoComm +='</div>';
-	            	
-	            	var pseudo="<s:property value="#session.utilisateur.pseudo" />";
-	            	var admin="<s:property value="#session.utilisateur.admin" />"
-	            	if(val.auteur.pseudo==pseudo || admin=="true" ){
-		            	infoComm +='<div class="col-sm-offset-8 col-sm-4 marge">';
-	            		infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'" class="btn btn-default btn-custom">' + '<s:text name="spotInfo.supprCommentaire" />';
-	            		infoComm +='</div>';
-	            	}
+	         $affCommentaires.empty();
+	         var $affAlertes = $("#affAlertes");
+	         $affAlertes.empty();
+	         $("#titre").val('');
+	         $("#texte").val('');
+	         $("#alerte").prop("checked", false);
+	         jQuery.each(data, function (key, val) {
+	         	
+	         	var d = new Date(val.date);
+	          	var curr_date = d.getDate();
+	           	if (curr_date < 10) {
+	           		var currDate = '0' + curr_date;
+	           	}else{
+	           		var currDate = curr_date;
+	           	}
+	           	var curr_month = d.getMonth()+1;
+	           	if (curr_month < 10) {
+	           		var currMonth = '0' + curr_month;
+	           	}else{
+	           		var currMonth = curr_month;
+	           	}
+	           	curr_month++;
+	           	var curr_year = d.getFullYear();
+	           	
+	           	var infoComm ='<h4><img class="avatar" src="img/avatar/' + val.auteur.avatar + '" alt= "avatar" /> - <strong>'+ val.auteur.pseudo +'</strong> - ' + currDate + '/' + currMonth + '/' + curr_year + ' - ' + val.titre +'</h4>';
+	           	infoComm +='<div class="cadrePerso">';
+	           	$.each(val.listParagraphes, function( index, value ) {
+	           		infoComm+= value + "<br/>";
+	           	});
+	           	infoComm +='</div>';
+	           	
+	           	var pseudo="<s:property value="#session.utilisateur.pseudo" />";
+	           	var admin="<s:property value="#session.utilisateur.admin" />"
+	           	if(val.auteur.pseudo==pseudo || admin=="true" ){
+		           	infoComm +='<div class="col-sm-offset-8 col-sm-4 marge">';
+	           		infoComm+= '<button onclick="supprimerCommentaire(this)" id="'+val.id+'" class="btn btn-default btn-custom">' + '<s:text name="spotInfo.supprCommentaire" />';
+	           		infoComm +='</div>';
+	           	}
 
-	            	if (val.alerte == true) {
-	            		$affAlertes.append($('<li>').append(infoComm));
-	            	} else { 
-	            		$affCommentaires.append($('<li>').append(infoComm));
-	            	}
-	            });
+            	if (val.alerte == true) {
+            		$affAlertes.append($('<li>').append(infoComm));
+            	} else { 
+            		$affCommentaires.append($('<li>').append(infoComm));
+            	}
+
+	        });
+	            
+            //Affiche ou masque le div contenant les alertes selon la présence ou non de contenu
+            var divAlerte = $("#divAlerte");
+            if($("#affAlertes > li").length==0){
+    			divAlerte.hide();
+    		}else{
+    			divAlerte.show();
+    		}
+            
+            //Affiche ou masque le message d'abscence de commentaire selon la présence ou non de contenu
+            var aucunComm = $("#aucunComm");
+    		if($("#affCommentaires > li").length!=0){
+    			aucunComm.hide();
+    		}else{
+    			aucunComm.show();
+    		}
 		 }
 		
 	</script>

@@ -101,7 +101,7 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	// ================= Méthodes d'action ====================
 
 	/**
-	 * Action affichant la fiche d'un spot (spotInfo.jsp)
+	 * Action affichant la fiche d'un spot
 	 * 
 	 * @return SUCCESS
 	 * @throws NotFoundException 
@@ -109,11 +109,10 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	public String getInfo() throws NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
+		LOGGER.trace("spotId = " + spotId);
 
-		LOGGER.debug("spotId = " + spotId);
-
+		//Chargement du spot et de la list de topo dont il appartient
 		spot = managerFactory.getSpotManager().getSpot(spotId);
-
 		listTopo = managerFactory.getSpotManager().getListTopo(spotId);
 
 		LOGGER.traceExit(result);
@@ -121,8 +120,7 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	}
 
 	/**
-	 * Action ajoutant un commantaire et retournant le spot modifié
-	 * 
+	 * Action ajoutant un commentaire à un spot et affichant les commentaires du Spot
 	 * @return SUCCESS ou ERROR
 	 * @throws TechnicalException 
 	 * @throws FunctionalException 
@@ -132,17 +130,12 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
-		LOGGER.debug("spotId = " + spotId);
-		LOGGER.debug("titre = " + titre);
-		LOGGER.debug("texteCommentaire = " + texteCommentaire);
-		LOGGER.debug("alerte = " + alerte);
-
 		//Utilisation de l'utilisateur en session comme auteur du commentaire
 		Utilisateur auteur = (Utilisateur) session.get("utilisateur");
 		//Utilisation de la date du jour pour le commentaire
 		Date date = new java.util.Date();
 		
-		//Création de la liste des paragrpahes à partir du contenu du textarea
+		//Création de la liste des paragraphes à partir du contenu du textarea
 		List<String> listParagraphes = new ArrayList<String>();
 		String[] paragraphes = texteCommentaire.split("\n");
 		for (int i = 0; i < paragraphes.length; i++) {
@@ -162,33 +155,6 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	}
 	
 	/**
-	 * Validation du formulaire
-	 */
-	@Override
-	public void validate() {
-		LOGGER.traceEntry();
-		
-		if(titre!=null) {
-			if(texteCommentaire.isEmpty()) {
-				addFieldError("texteCommentaire",getText("erreur.commentaire.texte"));
-			}
-			
-			if(titre.isEmpty()) {
-				addFieldError("titre",getText("erreur.commentaire.titre"));
-			}
-			
-			try {
-				listCommentaires = managerFactory.getSpotManager().getSpot(spotId).getListCommentaires();
-			} catch (NotFoundException e) {
-				LOGGER.error(e);
-				this.addActionError(getText(e.getMessage()));
-			}
-		}
-		
-		LOGGER.traceExit("hasFieldErrors() ? : " + hasFieldErrors());
-	}
-	
-	/**
 	 * Action de suppression d'un commentaire
 	 * @return SUCCESS
 	 * @throws TechnicalException 
@@ -197,11 +163,12 @@ public class SpotInfoAction extends ActionSupport  implements SessionAware {
 	public String doAJAXsupprimerCommentaire() throws TechnicalException, NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
+		LOGGER.trace("commentaireId = " + commentaireId);
 		
-		LOGGER.debug("commentaireId = " + commentaireId);
-		
+		//Suppression du commentaire dans la base de données
 		managerFactory.getSpotManager().deleteCommentaire(commentaireId);
 		
+		//Chargement des commentaires du spot
 		listCommentaires = managerFactory.getSpotManager().getSpot(spotId).getListCommentaires();
 				
 		LOGGER.traceExit(result);

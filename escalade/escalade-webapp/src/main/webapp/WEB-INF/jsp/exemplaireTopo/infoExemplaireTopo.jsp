@@ -19,12 +19,12 @@
 					
 			<h2><s:text name="periodePretPrevues" /> :</h2>
 			
-			<ul>
+			<ul class="list-unstyled">
 				<s:iterator value="listEmprunt">
-					<li><s:property value="dateDebut" /> - <s:property value="dateFin" /> :
+					<li class="cadrePerso"><s:property value="dateDebut" /> - <s:property value="dateFin" /> :
 						<ul class="list-unstyled">
 							<li><s:text name="emprunteur" /> : <s:property value="emprunteur.pseudo" /> - <s:text name="email" /> : <a href="mailto:<s:property value="emprunteur.mail" />"><s:property value="emprunteur.mail" /></a></li>
-							<li><s:a action="supprimerEmpruntPreteur" class="marge btn btn-default btn-custom"><s:param name="empruntId" value="id"/><s:param name="exemplaireId" value="%{exemplaire.id}"/><s:text name="supprimerEmprunt" /></s:a></li>
+							<li><s:a action="supprimerEmpruntPreteur" class="marge btn btn-default btn-custom-rouge"><s:param name="empruntId" value="id"/><s:param name="exemplaireId" value="%{exemplaire.id}"/><s:text name="supprimerEmprunt" /></s:a></li>
 						</ul>
 					</li>
 					<br/>

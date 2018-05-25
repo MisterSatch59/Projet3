@@ -78,11 +78,14 @@ public class EmprunterAction extends ActionSupport  implements SessionAware {
 			LOGGER.traceEntry("exemplaireId = " + exemplaireId + "debut = " + debut + "fin = " + fin);
 			String result = ActionSupport.SUCCESS;
 	
+			//Récupération de l'utilisateur en session
 			Utilisateur utilisateur = (Utilisateur) this.session.get("utilisateur");
 	
+			//Chargement de l'exemplaire concerné
 			ExemplaireTopo exemplaire = managerFactory.getExemplaireTopoManager().getExemplaireTopo(exemplaireId);
+			
+			//Création de l'emprunt et enregistrement dans la base de données
 			Emprunt emprunt = new Emprunt(0, debut, fin, utilisateur, exemplaire);
-	
 			managerFactory.getEmpruntManager().createEmprunt(emprunt);
 	
 			LOGGER.traceExit(result);

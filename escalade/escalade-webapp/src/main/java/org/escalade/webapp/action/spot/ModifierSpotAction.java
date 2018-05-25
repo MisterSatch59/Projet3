@@ -216,33 +216,32 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 
 	/**
 	 * Action de chargement de la page de modification d'un spot
-	 * 
 	 * @return SUCCESS
 	 * @throws NotFoundException 
 	 */
 	public String versModifier() throws NotFoundException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
+		LOGGER.trace("spotId = " + spotId);
 
-		LOGGER.debug("spotId = " + spotId);
-
+		//Chargement du spot pour préremplir le formulaire avec les données actuelle
 		spot = managerFactory.getSpotManager().getSpot(spotId);
+		
+		//Chargement des données nécéssaire pour le formulaire
 		listDepartements = managerFactory.getSpotManager().getDepartements();
 		listTypes = managerFactory.getSpotManager().getTypes();
 		listProfils = managerFactory.getSpotManager().getProfils();
 		listDifficultes = managerFactory.getSpotManager().getDifficultes();
 		listOrientations = managerFactory.getSpotManager().getOrientations();
 
-		LOGGER.debug("spot = " + spot);
-
+		LOGGER.trace("spot = " + spot);
 		LOGGER.traceExit(result);
 		return result;
 	}
 
 	/**
 	 * Action de modification d'un spot
-	 * 
-	 * @return SUCCESS ou INPUT en cas d'informations invalides dans le formulaire
+	 * @return SUCCESS ou INPUT en cas d'informations invalides dans le formulaire (méthode validate())
 	 * @throws NotFoundException 
 	 * @throws FunctionalException 
 	 * @throws TechnicalException 
@@ -250,11 +249,12 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 	public String modifier() throws NotFoundException, FunctionalException, TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
+		LOGGER.trace("spotId = " + spotId);
 		
-		LOGGER.debug("spotId = " + spotId);
-		
+		//récupération du spot dans la base données pour modification
 		spot = managerFactory.getSpotManager().getSpot(spotId);
 		
+		//Changement du nom
 		spot.setNom(nom);
 		
 		//Création de la ville si elle n'existe pas dans la base de données
@@ -268,11 +268,12 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 			spot.setVille(new Ville(0,villeNom,villeCP,departement));
 		}
 		
+		//Changement situation (ouvert/fermé) et difficultés
 		spot.setOuvert(ouvert);
 		spot.setDifficulteMin(difficulteMin);
 		spot.setDifficulteMax(difficulteMax);
 		
-		//adapteEnfants
+		//Changement adapteEnfants
 		LOGGER.debug("accessibleEnfants = " + accessibleEnfants);
 		if(accessibleEnfants.isEmpty()) {
 			spot.setAdapteEnfants(null);
@@ -280,7 +281,7 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 			spot.setAdapteEnfants(Boolean.parseBoolean(accessibleEnfants));
 		}
 		
-		//hauteurMin et hauteurMax
+		//Changement hauteurMin et hauteurMax
 		if(!hauteurMin.isEmpty()) {
 			spot.setHauteurMin(Integer.parseInt(hauteurMin));
 		}else {
@@ -288,13 +289,14 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 		}
 		spot.setHauteurMax(Integer.parseInt(hauteurMax));
 		
-		//nbSecteur
+		//Changement nbSecteur
 		if(!nbSecteur.isEmpty()) {
 			spot.setNbSecteur(Integer.parseInt(nbSecteur));
 		}else {
 			spot.setNbSecteur(0);
 		}
 		
+		//Changement nbVoie latitude et longitude
 		spot.setNbVoie(nbVoie);
 		spot.setLatitude(latitude);
 		spot.setLongitude(longitude);
@@ -327,13 +329,13 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 		spot.setOrientations(listOrientationsSpot);
 		
 		
-		// traitement upload fichier
+		// traitement upload fichier image
 		String destPath = request.getServletContext().getRealPath("/img/spot");
 
 		String fileName;
 		if (myFileFileName != null) {
 			String[] tab = myFileFileName.split("\\.");
-			fileName = spot.getId() + "_presentation." + tab[tab.length - 1];
+			fileName = spot.getId() + "_0." + tab[tab.length - 1];
 			try {
 				File destFile = new File(destPath, fileName);
 				FileUtils.copyFile(myFile, destFile);
@@ -348,8 +350,8 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 		
 		//Mise à jout dans la base de donnés (appel du SpotManager)
 		managerFactory.getSpotManager().updateSpot(spot);
-
-		LOGGER.debug("spot = " + spot);
+		
+		this.addActionMessage(this.getText("confirmationModificationSpot"));
 
 		LOGGER.traceExit(result);
 		return result;
@@ -365,7 +367,6 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 			Validator validator = Validation.byDefaultProvider().configure().buildValidatorFactory().getValidator(); 
 			
 			//Utilisation de la JSR 349 pour vérifié la validité des données pour chaque champ du formlaire
-			
 			Set<ConstraintViolation<Spot>> valueViolationsSpot = validator.validateValue(Spot.class, "nom", nom);
 			if (!valueViolationsSpot.isEmpty())
 				addFieldError("nom",getText("error.nom"));
@@ -411,7 +412,8 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 			valueViolationsSpot = validator.validateValue(Spot.class, "hauteurMax", hMax);
 			if (!valueViolationsSpot.isEmpty())
 				addFieldError("hauteurMax",getText("erreur.hauteurMax"));
-
+			
+			//vérification cohérence entre heuteur min et max
 			if(hMax<hMin) {
 				addFieldError("hauteurMax",getText("erreur.hauteur"));
 			}
@@ -453,6 +455,7 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 			if(orientations.isEmpty())
 				addFieldError("orientations",getText("erreur.orientations"));
 			
+			//Vérification du format du fichier (png ou jpg)
 			if(myFileFileName!=null) {
 				String[] tab = myFileFileName.split("\\.");
 				if(!tab[tab.length-1].equalsIgnoreCase("png")&&!tab[tab.length-1].equalsIgnoreCase("jpg")&&!tab[tab.length-1].equalsIgnoreCase("jpeg")) {
@@ -461,7 +464,7 @@ public class ModifierSpotAction extends ActionSupport implements ServletRequestA
 			}
 		}
 		
-		if(this.hasFieldErrors()) {
+		if(this.hasFieldErrors()) {//Si il y erreur, rechargement des données du formulaire (voir versModifier())
 			try {
 				spot = managerFactory.getSpotManager().getSpot(spotId);
 			} catch (NotFoundException e) {

@@ -28,8 +28,8 @@ public class Topo {
 	/**
 	 * texte de description du topo
 	 */
-	@NotNull
 	@Valid
+	@NotNull
 	private ZoneTexte description;
 	/**
 	 * liste des noms des photos du topo

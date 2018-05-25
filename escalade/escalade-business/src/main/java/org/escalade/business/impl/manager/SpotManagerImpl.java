@@ -2,6 +2,7 @@ package org.escalade.business.impl.manager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Named;
@@ -40,6 +41,16 @@ public class SpotManagerImpl extends AbstractManagerImpl implements SpotManager 
 		if (result == null) {
 			throw new NotFoundException("The place was not found with id = " + id);
 		}
+
+		LOGGER.traceExit(result);
+		return result;
+	}
+	
+	@Override
+	public Map<Integer, String> getAllSpot(){
+		LOGGER.traceEntry();
+
+		Map<Integer, String> result = this.getDaoFactory().getSpotDao().getAllSpot();
 
 		LOGGER.traceExit(result);
 		return result;

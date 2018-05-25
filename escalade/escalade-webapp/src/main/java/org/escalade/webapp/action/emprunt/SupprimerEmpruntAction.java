@@ -58,8 +58,10 @@ public class SupprimerEmpruntAction extends ActionSupport {
 		String result = ActionSupport.SUCCESS;
 		LOGGER.trace("empruntId = " + empruntId);
 
+		//Suppression de l'emprunt dans la base de données
 		managerFactory.getEmpruntManager().deleteEmprunt(empruntId);
-
+		
+		//message de confirmation
 		this.addActionMessage(this.getText("confirmationSuppressionEmprunt"));
 
 		LOGGER.traceExit(result);

@@ -66,7 +66,7 @@ public class InfoUtilisateurAction extends ActionSupport implements SessionAware
 		String result = ActionSupport.SUCCESS;
 		Utilisateur utilisateur = (Utilisateur) this.session.get("utilisateur");
 		
-		//Charge de l'utilisateur et de la list des exemplaire possédés
+		//Chargement de l'utilisateur et de la liste des exemplaires possédés
 		listEmprunt = managerFactory.getEmpruntManager().getListEmprunt(utilisateur.getPseudo());
 		listExemplaireTopo = managerFactory.getExemplaireTopoManager().getListExemplaireTopo(utilisateur.getPseudo());
 		

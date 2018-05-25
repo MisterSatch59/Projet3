@@ -17,7 +17,7 @@
 	<div class="row">
 		<div class="jumbotron col-sm-offset-1 col-sm-10 col-xs-12 marge">
 			<h3><s:text name="commentaireOuConditions" /></h3>
-			<s:form action="ajouterExemplaireTopo">
+			<s:form action="ajouterExemplaireTopo" class="formClassiq" method="POST">
 				<div class="container">
 					<s:textfield id="titre" name="titre" key="titre" requiredLabel="true" class=" form-control"/>
 					<s:textarea id="texte" name="texte" cols="150" rows="6" requiredLabel="true" class="form-control miniMarge"/>

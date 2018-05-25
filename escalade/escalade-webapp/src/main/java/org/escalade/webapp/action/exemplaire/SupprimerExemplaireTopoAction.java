@@ -38,12 +38,21 @@ public class SupprimerExemplaireTopoAction extends ActionSupport {
 
 	// ================= Méthodes d'action ====================
 
+	/**
+	 * Action de suppression d'un exemplaire de topo
+	 * @return SUCCESS
+	 * @throws TechnicalException
+	 */
 	public String supprimerExemplaire() throws TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
+		//Supprime l'exemplaire de la base de données
 		managerFactory.getExemplaireTopoManager().deleteExemplaireTopo(exemplaireId);
-
+		
+		//Message de confirmation
+		this.addActionMessage(getText("confirmationSuppressionExemplaire"));
+		
 		LOGGER.traceExit(result);
 		return result;
 	}

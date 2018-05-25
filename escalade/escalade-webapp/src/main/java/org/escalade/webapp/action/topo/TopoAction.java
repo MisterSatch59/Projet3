@@ -39,7 +39,9 @@ public class TopoAction extends ActionSupport {
 
 	// ----- Eléments en sortie
 	private List<Topo> listTopos;
+	
 	private Topo topo;
+	
 	private List<ExemplaireTopo> listExemplaire;
 
 	// ==================== Getters/Setters ====================
@@ -85,6 +87,7 @@ public class TopoAction extends ActionSupport {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 
+		//Chargement de la liste de tous les topos
 		listTopos = managerFactory.getTopoManager().getListTopos();
 
 		LOGGER.trace("listTopos = " + listTopos);
@@ -93,8 +96,7 @@ public class TopoAction extends ActionSupport {
 	}
 
 	/**
-	 * Action affichant les informations d'un topo
-	 * 
+	 * Action affichant la page avec les informations d'un topo
 	 * @return SUCCESS
 	 * @throws FunctionalException
 	 * @throws NotFoundException
@@ -104,33 +106,32 @@ public class TopoAction extends ActionSupport {
 		String result = ActionSupport.SUCCESS;
 		LOGGER.trace("titreTopo = " + titreTopo);
 
+		//Chargement du topo à afficher
 		topo = managerFactory.getTopoManager().getTopo(titreTopo);
 
-		LOGGER.trace("topo = " + topo);
 		LOGGER.traceExit(result);
 		return result;
 	}
 	
 	/**
 	 * Action AJAX permettant d'afficher la liste des exemplaires dispo du topo aux dates souhaités
-	 * @return
+	 * @return SUCCESS
 	 * @throws FunctionalException 
 	 */
 	public String doAJAXtopoDispo() throws FunctionalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 		LOGGER.trace("titreTopo = " + titreTopo + " debut = " + debut + " fin = " + fin);
-
+		
+		//Chargement de la list des exemplaires du topo et dispo aux dates souhaités
 		listExemplaire = managerFactory.getExemplaireTopoManager().getListExemplaireTitreTopo(titreTopo, debut, fin);
 
-		LOGGER.trace("listExemplaire = " + listExemplaire);
 		LOGGER.traceExit(result);
 		return result;
 	}
 
 	/**
 	 * Action de suppression d'un topo
-	 * 
 	 * @return SUCCESS
 	 * @throws FunctionalException
 	 * @throws TechnicalException
@@ -140,7 +141,11 @@ public class TopoAction extends ActionSupport {
 		String result = ActionSupport.SUCCESS;
 		LOGGER.trace("titreTopo = " + titreTopo);
 
+		//Supprime le topo de la base de données
 		managerFactory.getTopoManager().deleteTopo(titreTopo);
+		
+		//Message de confirmation
+		this.addActionMessage(this.getText("confirmationTopoSupprimé"));
 
 		LOGGER.traceExit(result);
 		return result;

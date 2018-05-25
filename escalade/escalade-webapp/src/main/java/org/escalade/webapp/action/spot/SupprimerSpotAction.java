@@ -51,12 +51,12 @@ public class SupprimerSpotAction extends ActionSupport {
 	public String supprimerSpot() throws TechnicalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
-
 		LOGGER.debug("spotId = " + spotId);
 
 		//Suppression du spot dans la base de données
 		managerFactory.getSpotManager().deleteSpot(spotId);
 
+		//Message de confirmation
 		this.addActionMessage(getText("spot.confirmation.supprimé"));
 
 		LOGGER.traceExit(result);

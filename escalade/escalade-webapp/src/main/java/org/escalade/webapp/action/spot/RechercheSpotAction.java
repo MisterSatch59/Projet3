@@ -88,8 +88,8 @@ public class RechercheSpotAction extends ActionSupport {
 	// =================  Méthodes d'action  ====================
 	
 	/**
-	 * Action de chargement de la page de recherche de spot (spots.jsp)<br/>
-	 * L'action transmet la liste des départements et des difficultés pour les listes déroulantes de la page de recherche.
+	 * Action affichant la page de recherche de spot : chargement de la liste
+	 * des départements et des difficultés pour les listes déroulantes
 	 * @return SUCCESS
 	 * @throws FunctionalException 
 	 */
@@ -97,6 +97,7 @@ public class RechercheSpotAction extends ActionSupport {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
 		
+		//Chargement des listes pour les menu déroulants
 		listDepartements = managerFactory.getSpotManager().getDepartements();
 		listVille = managerFactory.getSpotManager().getVilles("");
 		listDifficultes = managerFactory.getSpotManager().getDifficultes();
@@ -116,18 +117,15 @@ public class RechercheSpotAction extends ActionSupport {
 		
 		LOGGER.debug("departement = " + departement);
 		
-		//Recherche dans la base de données de la liste des villes du département
+		//Recherche dans la base de données la liste des villes du département
 		String result = ActionSupport.SUCCESS;
-		
 		if (departement == null) {
 			listVille = managerFactory.getSpotManager().getVilles(null);
 		} else {
 			listVille = managerFactory.getSpotManager().getVilles(departement.getNumero());
 		}
 
-		LOGGER.warn(departement);
-		LOGGER.debug("listVille = " + listVille);
-		
+		LOGGER.trace("listVille = " + listVille);
 		LOGGER.traceExit(result);
 		return result;
 	}
@@ -140,9 +138,6 @@ public class RechercheSpotAction extends ActionSupport {
 	public String doAJAXrecherche() throws FunctionalException {
 		LOGGER.traceEntry();
 		String result = ActionSupport.SUCCESS;
-		
-		listDepartements = managerFactory.getSpotManager().getDepartements();
-		listDifficultes = managerFactory.getSpotManager().getDifficultes();
 		
 		//Création du Bean de recherche
 		RechercheSpot recherche = new RechercheSpot();
@@ -166,12 +161,12 @@ public class RechercheSpotAction extends ActionSupport {
 		else
 			recherche.setDifficulteMax(difficulteMax);
 		
-		LOGGER.debug("recherche = " + recherche);
+		LOGGER.trace("recherche = " + recherche);
 		
 		//Réalisation de la recherhce dans la base de données
 		resultatRecherche = managerFactory.getSpotManager().rechercheSpot(recherche);
 		
-		LOGGER.debug("resultatRecherche" + resultatRecherche);
+		LOGGER.trace("resultatRecherche" + resultatRecherche);
 		LOGGER.traceExit(result);
 		return result;
 	}

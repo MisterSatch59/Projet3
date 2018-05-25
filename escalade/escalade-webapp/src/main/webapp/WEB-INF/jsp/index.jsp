@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/jsp/_include/head.jsp"%>
 	</head>
-	
+	<!-- page d'index pas d'action à partir de cette page -->
 	<body class="container">
 		<%@ include file="/WEB-INF/jsp/_include/header.jsp"%>
 		

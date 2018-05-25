@@ -6,7 +6,8 @@
 	<!-- ===== Package de configuration de base ===== -->
 	<package name="base" abstract="true" extends="struts-default">
 		<interceptors>
-			<interceptor name="auth" class="org.escalade.webapp.interceptor.AuthInterceptor" />
+			<interceptor name="auth"
+				class="org.escalade.webapp.interceptor.AuthInterceptor" />
 
 			<interceptor-stack name="applicationDefaultStack">
 				<interceptor-ref name="store">
@@ -25,7 +26,8 @@
 			</interceptor-stack>
 		</interceptors>
 
-		<default-interceptor-ref name="applicationDefaultStack" />
+		<default-interceptor-ref
+			name="applicationDefaultStack" />
 
 		<!-- Results globaux -->
 		<global-results>
@@ -53,9 +55,14 @@
 		</global-results>
 
 		<global-exception-mappings>
-			<exception-mapping exception="java.lang.Exception" result="Exception" />
-			<exception-mapping exception="org.escalade.model.exception.TechnicalException" result="TechnicalException" />
-			<exception-mapping exception="org.escalade.model.exception.NotFoundException" result="NotFoundException" />
+			<exception-mapping exception="java.lang.Exception"
+				result="Exception" />
+			<exception-mapping
+				exception="org.escalade.model.exception.TechnicalException"
+				result="TechnicalException" />
+			<exception-mapping
+				exception="org.escalade.model.exception.NotFoundException"
+				result="NotFoundException" />
 		</global-exception-mappings>
 	</package>
 
@@ -76,7 +83,7 @@
 		</action>
 
 		<!-- Action affichant la page de recherche de spot : chargement de la liste 
-			des département et des difficulté pour les listes déroulantes -->
+			des départements et des difficultés pour les listes déroulantes -->
 		<action name="spots"
 			class="org.escalade.webapp.action.spot.RechercheSpotAction"
 			method="versRecherche">
@@ -92,13 +99,15 @@
 
 		<!-- Action affichant la page avec la liste des topos -->
 		<action name="topos"
-			class="org.escalade.webapp.action.topo.TopoAction" method="versTopos">
+			class="org.escalade.webapp.action.topo.TopoAction"
+			method="versTopos">
 			<result name="success">/WEB-INF/jsp/topo/topos.jsp</result>
 		</action>
 
-		<!-- Action affichant la page avec la liste des topos -->
+		<!-- Action affichant la page avec les informations d'un topo -->
 		<action name="infoTopo"
-			class="org.escalade.webapp.action.topo.TopoAction" method="infoTopo">
+			class="org.escalade.webapp.action.topo.TopoAction"
+			method="infoTopo">
 			<result name="success">/WEB-INF/jsp/topo/infoTopo.jsp</result>
 		</action>
 
@@ -106,12 +115,12 @@
 		<action name="creerUtilisateur"
 			class="org.escalade.webapp.action.utilisateur.CreerUtilisateurAction"
 			method="creer">
-				<result name="input">/WEB-INF/jsp/utilisateur/creerUtilisateur.jsp
-				</result><!-- En arrivant sur le formulaire + en cas d'informations invalides 
-					dans le formulaire -->
-				<result name="success" type="redirectAction">
-					<param name="actionName">login</param>
-				</result>
+			<result name="input">/WEB-INF/jsp/utilisateur/creerUtilisateur.jsp
+			</result><!-- En arrivant sur le formulaire + en cas d'informations invalides 
+				dans le formulaire -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">login</param>
+			</result>
 		</action>
 
 		<!-- Action de connection à un compte utilisateur -->
@@ -179,6 +188,30 @@
 			</result>
 		</action>
 
+		<!-- Action de création d'un topo -->
+		<action name="creerTopo"
+			class="org.escalade.webapp.action.topo.CreerTopoAction"
+			method="creer">
+			<result name="input">/WEB-INF/jsp/topo/creerTopo.jsp</result><!-- En arrivant 
+				et en cas d'informations invalides dns le formulaire -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoTopo</param>
+				<param name="titreTopo">${titreTopo}</param>
+			</result>
+		</action>
+
+		<!-- Action de modification d'un topo -->
+		<action name="modifierTopo"
+			class="org.escalade.webapp.action.topo.ModifierTopoAction"
+			method="modifier">
+			<result name="input">/WEB-INF/jsp/topo/modifierTopo.jsp</result><!-- En 
+				arrivant et en cas d'informations invalides dns le formulaire -->
+			<result name="success" type="redirectAction">
+				<param name="actionName">infoTopo</param>
+				<param name="titreTopo">${titreTopo}</param>
+			</result>
+		</action>
+
 		<!-- Action de suppression d'un topo -->
 		<action name="supprimerTopo"
 			class="org.escalade.webapp.action.topo.TopoAction"
@@ -208,7 +241,7 @@
 				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
-		
+
 		<!-- Action de suppression d'un compte utilisateur -->
 		<action name="supprimerUtilisateur"
 			class="org.escalade.webapp.action.utilisateur.SupprimerUtilisateur"
@@ -267,13 +300,14 @@
 		<action name="ajouterExemplaireTopo"
 			class="org.escalade.webapp.action.exemplaire.AjouterExemplaireAction"
 			method="ajouter">
-			<result name="input">/WEB-INF/jsp/exemplaireTopo/ajouterExemplaire.jsp</result>
+			<result name="input">/WEB-INF/jsp/exemplaireTopo/ajouterExemplaire.jsp
+			</result>
 			<result name="success" type="redirectAction">
 				<param name="actionName">infoUtilisateur</param>
 			</result>
 		</action>
-		
-		<!-- Action de suppression d'un spot -->
+
+		<!-- Action de suppression d'un exemplaire de topo -->
 		<action name="supprimerExemplaireTopo"
 			class="org.escalade.webapp.action.exemplaire.SupprimerExemplaireTopoAction"
 			method="supprimerExemplaire">

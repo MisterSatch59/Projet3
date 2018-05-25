@@ -83,7 +83,7 @@ public class AjouterExemplaireAction extends ActionSupport implements SessionAwa
 
 	/**
 	 *  Action d'ajout d'un exemplaire d'un topo
-	 * @return INPUT ou SUCCESS
+	 * @return SUCCESS ou INPUT en arriavant sur la formulaire ou en cas de données invalide dans la formulaire (méthode validate())
 	 * @throws NotFoundException
 	 * @throws FunctionalException
 	 * @throws TechnicalException
@@ -110,8 +110,8 @@ public class AjouterExemplaireAction extends ActionSupport implements SessionAwa
 			ZoneTexte zt = new ZoneTexte(0,titre);
 			zt.setListParagraphes(listParagraphes);
 			
+			//Création et enregistrement dans la base de données de l'exemplaire
 			ExemplaireTopo exemplaire = new ExemplaireTopo(0,topo,(Utilisateur) session.get("utilisateur"),zt);
-			
 			managerFactory.getExemplaireTopoManager().createExemplaireTopo(exemplaire);
 		}
 

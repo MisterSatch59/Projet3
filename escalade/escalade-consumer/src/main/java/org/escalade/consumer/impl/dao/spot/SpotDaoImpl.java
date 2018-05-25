@@ -1,6 +1,8 @@
 package org.escalade.consumer.impl.dao.spot;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -72,6 +74,22 @@ public class SpotDaoImpl extends AbstractDaoImpl implements SpotDao {
 
 		LOGGER.traceExit(spot);
 		return spot;
+	}
+	
+	@Override
+	public Map<Integer, String> getAllSpot(){
+		String vSQL = "SELECT id,nom FROM public.spot ORDER BY nom";
+
+
+		JdbcTemplate vJdbcTemplate = new JdbcTemplate(getDataSource());
+		
+		List<Map<String, Object>> list = vJdbcTemplate.queryForList(vSQL);
+		Map<Integer, String> result = new TreeMap<Integer,String>();
+		for (Map<String, Object> map : list) {
+			result.put((Integer)map.get("id"), (String)map.get("nom"));
+		}
+
+		return result;
 	}
 
 	/**

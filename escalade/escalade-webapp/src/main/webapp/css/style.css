@@ -21,7 +21,7 @@ legend{
 	max-height : 50px;
 }
 
-.gdeImage {
+.gdeImage {/* Redimentionnement des images pour ne pas dépasser la page */
 	max-width: 100%;
 	max-height : 100%
 }
@@ -31,7 +31,7 @@ legend{
 	margin : auto
 }
 
-/* ALignement et affichage */
+/* Alignement et affichage */
 .footer {
 	padding: 5px;
 	border-width: 1px;
@@ -46,7 +46,7 @@ legend{
 	border-width: 3px;
 }
 
-.marge{
+.marge{/* Ajout d'une marge en haut pour "decoler" de l'élément au dessus */
 	margin-top: 10px;
 }
 
@@ -71,6 +71,10 @@ legend{
 
 .spot{
 	min-height: 340px;
+}
+
+.topo{
+	min-height: 200px;
 }
 
 /*Formulaires "clasiques" */

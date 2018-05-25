@@ -64,7 +64,7 @@ public class InfoExemplaireAction extends ActionSupport {
 		String result = ActionSupport.SUCCESS;
 		LOGGER.trace("exemplaireId = " + exemplaireId);
 		
-		//Récupére les info de l'exemplaire et la list de toute les reservation réalisé de cet exemplaire
+		//Récupére les info de l'exemplaire et la liste de toutes les reservations réalisés de cet exemplaire
 		exemplaire = managerFactory.getExemplaireTopoManager().getExemplaireTopo(exemplaireId);
 		listEmprunt = managerFactory.getEmpruntManager().getListEmprunt(exemplaireId);
 

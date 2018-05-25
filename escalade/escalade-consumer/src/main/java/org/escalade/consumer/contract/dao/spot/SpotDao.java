@@ -1,6 +1,7 @@
 package org.escalade.consumer.contract.dao.spot;
 
 import java.util.List;
+import java.util.Map;
 
 import org.escalade.model.bean.spot.Departement;
 import org.escalade.model.bean.spot.Spot;
@@ -23,6 +24,12 @@ public interface SpotDao {
 	 */
 	public Spot getSpot(int id);
 
+	/**
+	 * Retourne la liste de tous les spot (id/nom) dans l'ordre aplphabétique
+	 * @return Map<Integer, String>
+	 */
+	public Map<Integer, String> getAllSpot();
+	
 	/**
 	 * Enregistre le spot dans la base de donnée et retourne le spot modifié (avec
 	 * l'identifiant dans la base de données)</br>
@@ -118,5 +125,7 @@ public interface SpotDao {
 	 * @return List<String>
 	 */
 	List<String> getListTopo(int spotId);
+
+	
 
 }
