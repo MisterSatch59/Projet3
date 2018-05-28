@@ -95,7 +95,7 @@
 						<li>
 							<h3><s:property value="spot.presentation.titre" /></h3>
 							<s:iterator value="spot.presentation.listParagraphes" var="parag">
-								<h4><s:property value="parag" /></h4>
+								<h5><s:property value="parag" /></h5>
 							</s:iterator>
 						</li>
 					</s:if>

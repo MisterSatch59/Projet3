@@ -774,3 +774,38 @@ INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_id)
 --EXEMPLE DE PRET DU TOPO A OLTENOS
 
 INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Oltenos',1,{d '2018-06-01'},{d '2018-06-03'});
+
+-- PHOTOS
+
+INSERT INTO public.photo (id,nom_fichier) VALUES (1,'Grimper autour de Toulon_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (2,'9_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (3,'8_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (4,'7_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (5,'1_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (6,'12_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (7,'2_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (8,'4_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (9,'3_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (10,'11_0.png');
+INSERT INTO public.photo (id,nom_fichier) VALUES (11,'10_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (12,'6_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (13,'5_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (15,'13_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (16,'17_0.JPG');
+
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (1,5);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (2,7);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (3,9);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (4,8);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (5,13);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (6,12);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (7,4);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (8,3);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (9,2);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (10,11);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (11,10);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (12,6);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (13,15);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (17,16);
+
+INSERT INTO public.photo_topo (titre_topo,photo_id) VALUES ('Grimper autour de Toulon',1);

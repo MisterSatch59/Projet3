@@ -1,5 +1,6 @@
 --CREATION TABLES
 
+
 CREATE SEQUENCE public.photo_id_seq;
 
 CREATE TABLE public.photo (
@@ -215,14 +216,14 @@ CLUSTER commentaire_idx ON commentaire;
 ALTER TABLE public.photo_spot ADD CONSTRAINT photo_photo_spot_fk
 FOREIGN KEY (photo_id)
 REFERENCES public.photo (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.photo_topo ADD CONSTRAINT photo_photo_topo_fk
 FOREIGN KEY (photo_id)
 REFERENCES public.photo (id)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
@@ -299,14 +300,14 @@ NOT DEFERRABLE;
 ALTER TABLE public.emprunt ADD CONSTRAINT utilisateur_emprunt_fk
 FOREIGN KEY (pseudo_emprunteur)
 REFERENCES public.utilisateur (pseudo)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.exemplaire_topo ADD CONSTRAINT utilisateur_exemplaire_topo_fk
 FOREIGN KEY (pseudo_proprietaire)
 REFERENCES public.utilisateur (pseudo)
-ON DELETE NO ACTION
+ON DELETE CASCADE
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
@@ -554,8 +555,9 @@ INSERT INTO public.departement (numero,nom) VALUES ('976','Mayotte');
 
 --SPOTS DE DEMONSTRATION
 
-INSERT INTO public.utilisateur (pseudo,mail,mdp,sel,avatar,admin) VALUES ('SingEscalade','admin@singescalade.fr','A7ng2e5LtPi3rDlkkV2YI/0QUiiLKUMoLGy9hhmR2aE=','kkp2PoZwmDDrCRH2zHtt','singe.png',true);
-INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin,sel) VALUES ('Oltenos','test@test.com','9Gb+Cm0HWmVuF7zuSK4L4Pg+GOvPFNsbAWoU/cM2Ywg=',null,false,'t0P7IvDKzv36W2npOfR4');
+INSERT INTO public.utilisateur (pseudo,mail,mdp,sel,avatar,admin) VALUES ('SingEscalade','admin@singescalade.fr','A7ng2e5LtPi3rDlkkV2YI/0QUiiLKUMoLGy9hhmR2aE=','kkp2PoZwmDDrCRH2zHtt','SingEscalade.png',true);
+INSERT INTO public.utilisateur (pseudo,mail,mdp,avatar,admin,sel) VALUES ('Oltenos','test@test.com','9Gb+Cm0HWmVuF7zuSK4L4Pg+GOvPFNsbAWoU/cM2Ywg=','no_avatar.png',false,'t0P7IvDKzv36W2npOfR4');
+INSERT INTO "public"."utilisateur" (pseudo,mail,mdp,avatar,admin,sel) VALUES ('Utilisateur Supprimé','a@a.com','M7YteEvK1uAw/cKdUbsSVlJbdC66aCGa+X35fQRztjs=','Utilisateur Supprimé.png',false,'aEiDRmMB40z2602dcRRb');
 
 INSERT INTO public.zone_texte (titre) VALUES ('Super Spot proche de Toulon');
 INSERT INTO public.paragraphe (texte,num_ordre,zone_texte_id) VALUES ('Il s''agit d''un spot avec une super vue sur Toulon et sa rade' ,0,1);
@@ -771,5 +773,39 @@ INSERT INTO public.exemplaire_topo (titre_topo,pseudo_proprietaire,condition_id)
 
 --EXEMPLE DE PRET DU TOPO A OLTENOS
 
-INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Oltenos',1,{d '2018-05-21'},{d '2018-05-22'});
+INSERT INTO public.emprunt (pseudo_emprunteur,exemplaire_topo_id,debut,fin) VALUES ('Oltenos',1,{d '2018-06-01'},{d '2018-06-03'});
 
+-- PHOTOS
+
+INSERT INTO public.photo (id,nom_fichier) VALUES (1,'Grimper autour de Toulon_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (2,'9_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (3,'8_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (4,'7_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (5,'1_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (6,'12_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (7,'2_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (8,'4_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (9,'3_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (10,'11_0.png');
+INSERT INTO public.photo (id,nom_fichier) VALUES (11,'10_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (12,'6_0.JPG');
+INSERT INTO public.photo (id,nom_fichier) VALUES (13,'5_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (15,'13_0.jpg');
+INSERT INTO public.photo (id,nom_fichier) VALUES (16,'17_0.JPG');
+
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (1,5);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (2,7);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (3,9);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (4,8);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (5,13);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (6,12);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (7,4);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (8,3);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (9,2);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (10,11);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (11,10);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (12,6);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (13,15);
+INSERT INTO public.photo_spot (spot_id,photo_id) VALUES (17,16);
+
+INSERT INTO public.photo_topo (titre_topo,photo_id) VALUES ('Grimper autour de Toulon',1);

@@ -14,7 +14,7 @@ OU
 
 2/	Déployer le fichier projet-webapp.war dans tomcat
 OU
-	Charger le projet dans un IDE est utiliser le serveur tomcat embarqué
+	Charger le projet dans un IDE est utiliser un serveur tomcat embarqué
 
 Remarques : 
 Le jeux de données de démonstration contient 2 utilisateurs enregistrés dont voici les éléments de connexion à l'applicaton:

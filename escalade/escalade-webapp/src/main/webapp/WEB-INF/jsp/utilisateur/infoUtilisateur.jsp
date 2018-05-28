@@ -31,7 +31,7 @@
 				<h2><s:text name="listEmprunt.title" /></h2>
 				<ul class="list-unstyled">
 					<s:iterator value="listEmprunt">
-						<li class="cadrePerso"><s:property value="dateDebut" /> - <s:property value="dateFin" />
+						<li class="cadrePerso marge"><s:property value="dateDebut" /> - <s:property value="dateFin" />
 							<ul class="list-unstyled">
 								<li><s:text name="topo" /> : <s:a action="infoTopo"><s:param name="titreTopo" value="exemplaire.topo.titre"/><s:property value="exemplaire.topo.titre" /></s:a></li>
 								<li><s:text name="proprio" /> :</li>

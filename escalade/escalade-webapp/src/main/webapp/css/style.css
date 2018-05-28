@@ -1,4 +1,16 @@
 /* Couleur texte et fond */
+
+@font-face{
+	font-family: 'LobsterTwo-Italic';
+	src: url('LobsterTwo-Italic.otf');
+
+}
+
+h1, h2
+{
+    font-family: 'LobsterTwo-Italic', Helvetica, Arial, sans-serif;
+}
+
 body {
 	margin-top: 70px;
 	margin-bottom: 50px;

@@ -25,7 +25,7 @@ public abstract class AbstractManagerImpl {
 	@Named("txManager")
 	private PlatformTransactionManager platformTransactionManager;
 
-	public PlatformTransactionManager getPlatformTransactionManager() {
+	protected PlatformTransactionManager getPlatformTransactionManager() {
 		return platformTransactionManager;
 	}
 
@@ -44,7 +44,7 @@ public abstract class AbstractManagerImpl {
 	 */
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-	public Validator getValidator() {
+	protected Validator getValidator() {
 		return validator;
 	}
 }
